@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\EventPlanningBackend.csproj": {}
+    "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\EventPlanningBackend.csproj": {
+    "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\EventPlanningBackend.csproj",
+        "projectUniqueName": "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj",
         "projectName": "EventPlanningBackend",
-        "projectPath": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\EventPlanningBackend.csproj",
-        "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\obj\\",
+        "projectPath": "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj",
+        "packagesPath": "C:\\Users\\dvynu\\.nuget\\packages\\",
+        "outputPath": "D:\\psk\\EventPlanningBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dvynu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -50,6 +50,22 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"

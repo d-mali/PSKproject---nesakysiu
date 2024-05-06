@@ -1,22 +1,78 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\",
+  "WorkspaceRootPath": "D:\\psk\\EventPlanningBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|c:\\users\\denis\\pskproject---nesakysiu\\eventplanningbackend\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\models\\task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:models\\task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|c:\\users\\denis\\pskproject---nesakysiu\\eventplanningbackend\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|c:\\users\\denis\\pskproject---nesakysiu\\eventplanningbackend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\psk\\EventPlanningBackend\\Migrations\\20240505105235_migrate4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20240505105235_migrate4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\bloggingcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\bloggingcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\20240504140100_migrate3.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\20240504140100_migrate3.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\20240428125746_migrate2.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\20240428125746_migrate2.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\20240428103818_initialcreate.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\20240428103818_initialcreate.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\psk\\EventPlanningBackend\\Migrations\\20240504140100_migrate3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20240504140100_migrate3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\20240428103818_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\20240428103818_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\eventplanningbackend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:eventplanningbackend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|c:\\users\\denis\\pskproject---nesakysiu\\eventplanningbackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|d:\\psk\\eventplanningbackend\\migrations\\20240428125746_migrate2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{973AD19E-4EEC-4688-AA80-047F48248DEC}|EventPlanningBackend.csproj|solutionrelative:migrations\\20240428125746_migrate2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,60 +82,257 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 9,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-27T12:53:15.582Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
-              "ToolTip": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
+              "DocumentIndex": 3,
+              "Title": "TaskController.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Controllers\\TaskController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TaskController.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Controllers\\TaskController.cs",
+              "RelativeToolTip": "Controllers\\TaskController.cs",
+              "ViewState": "AQIAACYAAAAAAAAAAAAiwDEAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T11:10:30.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-27T12:53:03.653Z"
+              "WhenOpened": "2024-04-27T12:51:30.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAAAAAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-27T12:53:03.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EventController.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Controllers\\EventController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EventController.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Controllers\\EventController.cs",
+              "RelativeToolTip": "Controllers\\EventController.cs",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAADIAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:23:39.341Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\WeatherForecast.cs",
-              "RelativeDocumentMoniker": "WeatherForecast.cs",
-              "ToolTip": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\WeatherForecast.cs",
-              "RelativeToolTip": "WeatherForecast.cs",
+              "Title": "Task.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Models\\Task.cs",
+              "RelativeDocumentMoniker": "Models\\Task.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Models\\Task.cs*",
+              "RelativeToolTip": "Models\\Task.cs*",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAgwAsAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T12:47:50.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Event.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Models\\Event.cs",
+              "RelativeDocumentMoniker": "Models\\Event.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Models\\Event.cs",
+              "RelativeToolTip": "Models\\Event.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T12:41:20.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "20240428125746_migrate2.Designer.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428125746_migrate2.Designer.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240428125746_migrate2.Designer.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428125746_migrate2.Designer.cs",
+              "RelativeToolTip": "Migrations\\20240428125746_migrate2.Designer.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAmwAsAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:50:41.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "20240505105235_migrate4.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240505105235_migrate4.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240505105235_migrate4.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240505105235_migrate4.cs",
+              "RelativeToolTip": "Migrations\\20240505105235_migrate4.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:52:35.76Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20240504140100_migrate3.Designer.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240504140100_migrate3.Designer.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240504140100_migrate3.Designer.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240504140100_migrate3.Designer.cs",
+              "RelativeToolTip": "Migrations\\20240504140100_migrate3.Designer.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAmwAsAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:50:50.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BloggingContextModelSnapshot.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\BloggingContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "Migrations\\BloggingContextModelSnapshot.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\BloggingContextModelSnapshot.cs",
+              "RelativeToolTip": "Migrations\\BloggingContextModelSnapshot.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAmwAoAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:50:58.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20240428103818_InitialCreate.Designer.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428103818_InitialCreate.Designer.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240428103818_InitialCreate.Designer.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428103818_InitialCreate.Designer.cs",
+              "RelativeToolTip": "Migrations\\20240428103818_InitialCreate.Designer.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAmwAsAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T10:50:27.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Model.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Model.cs",
+              "RelativeDocumentMoniker": "Model.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Model.cs",
+              "RelativeToolTip": "Model.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAABwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T09:57:13.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "WeatherForecast.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\WeatherForecast.cs",
+              "RelativeToolTip": "WeatherForecast.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-27T12:51:31.9Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\denis\\PSKproject---nesakysiu\\EventPlanningBackend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
+              "DocumentIndex": 13,
+              "Title": "20240504140100_migrate3.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240504140100_migrate3.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240504140100_migrate3.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240504140100_migrate3.cs",
+              "RelativeToolTip": "Migrations\\20240504140100_migrate3.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-27T12:51:30.444Z"
+              "WhenOpened": "2024-05-04T14:01:00.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "20240428125746_migrate2.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428125746_migrate2.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240428125746_migrate2.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428125746_migrate2.cs",
+              "RelativeToolTip": "Migrations\\20240428125746_migrate2.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T12:57:46.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "20240428103818_InitialCreate.cs",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428103818_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240428103818_InitialCreate.cs",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Migrations\\20240428103818_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20240428103818_InitialCreate.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T10:38:19.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "EventPlanningBackend.csproj",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj",
+              "RelativeDocumentMoniker": "EventPlanningBackend.csproj",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\EventPlanningBackend.csproj",
+              "RelativeToolTip": "EventPlanningBackend.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-04-28T09:56:56.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\psk\\EventPlanningBackend\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "D:\\psk\\EventPlanningBackend\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-27T12:53:15.582Z"
             }
           ]
         }
