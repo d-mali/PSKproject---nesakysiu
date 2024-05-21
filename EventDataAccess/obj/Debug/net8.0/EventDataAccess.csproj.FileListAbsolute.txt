@@ -1,0 +1,12 @@
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDataAccess.deps.json
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDataAccess.dll
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDataAccess.pdb
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.AssemblyInfoInputs.cache
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.AssemblyInfo.cs
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.sourcelink.json
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.dll
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\refint\EventDataAccess.dll
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.pdb
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\ref\EventDataAccess.dll

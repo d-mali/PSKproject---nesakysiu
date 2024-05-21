@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventDomain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b259e3fb08bb54c59fa2613ef07fe8354439c882")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d65275792cc4cdd11c2ebb152e8828d6c9a07c68")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventDomain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventDomain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
