@@ -1,0 +1,2 @@
+C:\Users\Jorūnas\source\repos\PSKprojektas\Domain\obj\Debug\EventDomain.csproj.AssemblyReference.cache
+C:\Users\Jorūnas\source\repos\PSKprojektas\Domain\obj\Debug\EventDomain.csproj.CoreCompileInputs.cache
