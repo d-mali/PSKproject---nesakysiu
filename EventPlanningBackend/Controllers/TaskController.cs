@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EventPlanningBackend.Models;
 using Microsoft.VisualBasic;
-using Task = EventPlanningBackend.Models.Task;
+using EventDataAccess.Repositories;
+using EventDomain.Entities;
+using EventBackend.Services.Interfaces;
 
 
 namespace EventPlanningBackend.Controllers
@@ -12,89 +13,53 @@ namespace EventPlanningBackend.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly MainDbContext _context;
+        private readonly ITaskService _taskService;
 
-        public TaskController(MainDbContext context)
+        public TaskController(ITaskService taskService)
         {
-            _context = context;
+            _taskService = taskService;
         }
 
         // GET: api/Tasks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Task>>> GetTasks()
+        public async Task<IActionResult> GetTasks()
         {
-            return await _context.Tasks.ToListAsync();
+            return Ok(await _taskService.GetAllTasksAsync());
         }
 
         // GET: api/Tasks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Task>> GetTask(int id)
+        public async Task<IActionResult> GetTask(Guid id)
         {
-            var evt = await _context.Tasks.FindAsync(id);
+            var entity = await _taskService.GetTaskByIdAsync(id);
 
-            if (evt == null)
-            {
-                return NotFound();
-            }
-
-            return evt;
+            return Ok(entity);
         }
 
         // POST: api/Tasks
         [HttpPost]
-        public async Task<ActionResult<Task>> PostTask(Task item)
+        public async Task<IActionResult> CreateTask(EventDomain.Entities.Task entity)
         {
-            var evt = await _context.Events.FindAsync(item.EventId);
-            if (evt == null)
-            {
-                return NotFound($"Event with ID {item.EventId} not found.");
-            }
-            _context.Tasks.Add(item);
-            await _context.SaveChangesAsync();
+            await _taskService.CreateTaskAsync(entity);
 
-            return CreatedAtAction(nameof(PostTask), new { Title = item.Title, Information = item.Information}, item);
+            return CreatedAtAction(nameof(CreateTask),
+                new { entity.Title, entity.ScheduledTime, entity.Description },
+                entity
+                );
         }
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask(int id, Task evt)
+        public async Task<IActionResult> UpdateTask(Guid id, EventDomain.Entities.Task entity)
         {
-            evt.TaskId = id;
-
-            _context.Entry(evt).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Tasks.Any(e => e.TaskId == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(await _taskService.UpdateTaskAsync(id, entity));
         }
 
         // DELETE: api/Tasks/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTask(int id)
+        public async Task<IActionResult> DeleteTask(Guid id)
         {
-            var evt = await _context.Tasks.FindAsync(id);
-
-            if (evt == null)
-            {
-                return NotFound();
-            }
-
-            _context.Tasks.Remove(evt);
-            await _context.SaveChangesAsync();
+            await _taskService.DeleteTaskAsync(id);
 
             return NoContent();
         }

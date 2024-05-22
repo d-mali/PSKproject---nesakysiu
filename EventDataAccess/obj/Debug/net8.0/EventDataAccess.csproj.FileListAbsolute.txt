@@ -10,3 +10,9 @@ C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\Eve
 C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\refint\EventDataAccess.dll
 C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.pdb
 C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\ref\EventDataAccess.dll
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.csproj.AssemblyReference.cache
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDataAccess.runtimeconfig.json
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDomain.dll
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\bin\Debug\net8.0\EventDomain.pdb
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDat.5DE0ED55.Up2Date
+C:\Users\Jorūnas\source\repos\PSKprojektas\EventDataAccess\obj\Debug\net8.0\EventDataAccess.genruntimeconfig.cache

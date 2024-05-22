@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EventBackend.Services.Interfaces;
+using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EventPlanningBackend.Models;
-using Microsoft.VisualBasic;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace EventPlanningBackend.Controllers
@@ -11,85 +10,55 @@ namespace EventPlanningBackend.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private readonly MainDbContext _context;
+        private readonly IEventService _eventService;
 
-        public EventController(MainDbContext context)
+        public EventController(IEventService eventService)
         {
-            _context = context;
+            _eventService = eventService;
         }
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        public async Task<IActionResult> GetEvents()
         {
-            return await _context.Events.ToListAsync();
+            return Ok(await _eventService.GetAllEventsAsync());
         }
 
         // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
+        public async Task<IActionResult> GetEvent([FromRoute][Required]Guid id)
         {
-            var evt = await _context.Events.FindAsync(id);
+            var entity = await _eventService.GetEventByIdAsync(id);
 
-            if (evt == null)
-            {
-                return NotFound();
-            }
-
-            return evt;
+            return Ok(entity);
         }
 
         // POST: api/Events
         [HttpPost]
-        public async Task<ActionResult<Event>> PostEvent(Event item)
+        public async Task<IActionResult> CreateEvent([FromBody]Event entity)
         {
-            _context.Events.Add(item);
-            await _context.SaveChangesAsync();
+            await _eventService.CreateEventAsync(entity);
 
             //    return CreatedAtAction("PostTodoItem", new { id = todoItem.Id }, todoItem);
-            return CreatedAtAction(nameof(PostEvent), new { Title = item.Title, Information = item.Information}, item);
+            return CreatedAtAction(
+                nameof(CreateEvent),
+                new { entity.Title, entity.StartDate, entity.EndDate, entity.Duration}, 
+                entity
+                );
         }
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Event evt)
+        public async Task<IActionResult> UpdateEvent([FromRoute][Required]Guid id, [FromBody]Event entity)
         {
-            evt.EventId = id;
-
-            _context.Entry(evt).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Events.Any(e => e.EventId == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(await _eventService.UpdateEventAsync(id, entity));
         }
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(int id)
+        public async Task<IActionResult> DeleteEvent([FromRoute][Required]Guid id)
         {
-            var evt = await _context.Events.FindAsync(id);
-
-            if (evt == null)
-            {
-                return NotFound();
-            }
-
-            _context.Events.Remove(evt);
-            await _context.SaveChangesAsync();
+            await _eventService.DeleteEventAsync(id);
 
             return NoContent();
         }

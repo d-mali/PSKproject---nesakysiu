@@ -1,4 +1,5 @@
 ﻿using EventDataAccess.Abstractions;
+using EventDataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,18 @@ namespace EventDataAccess.Repositories
         {
             throw new NotImplementedException();
         }
-
+        //For now unused, might be useful later
         public Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
+        public Task<IEnumerable<TEntity>> GetAllAsync(
+            Expression<Func<TEntity, bool>>? filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+            int? itemsToSkip = null, 
+            int? itemsToTake = null
+            )
         {
             throw new NotImplementedException();
         }

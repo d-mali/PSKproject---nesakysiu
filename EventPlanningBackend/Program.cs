@@ -1,5 +1,4 @@
 using EventPlanningBackend;
-using EventPlanningBackend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

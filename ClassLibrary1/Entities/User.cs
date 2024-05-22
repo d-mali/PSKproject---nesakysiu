@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventDomain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EventDomain.Entities
 {
-    public class Participant
+    public class User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,9 +22,12 @@ namespace EventDomain.Entities
         public string LastName { get; set; } = string.Empty;
 
         [Required]
-        public DateOnly BirthDate { get; set; }
+        public string UserName { get; set; } = string.Empty;
 
         [Required]
-        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        [Required]
+        public UserPrivilegeType Privilege { get; set; }
     }
 }

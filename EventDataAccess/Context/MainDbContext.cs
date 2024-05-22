@@ -1,14 +1,18 @@
-﻿namespace EventPlanningBackend
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using EventDataAccess.Context;
+using EventDomain.Entities;
 
-    public class MainDbContext : DbContext
+namespace EventPlanningBackend
+{
+    public class MainDbContext : DbContext, IMainDbContext
     {
         public DbSet<Event> Events { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<EventDomain.Entities.Task> Tasks { get; set; }
+        public DbSet<Participant> Participants { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbContext Instance => this;
 
         public string DbPath { get; }
 
