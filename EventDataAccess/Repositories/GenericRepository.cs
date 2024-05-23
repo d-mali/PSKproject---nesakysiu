@@ -21,39 +21,90 @@ namespace EventDataAccess.Repositories
             DbSet = context.Instance.Set<TEntity>();
         } 
 
-        public Task<bool> DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
-            throw new NotImplementedException();
+            var entity = await DbSet.FindAsync(id);
+
+            if (entity == null)
+            {
+                return false; 
+            }
+
+            DbSet.Remove(entity);
+            await Context.SaveChangesAsync();
+
+            return true;
         }
         //For now unused, might be useful later
-        public Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
+        public async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
         {
-            throw new NotImplementedException();
+            return await DbSet.AnyAsync(filter);
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync(
+        public async Task<IEnumerable<TEntity>> GetAllAsync(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             int? itemsToSkip = null, 
             int? itemsToTake = null
             )
         {
-            throw new NotImplementedException();
+            IQueryable<TEntity> query = DbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (itemsToSkip != null)
+            {
+                query = query.Skip(itemsToSkip.Value);
+            }
+
+            if (itemsToTake != null)
+            {
+                query = query.Take(itemsToTake.Value);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public Task<TEntity?> GetByIdAsync(object id)
+        public async Task<TEntity?> GetByIdAsync(object id)
         {
-            throw new NotImplementedException();
+            return await DbSet.FindAsync(id);
         }
 
-        public Task<TEntity> InsertAsync(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            await DbSet.AddAsync(entity);
+            await Context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            DbSet.Attach(entity);
+
+            Context.Entry(entity).State = EntityState.Modified;
+
+            await Context.SaveChangesAsync();
+
+            return entity;
         }
     }
 }
