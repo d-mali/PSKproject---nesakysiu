@@ -22,8 +22,6 @@ namespace EventDomain.Entities
 
         public DateTime? EndDate { get; set; }
 
-        public TimeSpan? Duration { get; set; }
-
         public string Description { get; set; } = string.Empty;
     }
 }

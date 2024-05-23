@@ -42,7 +42,7 @@ namespace EventPlanningBackend.Controllers
             //    return CreatedAtAction("PostTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction(
                 nameof(CreateEvent),
-                new { entity.Title, entity.StartDate, entity.EndDate, entity.Duration}, 
+                new { entity.Title, entity.StartDate, entity.EndDate, entity}, 
                 entity
                 );
         }

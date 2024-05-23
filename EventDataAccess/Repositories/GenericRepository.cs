@@ -80,24 +80,14 @@ namespace EventDataAccess.Repositories
 
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
             await DbSet.AddAsync(entity);
             await Context.SaveChangesAsync();
+
             return entity;
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
             DbSet.Attach(entity);
 
             Context.Entry(entity).State = EntityState.Modified;
