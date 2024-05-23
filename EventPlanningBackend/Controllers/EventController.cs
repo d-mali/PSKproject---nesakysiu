@@ -1,4 +1,5 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Models.Requests;
+using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +27,7 @@ namespace EventPlanningBackend.Controllers
 
         // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEvent([FromRoute][Required]Guid id)
+        public async Task<IActionResult> GetEvent([FromRoute][Required] Guid id)
         {
             var entity = await _eventService.GetEventByIdAsync(id);
 
@@ -35,28 +36,33 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> CreateEvent([FromBody]Event entity)
+        public async Task<IActionResult> CreateEvent([FromBody] EventRequest entity)
         {
-            await _eventService.CreateEventAsync(entity);
+            var convertedEntity = new Event
+            {
+                Title = entity.Title,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
+                Description = entity.Description
+            };
+            var response = await _eventService.CreateEventAsync(convertedEntity);
+
 
             //    return CreatedAtAction("PostTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction(
-                nameof(CreateEvent),
-                new { entity.Title, entity.StartDate, entity.EndDate, entity}, 
-                entity
-                );
+                nameof(CreateEvent), response);
         }
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent([FromRoute][Required]Guid id, [FromBody]Event entity)
+        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] Event entity)
         {
             return Ok(await _eventService.UpdateEventAsync(id, entity));
         }
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent([FromRoute][Required]Guid id)
+        public async Task<IActionResult> DeleteEvent([FromRoute][Required] Guid id)
         {
             await _eventService.DeleteEventAsync(id);
 

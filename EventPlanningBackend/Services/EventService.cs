@@ -20,9 +20,7 @@ namespace EventDomain.Services
 
         public async Task<Event> CreateEventAsync(Event entity)
         {
-            await _eventRepository.InsertAsync(entity);
-
-            return entity;
+            return await _eventRepository.InsertAsync(entity);
         }
 
         public async Task<bool> DeleteEventAsync(Guid id)
