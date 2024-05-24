@@ -1,13 +1,22 @@
 using EventBackend.Middleware;
+using EventBackend.Services;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDataAccess.Context;
 using EventDataAccess.Repositories;
 using EventDomain.Services;
 using EventPlanningBackend;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -19,6 +28,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 var app = builder.Build();
 
