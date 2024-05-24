@@ -1,63 +1,29 @@
-﻿@page
-@model Frontas.Pages.EventPage
+﻿@page "/EventPage"
+@model Frontas.Pages.EventPageModel
 @{
     ViewData["Title"] = "Renginys";
 }
 
 <div class="container">
-    <h1 class="title">Renginys B</h1>
-    <div class="event-details">
-        <p>Miestas B</p>
-        <p>Vyksta</p>
-        <p>Renginio data</p>
-    </div>
-
-    <div class="section">
-        <h2>Darbuotojai</h2>
-        <div class="grid">
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Darbuotojas</div>
-            <button class="add-button">Pridėti darbuotoją</button>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>Dalyviai</h2>
-        <div class="grid">
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <div class="item">Dalyvis</div>
-            <button class="add-button">Pridėti dalyvį</button>
+    }
+    else if (Model.Event != null)
+    {
+        <div class="event-details">
+            <h1>@Model.Event.Title</h1>
+            <p>@Model.Event.Description</p>
+            <p>@Model.Event.StartDate.ToString("yyyy-MM-dd")</p>
+            <p>@Model.Event.EndDate.ToString("yyyy-MM-dd")</p>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>Užduotys</h2>
-        <div class="grid">
-            <div class="item">Užduotis</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Statusas</div>
-            <div class="item">Užduotis</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Statusas</div>
-            <div class="item">Užduotis</div>
-            <div class="item">Darbuotojas</div>
-            <div class="item">Statusas</div>
-            <button class="add-button">Pridėti užduotį</button>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Event not found.</p>
         </div>
-    </div>
+    }
 </div>

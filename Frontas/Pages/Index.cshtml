@@ -10,23 +10,27 @@
         <div class="col-md-8">
             @foreach (var renginys in Model.Event)
             {
-                <div class="event">
-                    <h2>@renginys.Title</h2>
-                    <p>@renginys.Description</p>
-                    <p>@renginys.StartDate</p>
-                    <p>@renginys.EndDate</p><!--.ToShortDateString()</p>-->
-                </div>
+                <a href="/EventPage?id=@renginys.Id" class="event-link">
+                    <div class="event">
+                        <h2>@renginys.Title</h2>
+                        <p>@renginys.Description</p>
+                        <p>@renginys.StartDate</p>
+                        <p>@renginys.EndDate</p>
+                    </div>
+                </a>
             }
         </div>
         <div class="col-md-4">
-            <div class="sidebar">
+            <a asp-page="./UserInfoPage" class="user-info-link">
                 <div class="user-info">
-                    <p>Vartotojo pavadinimas</p>
+                    <h2>Vartotojo pavadinimas</h2>
                 </div>
+            </a>
+            <a asp-page="./CreateEventPage" class="create-event-link">
                 <div class="create-event">
-                    <button type="button" class="btn btn-primary">Kurti renginį</button>
+                    <h3>Kurti renginį</h3>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>

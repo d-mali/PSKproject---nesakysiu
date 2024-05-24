@@ -11,6 +11,7 @@ namespace Frontas.Pages
 
         public List<Event> Event { get; private set; } = new List<Event>(); // Initialize to an empty list
         public string? ErrorMessage { get; private set; }
+        public int DaysUntilStart { get; private set; }
 
         public IndexModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
         {

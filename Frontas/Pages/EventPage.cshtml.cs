@@ -1,13 +1,53 @@
+using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace Frontas.Pages
 {
-    public class EventPage : PageModel
+    public class EventPageModel : PageModel
     {
-        public void OnGet()
+        private readonly ILogger<EventPageModel> _logger;
+        private readonly HttpClient _httpClient;
+
+        public Event? Event { get; private set; }
+        public string? ErrorMessage { get; private set; }
+
+        public EventPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
         {
-            // Load your event data here if needed
+            _logger = logger;
+            _httpClient = httpClientFactory.CreateClient();
+        }
+
+        public async Task<IActionResult> OnGetAsync(Guid id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"https://localhost:7084/api/Event/{id}");
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                Event = JsonConvert.DeserializeObject<Event>(responseBody);
+
+                if (Event == null)
+                {
+                    ErrorMessage = "There was an error deserializing the event. Please try again later.";
+                    return Page();
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error fetching event from API");
+                ErrorMessage = "There was an error fetching the event. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return Page();
         }
     }
 }
