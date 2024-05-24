@@ -36,14 +36,16 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Tasks
         [HttpPost]
-        public async Task<IActionResult> CreateTask(EventTaskRequest taskRequest)
+        public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
         {
+            
             var task = new EventTask
             {
                 Title = taskRequest.Title,
-                ScheduledTime = taskRequest.ScheduledTime,
-                Description = taskRequest.Description
+                ScheduledTime = taskRequest.ScheduledTime
             };
+
+
             var createdTask = await _taskService.CreateTaskAsync(task);
 
             return CreatedAtAction(nameof(CreateTask),
@@ -53,13 +55,12 @@ namespace EventPlanningBackend.Controllers
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask([FromRoute][Required] Guid id, EventTaskRequest taskRequest)
+        public async Task<IActionResult> UpdateTask([FromRoute][Required] Guid id, TaskRequest taskRequest)
         {
             var task = new EventTask
             {
                 Title = taskRequest.Title,
-                ScheduledTime = taskRequest.ScheduledTime,
-                Description = taskRequest.Description
+                ScheduledTime = taskRequest.ScheduledTime
             };
 
             var createdTask = await _taskService.UpdateTaskAsync(id, task);

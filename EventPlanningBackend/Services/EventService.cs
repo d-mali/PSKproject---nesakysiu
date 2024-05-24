@@ -1,7 +1,9 @@
-﻿using EventBackend.Models.Requests;
+﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,13 +47,40 @@ namespace EventDomain.Services
             return result;
         }
 
-        public async Task<IEnumerable<Event>> GetAllEventsAsync(
-            Expression<Func<Event, bool>>? filter = null,
-            Func<IQueryable<Event>, IOrderedQueryable<Event>>? orderBy = null,
-            int? itemsToSkip = null,
-            int? itemsToTake = null)
+        public async Task<IEnumerable<Event>> GetAllEventsAsync(EventFilter filter)
         {
-            return await _eventRepository.GetAllAsync(filter, orderBy, itemsToSkip, itemsToTake);
+            var eventFilter = PredicateBuilder.True<Event>();
+            Func<IQueryable<Event>, IOrderedQueryable<Event>>? orderByEvent = null;
+
+            if(filter.Title != null)
+            {
+                eventFilter = eventFilter.And(x => x.Title == filter.Title);
+            }
+
+            if(filter.StartDate != null)
+            {
+                eventFilter = eventFilter.And(x => x.StartDate == filter.StartDate);
+            }
+
+            if(filter.EndDate != null)
+            {
+                eventFilter = eventFilter.And(x => x.EndDate == filter.EndDate);
+            }
+
+            if(filter.OrderBy != string.Empty)
+            {
+                switch(filter.Sort)
+                {
+                    case Sorting.desc:
+                        orderByEvent = x => x.OrderByDescending(p => EF.Property<Event>(p, filter.OrderBy));
+                        break;
+                    default:
+                        orderByEvent = x => x.OrderBy(p => EF.Property<Event>(p, filter.OrderBy));
+                        break;
+                }
+            }
+
+            return await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.ItemsToSkip(), filter.PageSize);
         }
 
         public async Task<Event?> GetEventByIdAsync(Guid id)

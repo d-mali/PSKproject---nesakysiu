@@ -1,4 +1,5 @@
-﻿using EventBackend.Models.Requests;
+﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,9 @@ namespace EventPlanningBackend.Controllers
 
         // GET: api/Events
         [HttpGet]
-        public async Task<IActionResult> GetEvents()
+        public async Task<IActionResult> GetEvents([FromQuery] EventFilter filter)
         {
-            return Ok(await _eventService.GetAllEventsAsync());
+            return Ok(await _eventService.GetAllEventsAsync(filter));
         }
 
         // GET: api/Events/5
