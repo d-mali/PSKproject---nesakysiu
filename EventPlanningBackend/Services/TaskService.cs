@@ -1,6 +1,7 @@
 ﻿using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Entities;
+using System.Linq.Expressions;
 
 
 
@@ -26,6 +27,11 @@ namespace EventBackend.Services
         }
 
         public Task<IEnumerable<EventTask>> GetAllTasksAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<EventTask>> GetAllTasksAsync(Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
         {
             throw new NotImplementedException();
         }

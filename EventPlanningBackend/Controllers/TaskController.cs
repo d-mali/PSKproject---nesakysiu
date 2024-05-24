@@ -44,7 +44,6 @@ namespace EventPlanningBackend.Controllers
                 ScheduledTime = taskRequest.ScheduledTime,
                 Description = taskRequest.Description
             };
-
             var createdTask = await _taskService.CreateTaskAsync(task);
 
             return CreatedAtAction(nameof(CreateTask),
