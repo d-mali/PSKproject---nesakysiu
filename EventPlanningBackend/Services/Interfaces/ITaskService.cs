@@ -2,7 +2,7 @@
 
 namespace EventBackend.Services.Interfaces
 {
-    public interface IEventTaskService
+    public interface ITaskService
     {
         public Task<EventTask> CreateTaskAsync(EventTask entity);
         public Task<IEnumerable<EventTask>> GetAllTasksAsync();

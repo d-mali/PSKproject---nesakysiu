@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using EventDataAccess.Repositories;
+﻿using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
-using EventBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace EventPlanningBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventTaskController : ControllerBase
+    public class TaskController : ControllerBase
     {
-        private readonly IEventTaskService _taskService;
+        private readonly ITaskService _taskService;
 
-        public EventTaskController(IEventTaskService taskService)
+        public TaskController(ITaskService taskService)
         {
             _taskService = taskService;
         }
