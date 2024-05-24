@@ -1,9 +1,11 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Models.Requests;
+using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +20,17 @@ namespace EventDomain.Services
             _eventRepository = eventRepository;
         }
 
-        public async Task<Event> CreateEventAsync(Event entity)
+        public async Task<Event?> CreateEventAsync(EventRequest entity)
         {
-            return await _eventRepository.InsertAsync(entity);
+            var evt = new Event
+            {
+                Title = entity.Title,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
+                Description = entity.Description
+            };
+
+            return await _eventRepository.InsertAsync(evt);
         }
 
         public async Task<bool> DeleteEventAsync(Guid id)
@@ -30,29 +40,42 @@ namespace EventDomain.Services
             if (eventEntity == null)
                 return false;
 
-            var result = await _eventRepository.DeleteAsync(eventEntity);
+            var result = await _eventRepository.DeleteAsync(id);
 
             return result;
         }
 
-        public Task<IEnumerable<Event>> GetAllEventsAsync()
+        public async Task<IEnumerable<Event>> GetAllEventsAsync(
+            Expression<Func<Event, bool>>? filter = null,
+            Func<IQueryable<Event>, IOrderedQueryable<Event>>? orderBy = null,
+            int? itemsToSkip = null,
+            int? itemsToTake = null)
         {
-            throw new NotImplementedException();
+            return await _eventRepository.GetAllAsync(filter, orderBy, itemsToSkip, itemsToTake);
         }
 
-        public Task<Event> GetEventByIdAsync(Guid id)
+        public async Task<Event?> GetEventByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _eventRepository.GetByIdAsync(id);
         }
 
-        public Task<Event> UpdateEventAsync(Guid id, Event entity)
+        public async Task<Event?> UpdateEventAsync(Guid id, EventRequest entity)
         {
-            throw new NotImplementedException();
+            var evt = new Event
+            {
+                Id = id,
+                Title = entity.Title,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
+                Description = entity.Description
+            };
+
+            return await _eventRepository.UpdateAsync(evt);
         }
 
-        public Task<Entities.EventTask> GetAllTasksAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<EventTask> GetAllTasksAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

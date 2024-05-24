@@ -14,6 +14,9 @@ namespace EventDomain.Entities
         [Key]
         public Guid Id { get; set; }
 
+        [ForeignKey("EventId")]
+        public Guid EventId { get; set; }
+
         [Required]
         public string Title { get; set; } = string.Empty;
 

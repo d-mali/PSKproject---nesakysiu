@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using EventDataAccess.Repositories;
 using EventDomain.Entities;
 using EventBackend.Services.Interfaces;
+using EventBackend.Models.Requests;
 
 
 namespace EventPlanningBackend.Controllers
@@ -38,19 +39,19 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Tasks
         [HttpPost]
-        public async Task<IActionResult> CreateTask(EventTask entity)
+        public async Task<IActionResult> CreateTask(EventTaskRequest request)
         {
-            await _taskService.CreateTaskAsync(entity);
+            await _taskService.CreateTaskAsync(request);
 
             return CreatedAtAction(nameof(CreateTask),
-                new { entity.Title, entity.ScheduledTime, entity.Description },
-                entity
+                new { request.Title, request.ScheduledTime, request.Description },
+                request
                 );
         }
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(Guid id, EventTask entity)
+        public async Task<IActionResult> UpdateTask(Guid id, EventTaskRequest entity)
         {
             return Ok(await _taskService.UpdateTaskAsync(id, entity));
         }

@@ -12,10 +12,15 @@ namespace EventPlanningBackend.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
+        //private readonly IEventTaskService _taskService;
 
-        public EventController(IEventService eventService)
+        public EventController(
+            IEventService eventService
+            //IEventTaskService taskService
+            )
         {
             _eventService = eventService;
+            //_taskService = taskService;
         }
 
         // GET: api/Events
@@ -36,16 +41,16 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> CreateEvent([FromBody] EventRequest entity)
+        public async Task<IActionResult> CreateEvent([FromBody] EventRequest request)
         {
-            var convertedEntity = new Event
-            {
-                Title = entity.Title,
-                StartDate = entity.StartDate,
-                EndDate = entity.EndDate,
-                Description = entity.Description
-            };
-            var response = await _eventService.CreateEventAsync(convertedEntity);
+            //var convertedEntity = new Event
+            //{
+            //    Title = entity.Title,
+            //    StartDate = entity.StartDate,
+            //    EndDate = entity.EndDate,
+            //    Description = entity.Description
+            //};
+            var response = await _eventService.CreateEventAsync(request);
 
 
             //    return CreatedAtAction("PostTodoItem", new { id = todoItem.Id }, todoItem);
@@ -55,7 +60,7 @@ namespace EventPlanningBackend.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] Event entity)
+        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] EventRequest entity)
         {
             return Ok(await _eventService.UpdateEventAsync(id, entity));
         }
@@ -68,7 +73,14 @@ namespace EventPlanningBackend.Controllers
 
             return NoContent();
         }
-            
+
+        //[HttpGet]
+        //[Route("/{id}/Tasks")]
+        //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid EventId)
+        //{
+        //    var tasks = await _taskService.GetAllTasksAsync();
+        //}
+
     }
 }
 
