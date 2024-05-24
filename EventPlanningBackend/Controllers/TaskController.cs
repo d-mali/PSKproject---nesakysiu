@@ -1,6 +1,8 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Models.Requests;
+using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace EventPlanningBackend.Controllers
@@ -34,21 +36,36 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Tasks
         [HttpPost]
-        public async Task<IActionResult> CreateTask(EventTask entity)
+        public async Task<IActionResult> CreateTask(EventTaskRequest taskRequest)
         {
-            await _taskService.CreateTaskAsync(entity);
+            var task = new EventTask
+            {
+                Title = taskRequest.Title,
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
+            };
+
+            var createdTask = await _taskService.CreateTaskAsync(task);
 
             return CreatedAtAction(nameof(CreateTask),
-                new { entity.Title, entity.ScheduledTime, entity.Description },
-                entity
+                createdTask
                 );
         }
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(Guid id, EventTask entity)
+        public async Task<IActionResult> UpdateTask([FromRoute][Required] Guid id, EventTaskRequest taskRequest)
         {
-            return Ok(await _taskService.UpdateTaskAsync(id, entity));
+            var task = new EventTask
+            {
+                Title = taskRequest.Title,
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
+            };
+
+            var createdTask = await _taskService.UpdateTaskAsync(id, task);
+
+            return Ok(createdTask);
         }
 
         // DELETE: api/Tasks/5

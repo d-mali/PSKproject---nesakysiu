@@ -1,11 +1,6 @@
 ﻿using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EventDomain.Services
 {
@@ -37,7 +32,7 @@ namespace EventDomain.Services
 
         public Task<IEnumerable<Event>> GetAllEventsAsync()
         {
-            throw new NotImplementedException();
+            return _eventRepository.GetAllAsync();
         }
 
         public Task<Event> GetEventByIdAsync(Guid id)

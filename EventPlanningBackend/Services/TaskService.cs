@@ -1,4 +1,5 @@
 ﻿using EventBackend.Services.Interfaces;
+using EventDataAccess.Abstractions;
 using EventDomain.Entities;
 
 
@@ -7,14 +8,21 @@ namespace EventBackend.Services
 {
     public class TaskService : ITaskService
     {
-        public Task<EventTask> CreateTaskAsync(EventTask entity)
+        private readonly IGenericRepository<EventTask> _taskRepository;
+
+        public TaskService(IGenericRepository<EventTask> taskRepository)
         {
-            throw new NotImplementedException();
+            _taskRepository = taskRepository;
+        }
+
+        public Task<EventTask> CreateTaskAsync(EventTask task)
+        {
+            return _taskRepository.InsertAsync(task);
         }
 
         public Task<bool> DeleteTaskAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return _taskRepository.DeleteAsync(id);
         }
 
         public Task<IEnumerable<EventTask>> GetAllTasksAsync()
@@ -29,7 +37,7 @@ namespace EventBackend.Services
 
         public Task<EventTask> UpdateTaskAsync(Guid id, EventTask entity)
         {
-            throw new NotImplementedException();
+            return _taskRepository.UpdateAsync(entity);
         }
     }
 }
