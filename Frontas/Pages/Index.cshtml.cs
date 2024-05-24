@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
-using System.Threading.Tasks;
 using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Frontas.Pages
@@ -16,7 +10,7 @@ namespace Frontas.Pages
         private readonly HttpClient _httpClient;
 
         public List<Event> Event { get; private set; } = new List<Event>(); // Initialize to an empty list
-        public string ErrorMessage { get; private set; }
+        public string? ErrorMessage { get; private set; }
 
         public IndexModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
         {
@@ -31,11 +25,23 @@ namespace Frontas.Pages
                 var response = await _httpClient.GetAsync("https://localhost:7084/api/Event");
                 response.EnsureSuccessStatusCode();
 
-                var responseBody = await response.Content.ReadAsStringAsync();
-                if (responseBody != null)
+                string? responseBody = await response.Content.ReadAsStringAsync();
+
+                if (responseBody == null)
                 {
-                    Event = JsonConvert.DeserializeObject<List<Event>>(responseBody);
-                }  
+                    ErrorMessage = "There was an error fetching the events. Please try again later.";
+                    return;
+                }
+
+                List<Event>? deserializedEvent = JsonConvert.DeserializeObject<List<Event>>(responseBody);
+
+                if (deserializedEvent == null)
+                {
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    return;
+                }
+
+                Event = deserializedEvent;
             }
             catch (HttpRequestException httpEx)
             {
