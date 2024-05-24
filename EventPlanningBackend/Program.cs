@@ -1,3 +1,4 @@
+using EventBackend.Middleware;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDataAccess.Context;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 
 var app = builder.Build();
 
+app.UseMiddleware<LoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
