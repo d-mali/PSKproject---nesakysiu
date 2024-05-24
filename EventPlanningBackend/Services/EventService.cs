@@ -18,14 +18,21 @@ namespace EventDomain.Services
             _eventRepository = eventRepository;
         }
 
-        public Task<Event> CreateEventAsync(Event entity)
+        public async Task<Event> CreateEventAsync(Event entity)
         {
-            throw new NotImplementedException();
+            return await _eventRepository.InsertAsync(entity);
         }
 
-        public Task<bool> DeleteEventAsync(Guid id)
+        public async Task<bool> DeleteEventAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var eventEntity = await _eventRepository.GetByIdAsync(id);
+
+            if (eventEntity == null)
+                return false;
+
+            var result = await _eventRepository.DeleteAsync(eventEntity);
+
+            return result;
         }
 
         public Task<IEnumerable<Event>> GetAllEventsAsync()

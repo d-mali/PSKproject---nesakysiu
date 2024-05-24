@@ -31,7 +31,7 @@ namespace EventDataAccess.Repositories
             }
 
             DbSet.Remove(entity);
-            await Context.Instance.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return true;
         }
@@ -80,29 +80,19 @@ namespace EventDataAccess.Repositories
 
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
             await DbSet.AddAsync(entity);
-            await Context.Instance.SaveChangesAsync();
+            await Context.SaveChangesAsync();
+
             return entity;
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
             DbSet.Attach(entity);
 
-            Context.Instance.Entry(entity).State = EntityState.Modified;
+            Context.Entry(entity).State = EntityState.Modified;
 
-            await Context.Instance.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return entity;
         }
