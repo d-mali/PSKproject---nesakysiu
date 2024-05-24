@@ -11,11 +11,11 @@ namespace EventPlanningBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class EventTaskController : ControllerBase
     {
-        private readonly ITaskService _taskService;
+        private readonly IEventTaskService _taskService;
 
-        public TaskController(ITaskService taskService)
+        public EventTaskController(IEventTaskService taskService)
         {
             _taskService = taskService;
         }
@@ -38,7 +38,7 @@ namespace EventPlanningBackend.Controllers
 
         // POST: api/Tasks
         [HttpPost]
-        public async Task<IActionResult> CreateTask(EventDomain.Entities.Task entity)
+        public async Task<IActionResult> CreateTask(EventTask entity)
         {
             await _taskService.CreateTaskAsync(entity);
 
@@ -50,7 +50,7 @@ namespace EventPlanningBackend.Controllers
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(Guid id, EventDomain.Entities.Task entity)
+        public async Task<IActionResult> UpdateTask(Guid id, EventTask entity)
         {
             return Ok(await _taskService.UpdateTaskAsync(id, entity));
         }

@@ -9,7 +9,7 @@ namespace EventPlanningBackend
     public class MainDbContext : DbContext, IMainDbContext
     {
         public DbSet<Event> Events { get; set; }
-        public DbSet<EventDomain.Entities.Task> Tasks { get; set; }
+        public DbSet<EventTask> Tasks { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<User> Users { get; set; }
         public DbContext Instance => this;

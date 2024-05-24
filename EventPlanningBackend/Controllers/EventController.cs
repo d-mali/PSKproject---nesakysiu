@@ -68,6 +68,7 @@ namespace EventPlanningBackend.Controllers
 
             return NoContent();
         }
+            
     }
 }
 

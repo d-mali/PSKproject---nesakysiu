@@ -50,7 +50,7 @@ namespace EventDomain.Services
             throw new NotImplementedException();
         }
 
-        public Task<Entities.Task> GetAllTasksAsync()
+        public Task<Entities.EventTask> GetAllTasksAsync()
         {
             throw new NotImplementedException();
         }

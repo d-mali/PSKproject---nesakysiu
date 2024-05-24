@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EventDomain.Entities
 {
-    public class Task
+    public class EventTask
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]

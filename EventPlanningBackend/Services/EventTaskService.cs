@@ -1,10 +1,13 @@
 ﻿using EventBackend.Services.Interfaces;
+using EventDomain.Entities;
+
+
 
 namespace EventBackend.Services
 {
-    public class TaskService : ITaskService
+    public class EventTaskService : IEventTaskService
     {
-        public Task<EventDomain.Entities.Task> CreateTaskAsync(EventDomain.Entities.Task entity)
+        public Task<EventTask> CreateTaskAsync(EventTask entity)
         {
             throw new NotImplementedException();
         }
@@ -14,17 +17,17 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<EventDomain.Entities.Task>> GetAllTasksAsync()
+        public Task<IEnumerable<EventTask>> GetAllTasksAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<EventDomain.Entities.Task> GetTaskByIdAsync(Guid id)
+        public Task<EventTask> GetTaskByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<EventDomain.Entities.Task> UpdateTaskAsync(Guid id, EventDomain.Entities.Task entity)
+        public Task<EventTask> UpdateTaskAsync(Guid id, EventTask entity)
         {
             throw new NotImplementedException();
         }
