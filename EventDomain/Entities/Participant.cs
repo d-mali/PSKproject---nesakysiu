@@ -25,5 +25,8 @@ namespace EventDomain.Entities
 
         [Required]
         public string Email { get; set; } = string.Empty;
+
+        [Timestamp]
+        public byte[]? Version { get; set; }
     }
 }

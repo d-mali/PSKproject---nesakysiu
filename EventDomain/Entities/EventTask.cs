@@ -19,5 +19,8 @@ namespace EventDomain.Entities
 
         [Required]
         public required string Description { get; set; }
+
+        [Timestamp]
+        public byte[]? Version { get; set; }
     }
 }
