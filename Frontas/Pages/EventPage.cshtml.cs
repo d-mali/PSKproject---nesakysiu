@@ -26,7 +26,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Event/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();

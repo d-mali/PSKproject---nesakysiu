@@ -74,10 +74,10 @@ button {
     box-shadow: 0 3px 10px var(--text-color);
 }
 
-.event:hover, .user-info:hover, create-event:hover, event-details:hover, button:hover {
-    background-color: var(--accent-hover-color);
-    color: var(--form-bg-color);
-}
+    .event:hover, .user-info:hover, create-event:hover, event-details:hover, button:hover, .event-details:hover {
+        background-color: var(--accent-hover-color);
+        color: var(--form-bg-color);
+    }
 
 .createEvent {
     border: none;

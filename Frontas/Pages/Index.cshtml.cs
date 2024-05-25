@@ -27,7 +27,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Event");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events");
                 response.EnsureSuccessStatusCode();
 
                 string? responseBody = await response.Content.ReadAsStringAsync();
@@ -72,7 +72,7 @@ namespace Frontas.Pages
                 var jsonContent = JsonConvert.SerializeObject(NewEvent);
                 var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalParameters.apiUrl}/Event", content);
+                var response = await _httpClient.PostAsync($"{GlobalParameters.apiUrl}/Events", content);
                 response.EnsureSuccessStatusCode();
 
                 return RedirectToPage();

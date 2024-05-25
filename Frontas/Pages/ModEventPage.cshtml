@@ -1,0 +1,44 @@
+﻿@page "/ModEventPageModel"
+@model Frontas.Pages.ModEventPageModel
+@{
+    ViewData["Title"] = "Redaguoti Renginį";
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model.Event != null)
+    {
+        <h1>Redaguoti Renginį</h1>
+        <form method="post">
+            <input type="hidden" name="Event.Id" value="@Model.Event.Id" />
+            <div class="form-group">
+                <label for="title">Pavadinimas</label>
+                <input type="text" id="title" name="Event.Title" class="form-control" value="@Model.Event.Title" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Aprašymas</label>
+                <textarea id="description" name="Event.Description" class="form-control">@Model.Event.Description</textarea>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Pradžios data</label>
+                <input type="date" id="startDate" name="Event.StartDate" class="form-control" value="@Model.Event.StartDate.ToString("yyyy-MM-dd")" required />
+            </div>
+            <div class="form-group">
+                <label for="endDate">Pabaigos data</label>
+                <input type="date" id="endDate" name="Event.EndDate" class="form-control" value="@Model.Event.EndDate.ToString("yyyy-MM-dd")" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Atnaujinti</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Event not found.</p>
+        </div>
+    }
+</div>

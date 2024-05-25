@@ -17,7 +17,8 @@
             <h1>..Visi renginiai</h1>
         </a>
 
-        <a asp-page="./UserInfoPage" class="user-info-link"><!--neviekia-->
+        <a href="/ModEventPageModel?id=@Model.Event.Id" class="user-info-link">
+            <!--neviekia-->
             <div class="event-details">
                 <h1>@Model.Event.Title</h1>
                 <p>@Model.Event.Description</p>
@@ -95,12 +96,6 @@
             <div class="col-md-4">
                     <div class="addToEvent">
                     <h3>Pridėti užduotį</h3>
-                        <select id="taskDropdown" class="form-control">
-                            <option value="">...</option>
-                        </select>
-                    <button>
-                        Pridėti
-                    </button>
                     <button>
                         Sukurti
                     </button>
