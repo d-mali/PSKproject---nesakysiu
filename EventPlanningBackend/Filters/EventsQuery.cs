@@ -1,4 +1,6 @@
-﻿namespace EventBackend.Filters
+﻿using System.Text.Json.Serialization;
+
+namespace EventBackend.Filters
 {
     public class EventsQuery : BaseQuery<EventOrderBy>
     {
@@ -9,6 +11,7 @@
         public DateTime? EndDate { get; set; }
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EventOrderBy
     {
         StartDate,
