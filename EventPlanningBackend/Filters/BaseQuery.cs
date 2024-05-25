@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace EventBackend.Filters
@@ -9,9 +10,10 @@ namespace EventBackend.Filters
         [Range(1, 1000)]
         public int PageSize { get; set; } = 1000;
 
-        public T OrderBy { get; set; } = Enum.GetValues(typeof(T)).Cast<T>().First();
+        public T? OrderBy { get; set; }
 
-        public Sorting Sort { get; set; } = Sorting.Asc;
+        [DefaultValue(Sorting.Asc)]
+        public Sorting? Sort { get; set; }
 
         public int ItemsToSkip() => (Page - 1) * PageSize;
     }
