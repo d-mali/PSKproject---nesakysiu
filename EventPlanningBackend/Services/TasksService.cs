@@ -7,11 +7,11 @@ using System.Linq.Expressions;
 
 namespace EventBackend.Services
 {
-    public class TaskService : ITaskService
+    public class TasksService : ITasksService
     {
         private readonly IGenericRepository<EventTask> _taskRepository;
 
-        public TaskService(IGenericRepository<EventTask> taskRepository)
+        public TasksService(IGenericRepository<EventTask> taskRepository)
         {
             _taskRepository = taskRepository;
         }

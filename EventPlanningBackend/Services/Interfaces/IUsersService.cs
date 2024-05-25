@@ -4,7 +4,7 @@ using EventDomain.Entities;
 
 namespace EventBackend.Services.Interfaces
 {
-    public interface IUserService
+    public interface IUsersService
     {
         public Task<User> CreateUserAsync(UserRequest entity);
         public Task<IEnumerable<User>> GetAllUsersAsync(UserQuery filter);
