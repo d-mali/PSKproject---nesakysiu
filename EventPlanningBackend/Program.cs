@@ -32,8 +32,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IEventsService, EventsService>();
+builder.Services.AddScoped<ITasksService, TasksService>();
 
 var app = builder.Build();
 

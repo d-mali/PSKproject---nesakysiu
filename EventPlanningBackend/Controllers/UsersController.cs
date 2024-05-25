@@ -8,12 +8,12 @@ namespace EventBackend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
 
-        private readonly IUserService _userService;
+        private readonly IUsersService _userService;
 
-        public UserController(IUserService userService)
+        public UsersController(IUsersService userService)
         {
             _userService = userService;
         }

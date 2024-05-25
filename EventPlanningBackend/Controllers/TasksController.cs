@@ -9,11 +9,11 @@ namespace EventPlanningBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class TasksController : ControllerBase
     {
-        private readonly ITaskService _taskService;
+        private readonly ITasksService _taskService;
 
-        public TaskController(ITaskService taskService)
+        public TasksController(ITasksService taskService)
         {
             _taskService = taskService;
         }

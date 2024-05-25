@@ -3,7 +3,7 @@ using EventDomain.Entities;
 
 namespace EventBackend.Services
 {
-    public class ParticipantService : IParticipantService
+    public class ParticipantsService : IParticipantsService
     {
         public Task<Participant> CreateParticipantAsync(Participant entity)
         {

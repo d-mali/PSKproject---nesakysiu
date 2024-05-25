@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventDomain.Services
 {
-    public class EventService : IEventService
+    public class EventsService : IEventsService
     {
         private readonly IGenericRepository<Event> _eventRepository;
 
-        public EventService(IGenericRepository<Event> eventRepository)
+        public EventsService(IGenericRepository<Event> eventRepository)
         {
             _eventRepository = eventRepository;
         }

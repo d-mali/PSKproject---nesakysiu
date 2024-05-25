@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace EventBackend.Services.Interfaces
 {
-    public interface ITaskService
+    public interface ITasksService
     {
         public Task<EventTask> CreateTaskAsync(EventTask entity);
         public Task<IEnumerable<EventTask>> GetAllTasksAsync(

@@ -4,7 +4,7 @@ using EventDomain.Entities;
 
 namespace EventBackend.Services.Interfaces
 {
-    public interface IEventService
+    public interface IEventsService
     {
         public Task<Event?> CreateEventAsync(EventRequest entity);
         public Task<IEnumerable<Event>> GetAllEventsAsync(EventsQuery filter);

@@ -5,7 +5,7 @@ using EventDomain.Entities;
 
 namespace EventBackend.Services
 {
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
         public Task<User> CreateUserAsync(UserRequest entity)
         {

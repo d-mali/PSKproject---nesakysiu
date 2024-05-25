@@ -8,12 +8,12 @@ namespace EventBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParticipantController : ControllerBase
+    public class ParticipantsController : ControllerBase
     {
 
-        private readonly IParticipantService _participantService;
+        private readonly IParticipantsService _participantService;
 
-        public ParticipantController(IParticipantService participantService)
+        public ParticipantsController(IParticipantsService participantService)
         {
             _participantService = participantService;
         }
@@ -25,13 +25,13 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetParticipantById([Required][FromRoute]Guid id)
+        public async Task<IActionResult> GetParticipantById([Required][FromRoute] Guid id)
         {
             return Ok(await _participantService.GetParticipantByIdAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateParticipant([FromBody]ParticipantRequest request)
+        public async Task<IActionResult> CreateParticipant([FromBody] ParticipantRequest request)
         {
             var participant = new Participant
             {
@@ -47,7 +47,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateParticipant([Required][FromRoute]Guid id, [FromBody]ParticipantRequest request)
+        public async Task<IActionResult> UpdateParticipant([Required][FromRoute] Guid id, [FromBody] ParticipantRequest request)
         {
             var participant = new Participant
             {
@@ -61,7 +61,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute]Guid id)
+        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] Guid id)
         {
             await _participantService.DeleteParticipantAsync(id);
 
