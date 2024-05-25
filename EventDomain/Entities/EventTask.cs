@@ -18,6 +18,6 @@ namespace EventDomain.Entities
         public DateTime? ScheduledTime { get; set; }
 
         [Required]
-        public string Description { get; set; } = string.Empty;
+        public required string Description { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace EventBackend.Models.Requests
         public DateTime? ScheduledTime { get; set; }
 
         [Required]
-        public string? Description { get; set; }
+        public required string Description { get; set; }
     }
 }

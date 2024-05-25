@@ -3,15 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace EventBackend.Filters
 {
-    public class BaseFilter
+    public class BaseQuery<T> where T : Enum
     {
         public int Page { get; set; } = 1;
         [Range(1, 1000)]
         public int PageSize { get; set; } = 1000;
 
-        public string OrderBy { get; set; } = string.Empty;
+        public T OrderBy { get; set; } = Enum.GetValues(typeof(T)).Cast<T>().First();
 
-        public Sorting? Sort { get; set; }
+        public Sorting Sort { get; set; } = Sorting.Asc;
 
         public int ItemsToSkip() => (Page - 1) * PageSize;
     }
@@ -19,7 +19,7 @@ namespace EventBackend.Filters
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Sorting
     {
-        asc,
-        desc
+        Asc,
+        Desc
     }
 }

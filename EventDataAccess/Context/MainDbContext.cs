@@ -1,22 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using EventDataAccess.Context;
+﻿using EventDataAccess.Context;
 using EventDomain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanningBackend
 {
-    public class MainDbContext : DbContext, IMainDbContext
+    public class MainDbContext : IdentityDbContext, IMainDbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<EventTask> Tasks { get; set; }
         public DbSet<Participant> Participants { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbContext Instance => this;
+
+        //public DbSet<User> Users { get; set; }
+        public MainDbContext Instance => this;
 
         public string DbPath { get; }
 
-        public MainDbContext()
+        public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);

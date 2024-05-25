@@ -4,12 +4,6 @@ using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EventDomain.Services
 {
@@ -47,37 +41,34 @@ namespace EventDomain.Services
             return result;
         }
 
-        public async Task<IEnumerable<Event>> GetAllEventsAsync(EventFilter filter)
+        public async Task<IEnumerable<Event>> GetAllEventsAsync(EventsQuery filter)
         {
             var eventFilter = PredicateBuilder.True<Event>();
             Func<IQueryable<Event>, IOrderedQueryable<Event>>? orderByEvent = null;
 
-            if(filter.Title != null)
+            if (filter.Title != null)
             {
                 eventFilter = eventFilter.And(x => x.Title == filter.Title);
             }
 
-            if(filter.StartDate != null)
+            if (filter.StartDate != null)
             {
                 eventFilter = eventFilter.And(x => x.StartDate == filter.StartDate);
             }
 
-            if(filter.EndDate != null)
+            if (filter.EndDate != null)
             {
                 eventFilter = eventFilter.And(x => x.EndDate == filter.EndDate);
             }
 
-            if(filter.OrderBy != string.Empty)
+            switch (filter.Sort)
             {
-                switch(filter.Sort)
-                {
-                    case Sorting.desc:
-                        orderByEvent = x => x.OrderByDescending(p => EF.Property<Event>(p, filter.OrderBy));
-                        break;
-                    default:
-                        orderByEvent = x => x.OrderBy(p => EF.Property<Event>(p, filter.OrderBy));
-                        break;
-                }
+                case Sorting.Desc:
+                    orderByEvent = x => x.OrderByDescending(p => EF.Property<Event>(p, filter.OrderBy.ToString()));
+                    break;
+                default:
+                    orderByEvent = x => x.OrderBy(p => EF.Property<Event>(p, filter.OrderBy.ToString()));
+                    break;
             }
 
             return await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.ItemsToSkip(), filter.PageSize);

@@ -6,6 +6,7 @@ using EventDataAccess.Context;
 using EventDataAccess.Repositories;
 using EventDomain.Services;
 using EventPlanningBackend;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 
@@ -21,6 +22,10 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<IMainDbContext, MainDbContext>();
+
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<MainDbContext>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -46,6 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();
 

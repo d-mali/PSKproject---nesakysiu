@@ -38,11 +38,12 @@ namespace EventPlanningBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
         {
-            
+
             var task = new EventTask
             {
                 Title = taskRequest.Title,
-                ScheduledTime = taskRequest.ScheduledTime
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
             };
 
 
@@ -60,7 +61,8 @@ namespace EventPlanningBackend.Controllers
             var task = new EventTask
             {
                 Title = taskRequest.Title,
-                ScheduledTime = taskRequest.ScheduledTime
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
             };
 
             var createdTask = await _taskService.UpdateTaskAsync(id, task);
