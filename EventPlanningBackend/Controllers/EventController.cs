@@ -80,6 +80,8 @@ namespace EventPlanningBackend.Controllers
         //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)
         //{
         //    var tasks = await _taskService.GetEventTasksAsync(eventId);
+
+        //    return Ok(tasks);
         //}
 
         //[HttpGet]
