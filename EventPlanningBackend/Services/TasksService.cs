@@ -31,9 +31,11 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId)
+        public async Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId)
         {
-            throw new NotImplementedException();
+            var tasks = await _taskRepository.GetAllAsync();
+
+            return tasks.Where(x => x.EventId == eventId);
         }
 
         public Task<EventTask> GetTaskByIdAsync(Guid id)

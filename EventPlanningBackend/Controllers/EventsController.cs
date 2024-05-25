@@ -75,14 +75,14 @@ namespace EventPlanningBackend.Controllers
             return NoContent();
         }
 
-        //[HttpGet]
-        //[Route("/{id}/Tasks")]
-        //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)
-        //{
-        //    var tasks = await _taskService.GetEventTasksAsync(eventId);
+        [HttpGet]
+        [Route("/{id}/Tasks")]
+        public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)
+        {
+            var tasks = await _taskService.GetEventTasksAsync(eventId);
 
-        //    return Ok(tasks);
-        //}
+            return Ok(tasks);
+        }
 
         //[HttpGet]
         //[Route("/{id}/User")]
