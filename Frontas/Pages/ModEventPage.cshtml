@@ -13,7 +13,14 @@
     }
     else if (Model.Event != null)
     {
-        <h1>Redaguoti Renginį</h1>
+        <div class="modHead">
+            <h1>Redaguoti Renginį</h1>
+            <form method="post" asp-page-handler="Delete" style="display: inline;">
+                <input type="hidden" name="Event.Id" value="@Model.Event.Id" />
+                <button type="submit" class="deleteHover">Ištrinti</button>
+            </form>
+        </div>
+
         <form method="post">
             <input type="hidden" name="Event.Id" value="@Model.Event.Id" />
             <div class="form-group">
@@ -42,3 +49,4 @@
         </div>
     }
 </div>
+

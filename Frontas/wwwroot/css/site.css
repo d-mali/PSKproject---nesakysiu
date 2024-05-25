@@ -64,6 +64,17 @@
     cursor: pointer;
 }
 
+.modHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deleteHover:hover {
+    background-color: red;
+    color: var(--form-bg-color);
+}
+
 button {
     border: none;
     padding: 5px;

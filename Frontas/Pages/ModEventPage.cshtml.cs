@@ -114,7 +114,43 @@ namespace Frontas.Pages
             return Page();
         }
 
+        public async Task<IActionResult> OnPostDeleteAsync()
+        {
+            if (Event == null)
+            {
+                ErrorMessage = "Event details are missing. Please try again.";
+                return Page();
+            }
 
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{Event.Id}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Successfully deleted event with ID {EventId}", Event.Id);
+                    return RedirectToPage("/Index");
+                }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Failed to delete event. Status Code: {StatusCode}, Response: {ResponseContent}", response.StatusCode, responseContent);
+                    ErrorMessage = $"There was an error deleting the event. Status Code: {response.StatusCode}, Response: {responseContent}";
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error deleting event from API");
+                ErrorMessage = "There was an error deleting the event. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return Page();
+        }
     }
+
 }
