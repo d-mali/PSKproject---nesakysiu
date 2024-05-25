@@ -1,6 +1,6 @@
 ﻿using EventBackend.Filters;
 using EventBackend.Models.Requests;
-using EventDomain.Entities;
+using EventBackend.Entities;
 
 namespace EventBackend.Services.Interfaces
 {

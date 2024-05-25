@@ -1,6 +1,5 @@
-﻿using EventBackend.Services.Interfaces;
-using EventDataAccess.Abstractions;
-using EventDomain.Entities;
+﻿using EventBackend.Entities;
+using EventBackend.Services.Interfaces;
 using System.Linq.Expressions;
 
 
@@ -9,26 +8,37 @@ namespace EventBackend.Services
 {
     public class TasksService : ITasksService
     {
-        private readonly IGenericRepository<EventTask> _taskRepository;
+        private readonly MainDbContext _context;
 
-        public TasksService(IGenericRepository<EventTask> taskRepository)
+        public TasksService(MainDbContext context)
         {
-            _taskRepository = taskRepository;
+            _context = context;
         }
 
-        public Task<EventTask> CreateTask(Guid eventId, EventTask task)
+        public async Task<EventTask> CreateTask(Guid eventId, EventTask task)
+        {
+            var eventEntity = _context.Events.Find(eventId);
+
+            if (eventEntity == null)
+            {
+                throw new Exception("Event not found");
+            }
+
+            eventEntity.Tasks.Add(task);
+
+            await _context.SaveChangesAsync();
+
+            return task;
+        }
+
+        public Task<EventTask> CreateTaskAsync(EventTask task)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<EventTask> CreateTaskAsync(EventTask task)
+        public Task<bool> DeleteTask(Guid id)
         {
-            return await _taskRepository.InsertAsync(task);
-        }
-
-        public async Task<bool> DeleteTask(Guid id)
-        {
-            return await _taskRepository.DeleteAsync(id);
+            throw new NotImplementedException();
         }
 
         public Task<bool> DeleteTask(Guid eventId, Guid id)
@@ -41,11 +51,9 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId)
+        public Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId)
         {
-            var tasks = await _taskRepository.GetAllAsync();
-
-            return tasks.Where(x => x.EventId == eventId);
+            throw new NotImplementedException();
         }
 
         public Task<EventTask> GetTask(Guid eventId, Guid taskId)
@@ -63,9 +71,9 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<EventTask> UpdateTask(Guid id, EventTask entity)
+        public Task<EventTask> UpdateTask(Guid id, EventTask entity)
         {
-            return await _taskRepository.UpdateAsync(entity);
+            throw new NotImplementedException();
         }
 
         public Task<EventTask> UpdateTask(Guid eventId, Guid id, EventTask task)

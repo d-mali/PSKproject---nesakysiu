@@ -1,4 +1,4 @@
-﻿using EventDomain.Entities;
+﻿using EventBackend.Entities;
 using System.Linq.Expressions;
 
 namespace EventBackend.Services.Interfaces

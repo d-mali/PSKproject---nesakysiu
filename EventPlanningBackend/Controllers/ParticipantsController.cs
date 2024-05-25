@@ -1,7 +1,7 @@
-﻿using EventBackend.Filters;
+﻿using EventBackend.Entities;
+using EventBackend.Filters;
 using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
-using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

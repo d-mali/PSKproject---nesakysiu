@@ -1,7 +1,7 @@
-﻿using EventDomain.Enums;
+﻿using EventBackend.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace EventDomain.Entities
+namespace EventBackend.Entities
 {
     public class User
     {

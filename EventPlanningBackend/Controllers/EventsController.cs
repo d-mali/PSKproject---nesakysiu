@@ -5,22 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace EventPlanningBackend.Controllers
+namespace EventBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-        private readonly ITasksService _taskService;
 
         public EventsController(
-            IEventsService eventService,
-            ITasksService taskService
+            IEventsService eventService
             )
         {
             _eventService = eventService;
-            _taskService = taskService;
         }
 
         // GET: api/Events

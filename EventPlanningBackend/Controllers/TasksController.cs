@@ -1,10 +1,10 @@
-﻿using EventBackend.Models.Requests;
+﻿using EventBackend.Entities;
+using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
-using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace EventPlanningBackend.Controllers
+namespace EventBackend.Controllers
 {
     [Route("api/Events/{eventId}/[controller]")]
     [ApiController]
@@ -43,9 +43,10 @@ namespace EventPlanningBackend.Controllers
 
             var createdTask = await _taskService.CreateTask(eventId, task);
 
-            return CreatedAtAction(nameof(CreateTask),
-                createdTask
-                );
+            //return CreatedAtAction(nameof(CreateTask),
+            //    createdTask
+            //    );
+            return NoContent();
         }
 
         // PUT: api/Tasks/5

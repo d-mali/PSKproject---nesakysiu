@@ -1,11 +1,9 @@
+using EventBackend;
 using EventBackend.Middleware;
 using EventBackend.Services;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
-using EventDataAccess.Context;
 using EventDataAccess.Repositories;
-using EventDomain.Services;
-using EventPlanningBackend;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 
@@ -21,7 +19,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<IMainDbContext, MainDbContext>();
+builder.Services.AddDbContext<MainDbContext>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<MainDbContext>();
@@ -39,7 +37,7 @@ var app = builder.Build();
 
 app.UseMiddleware<LoggingMiddleware>();
 
-app.UseMiddleware<OptimisticLockingExceptionMiddleware>();
+//app.UseMiddleware<OptimisticLockingExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
