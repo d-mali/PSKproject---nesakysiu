@@ -51,14 +51,14 @@ namespace EventDomain.Services
                 eventFilter = eventFilter.And(x => x.Title == filter.Title);
             }
 
-            if (filter.StartDate != null)
+            if (filter.MinDate != null)
             {
-                eventFilter = eventFilter.And(x => x.StartDate == filter.StartDate);
+                eventFilter = eventFilter.And(x => x.StartDate == filter.MinDate);
             }
 
-            if (filter.EndDate != null)
+            if (filter.MaxDate != null)
             {
-                eventFilter = eventFilter.And(x => x.EndDate == filter.EndDate);
+                eventFilter = eventFilter.And(x => x.EndDate == filter.MaxDate);
             }
 
             switch (filter.Sort)
@@ -71,7 +71,7 @@ namespace EventDomain.Services
                     break;
             }
 
-            return await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.ItemsToSkip(), filter.PageSize);
+            return await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
         }
 
         public async Task<Event?> GetEventByIdAsync(Guid id)

@@ -7,13 +7,13 @@ namespace EventBackend.Filters
     {
         public string? Title { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public DateTime? MinDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public DateTime? MaxDate { get; set; }
     }
 
 
-    [DefaultValue(EventOrderBy.StartDate)]
+    [DefaultValue(StartDate)]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EventOrderBy
     {
