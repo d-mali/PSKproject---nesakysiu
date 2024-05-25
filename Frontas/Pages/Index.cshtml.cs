@@ -1,4 +1,5 @@
 using EventDomain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
@@ -9,9 +10,12 @@ namespace Frontas.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly HttpClient _httpClient;
 
-        public List<Event> Event { get; private set; } = new List<Event>(); // Initialize to an empty list
+        public List<Event> Event { get; private set; } = new List<Event>();
         public string? ErrorMessage { get; private set; }
         public int DaysUntilStart { get; private set; }
+
+        [BindProperty]
+        public Event? NewEvent { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
         {
@@ -23,7 +27,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://localhost:7084/api/Event");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Event");
                 response.EnsureSuccessStatusCode();
 
                 string? responseBody = await response.Content.ReadAsStringAsync();
@@ -53,6 +57,37 @@ namespace Frontas.Pages
             {
                 _logger.LogError(ex, "Unexpected error");
                 ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            try
+            {
+                var jsonContent = JsonConvert.SerializeObject(NewEvent);
+                var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{GlobalParameters.apiUrl}/Event", content);
+                response.EnsureSuccessStatusCode();
+
+                return RedirectToPage();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error posting new event to API");
+                ErrorMessage = "There was an error creating the event. Please try again later.";
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+                return Page();
             }
         }
     }
