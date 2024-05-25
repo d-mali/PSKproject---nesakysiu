@@ -14,8 +14,8 @@
                     <div class="event">
                         <h2>@renginys.Title</h2>
                         <p>@renginys.Description</p>
-                        <p>@renginys.StartDate</p>
-                        <p>@renginys.EndDate</p>
+                        <p>@renginys.StartDate.ToString("yyyy-MM-dd")</p>
+                        <p>@renginys.EndDate.ToString("yyyy-MM-dd")</p>
                     </div>
                 </a>
             }
@@ -26,11 +26,28 @@
                     <h2>Vartotojo pavadinimas</h2>
                 </div>
             </a>
-            <a asp-page="./CreateEventPage" class="create-event-link">
-                <div class="create-event">
-                    <h3>Kurti renginį</h3>
-                </div>
-            </a>
+            <div class="createEvent">
+                <h3>Kurti renginį</h3>
+                <form method="post" id="createEventForm">
+                    <div class="form-group">
+                        <label for="title">Pavadinimas</label>
+                        <input type="text" id="title" name="Title" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Aprašymas</label>
+                        <textarea id="description" name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Pradžios data</label>
+                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Pabaigos data</label>
+                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kurti</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

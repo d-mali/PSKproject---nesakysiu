@@ -13,11 +13,99 @@
     }
     else if (Model.Event != null)
     {
-        <div class="event-details">
-            <h1>@Model.Event.Title</h1>
-            <p>@Model.Event.Description</p>
-            <p>@Model.Event.StartDate.ToString("yyyy-MM-dd")</p>
-            <p>@Model.Event.EndDate.ToString("yyyy-MM-dd")</p>
+        <a asp-page="./Index" class="user-info-link">
+            <h1>..Visi renginiai</h1>
+        </a>
+
+        <a asp-page="./UserInfoPage" class="user-info-link"><!--neviekia-->
+            <div class="event-details">
+                <h1>@Model.Event.Title</h1>
+                <p>@Model.Event.Description</p>
+                <p>@Model.Event.StartDate.ToString("yyyy-MM-dd")</p>
+                <p>@Model.Event.EndDate.ToString("yyyy-MM-dd")</p>
+            </div>
+        </a>
+
+        <div class="row">
+            <div class="col-md-8">
+                @* @foreach (var user in Model.Users)
+                {
+                    <a href="/EventPage?id=@user.Id" class="user-info-link">
+                        <!--neviekia-->
+                        <div class="event">
+                            <h2>@user.FirstName</h2>
+                            <h2>@user.LastName</h2>
+                        </div>
+                    </a>
+                }
+                @foreach (var eventTask in Model.EventTasks)
+                {
+                    <a href="/EventPage?id=@eventTask.Id" class="eventTask-link">
+                        <!--neviekia-->
+                        <div class="event">
+                            <h2>@eventTask.Title</h2>
+                            <p>@eventTask.ScheduledTime</p>
+                            <p>@eventTask.Description</p>
+                        </div>
+                    </a>
+                }*@
+            </div>
+            <div class="col-md-4">
+                    <!--neviekia-->
+                    <div class="addToEvent">
+                        <h3>Pridėti darbuotoją</h3>
+                    <select id="taskDropdown" class="form-control">
+                        <option value="">...</option>
+                    </select>
+                    <button>
+                        Pridėti
+                    </button>
+                    <button>
+                        Sukurti
+                    </button>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                    <!--neviekia-->
+                    <div class="addToEvent">
+                        <h3>Pridėti dalyvį</h3>
+                    <select id="taskDropdown" class="form-control">
+                        <option value="">...</option>
+                    </select>
+                    <button>
+                        Pridėti
+                    </button>
+                    <button>
+                        Sukurti
+                    </button>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                    <div class="addToEvent">
+                    <h3>Pridėti užduotį</h3>
+                        <select id="taskDropdown" class="form-control">
+                            <option value="">...</option>
+                        </select>
+                    <button>
+                        Pridėti
+                    </button>
+                    <button>
+                        Sukurti
+                    </button>
+                    </div>
+            </div>
         </div>
     }
     else
@@ -26,4 +114,4 @@
             <p>Event not found.</p>
         </div>
     }
-</div>
+</d>

@@ -39,6 +39,8 @@ var app = builder.Build();
 
 app.UseMiddleware<LoggingMiddleware>();
 
+app.UseMiddleware<OptimisticLockingExceptionMiddleware>();
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MainDbContext>();

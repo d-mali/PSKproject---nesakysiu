@@ -16,5 +16,8 @@ namespace EventDomain.Entities
 
         [Required]
         public UserPrivilegeType Privilege { get; set; }
+
+        [Timestamp]
+        public byte[]? Version { get; set; }
     }
 }

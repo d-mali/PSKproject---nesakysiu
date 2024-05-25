@@ -10,6 +10,9 @@ namespace Frontas.Pages
         private readonly ILogger<EventPageModel> _logger;
         private readonly HttpClient _httpClient;
 
+        public List<User> Users { get; private set; } = new List<User>();
+        public List<EventTask> EventTasks { get; private set; } = new List<EventTask>();
+
         public Event? Event { get; private set; }
         public string? ErrorMessage { get; private set; }
 
@@ -23,7 +26,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync($"https://localhost:7084/api/Event/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Event/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();

@@ -31,20 +31,61 @@
     justify-content: space-between;
 }
 
+.addToEvent {
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+}
+
 .event {
     border: none;
     padding: 20px;
     margin-bottom: 20px;
     color: var(--text-color);
     border-radius: var(--default-radius);
-    transition: background-color 0.3s;
     box-shadow: 0 3px 10px var(--text-color);
 }
 
-.event:hover, .user-info:hover, create-event:hover {
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+#taskDropdown {
+    margin-right: 10px;
+}
+
+#addButton {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+button {
     border: none;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+}
+
+.event:hover, .user-info:hover, create-event:hover, event-details:hover, button:hover {
     background-color: var(--accent-hover-color);
     color: var(--form-bg-color);
+}
+
+.createEvent {
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
 }
 
 .sidebar {
@@ -58,7 +99,6 @@
 
 .user-info, .create-event {
     border: none;
-    border: 1px solid #ccc;
     padding: 15px;
     margin-bottom: 20px;
     color: var(--text-color);
@@ -71,7 +111,7 @@
     width: 100%;
 }
 
-.event-link, .user-info-link, .create-event-link {
+.event-link, .user-info-link, .create-event-link, .eventTask-link {
     border: none;
     display: block;
     text-decoration: none;
