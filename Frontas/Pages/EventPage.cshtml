@@ -18,7 +18,6 @@
         </a>
 
         <a href="/ModEventPageModel?id=@Model.Event.Id" class="user-info-link">
-            <!--neviekia-->
             <div class="event-details">
                 <h1>@Model.Event.Title</h1>
                 <p>@Model.Event.Description</p>
@@ -52,19 +51,39 @@
                 }*@
             </div>
             <div class="col-md-4">
-                    <!--neviekia-->
-                    <div class="addToEvent">
+                <div class="addEmployee">
                         <h3>Pridėti darbuotoją</h3>
+                    <form method="post" id="addFormEmployee" style="display: none;">
+                        <div class="form-group">
                     <select id="taskDropdown" class="form-control">
                         <option value="">...</option>
                     </select>
-                    <button>
-                        Pridėti
-                    </button>
-                    <button>
-                        Sukurti
-                    </button>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
                     </div>
+                <div class="addToEventEmployee">
+                    <h3>Kurti darbuotoją</h3>
+                    <form method="post" id="createEventFormEmployee" style="display: none;">
+                    <div class="form-group">
+                        <label for="title">Pavadinimas</label>
+                        <input type="text" id="title" name="Title" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Aprašymas</label>
+                        <textarea id="description" name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Pradžios data</label>
+                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Pabaigos data</label>
+                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kurti</button>
+                </form>
+                </div>
             </div>
         </div>
 
@@ -73,19 +92,39 @@
 
             </div>
             <div class="col-md-4">
-                    <!--neviekia-->
-                    <div class="addToEvent">
+                <div class="addToParticipant">
                         <h3>Pridėti dalyvį</h3>
-                    <select id="taskDropdown" class="form-control">
-                        <option value="">...</option>
-                    </select>
-                    <button>
-                        Pridėti
-                    </button>
-                    <button>
-                        Sukurti
-                    </button>
+                    <form method="post" id="addFormParticipant" style="display: none;">
+                        <div class="form-group">
+                            <select id="taskDropdown" class="form-control">
+                                <option value="">...</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
                     </div>
+                <div class="addToEventParticipant">
+                    <h3>Kurti dalyvį</h3>
+                    <form method="post" id="createEventFormParticipant" style="display: none;">
+                    <div class="form-group">
+                        <label for="title">Pavadinimas</label>
+                        <input type="text" id="title" name="Title" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Aprašymas</label>
+                        <textarea id="description" name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Pradžios data</label>
+                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Pabaigos data</label>
+                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kurti</button>
+                </form>
+                </div>
             </div>
         </div>
 
@@ -94,12 +133,28 @@
 
             </div>
             <div class="col-md-4">
-                    <div class="addToEvent">
-                    <h3>Pridėti užduotį</h3>
-                    <button>
-                        Sukurti
-                    </button>
-                    </div>
+                <div class="addToEventTask">
+                    <h3>Kurti užduotį</h3>
+                    <form method="post" id="createEventFormTask" style="display: none;">
+                        <div class="form-group">
+                            <label for="title">Pavadinimas</label>
+                            <input type="text" id="title" name="Title" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Aprašymas</label>
+                            <textarea id="description" name="Description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Pradžios data</label>
+                            <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">Pabaigos data</label>
+                            <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
+                </div>
             </div>
         </div>
     }
@@ -109,4 +164,4 @@
             <p>Event not found.</p>
         </div>
     }
-</d>
+</div>
