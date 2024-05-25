@@ -1,28 +1,80 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Filters;
+using EventBackend.Services.Interfaces;
+using EventDataAccess.Abstractions;
 using EventDomain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
 {
     public class ParticipantsService : IParticipantsService
     {
-        public Task<Participant> CreateParticipantAsync(Participant entity)
+        private readonly IGenericRepository<Participant> _participantRepository;
+
+        public ParticipantsService(IGenericRepository<Participant> participantRepository)
         {
-            throw new NotImplementedException();
+            _participantRepository = participantRepository;
+        }
+        public async Task<Participant> CreateParticipantAsync(Participant entity)
+        {
+            var evt = new Participant
+            {
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                BirthDate = entity.BirthDate,
+                Email = entity.Email,
+            };
+
+            return await _participantRepository.InsertAsync(evt);
         }
 
-        public Task<bool> DeleteParticipantAsync(Guid id)
+        public async Task<bool> DeleteParticipantAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var participantEntity = await _participantRepository.GetByIdAsync(id);
+
+            if (participantEntity == null)
+                return false;
+
+            var result = await _participantRepository.DeleteAsync(id);
+
+            return result;
         }
 
-        public Task<IEnumerable<Participant>> GetAllParticipantsAsync()
+        public async Task<IEnumerable<Participant>> GetAllParticipantsAsync(ParticipantQuery filter)
         {
-            throw new NotImplementedException();
+            var eventFilter = PredicateBuilder.True<Participant>();
+            Func<IQueryable<Participant>, IOrderedQueryable<Participant>>? orderByEvent = null;
+
+            if (filter.FirstName != null)
+            {
+                eventFilter = eventFilter.And(x => x.FirstName == filter.FirstName);
+            }
+
+            if (filter.LastName != null)
+            {
+                eventFilter = eventFilter.And(x => x.LastName == filter.LastName);
+            }
+
+            if (filter.BirthDate != null)
+            {
+                eventFilter = eventFilter.And(x => x.BirthDate == filter.BirthDate);
+            }
+
+            switch (filter.Sort)
+            {
+                case Sorting.Desc:
+                    orderByEvent = x => x.OrderByDescending(p => EF.Property<Participant>(p, filter.OrderBy.ToString()));
+                    break;
+                default:
+                    orderByEvent = x => x.OrderBy(p => EF.Property<Participant>(p, filter.OrderBy.ToString()));
+                    break;
+            }
+
+            return await _participantRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
         }
 
-        public Task<Participant> GetParticipantByIdAsync(Guid id)
+        public async Task<Participant?> GetParticipantByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _participantRepository.GetByIdAsync(id);
         }
 
         public Task<Participant> UpdateParticipantAsync(Guid id, Participant entity)

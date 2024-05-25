@@ -1,4 +1,5 @@
-﻿using EventBackend.Models.Requests;
+﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllParticipantsAsync()
+        public async Task<IActionResult> GetAllParticipantsAsync([FromQuery] ParticipantQuery filter)
         {
-            return Ok(await _participantService.GetAllParticipantsAsync());
+            return Ok(await _participantService.GetAllParticipantsAsync(filter));
         }
 
         [HttpGet("{id}")]
