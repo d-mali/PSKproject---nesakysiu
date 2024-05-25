@@ -1,13 +1,15 @@
-﻿using EventDomain.Entities;
+﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
+using EventDomain.Entities;
 
 namespace EventBackend.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<User> CreateUserAsync(User entity);
-        public Task<IEnumerable<User>> GetAllUserAsync();
+        public Task<User> CreateUserAsync(UserRequest entity);
+        public Task<IEnumerable<User>> GetAllUsersAsync(UserQuery filter);
         public Task<User> GetUserByIdAsync(Guid id);
-        public Task<User> UpdateUserAsync(Guid id, User entity);
+        public Task<User> UpdateUserAsync(Guid id, UserRequest entity);
         public Task<bool> DeleteUserAsync(Guid id);
     }
 }

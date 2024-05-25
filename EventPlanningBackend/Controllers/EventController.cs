@@ -12,15 +12,15 @@ namespace EventPlanningBackend.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
-        //private readonly IEventTaskService _taskService;
+        private readonly ITaskService _taskService;
 
         public EventController(
-            IEventService eventService
-            //IEventTaskService taskService
+            IEventService eventService,
+            ITaskService taskService
             )
         {
             _eventService = eventService;
-            //_taskService = taskService;
+            _taskService = taskService;
         }
 
         // GET: api/Events
@@ -77,9 +77,16 @@ namespace EventPlanningBackend.Controllers
 
         //[HttpGet]
         //[Route("/{id}/Tasks")]
-        //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid EventId)
+        //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)
         //{
-        //    var tasks = await _taskService.GetAllTasksAsync();
+        //    var tasks = await _taskService.GetEventTasksAsync(eventId);
+        //}
+
+        //[HttpGet]
+        //[Route("/{id}/User")]
+        //public async Task<IActionResult> GetEventUsers([FromQuery] UserQuery query)
+        //{
+
         //}
 
     }

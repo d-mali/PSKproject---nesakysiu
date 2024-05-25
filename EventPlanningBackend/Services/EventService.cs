@@ -93,9 +93,5 @@ namespace EventDomain.Services
             return await _eventRepository.UpdateAsync(evt);
         }
 
-        //public async Task<EventTask> GetAllTasksAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

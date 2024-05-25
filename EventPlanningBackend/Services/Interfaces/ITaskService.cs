@@ -14,5 +14,6 @@ namespace EventBackend.Services.Interfaces
         public Task<EventTask> GetTaskByIdAsync(Guid id);
         public Task<EventTask> UpdateTaskAsync(Guid id, EventTask entity);
         public Task<bool> DeleteTaskAsync(Guid id);
+        public Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId);
     }
 }

@@ -1,11 +1,13 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
+using EventBackend.Services.Interfaces;
 using EventDomain.Entities;
 
 namespace EventBackend.Services
 {
     public class UserService : IUserService
     {
-        public Task<User> CreateUserAsync(User entity)
+        public Task<User> CreateUserAsync(UserRequest entity)
         {
             throw new NotImplementedException();
         }
@@ -15,7 +17,7 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllUserAsync()
+        public Task<IEnumerable<User>> GetAllUsersAsync(UserQuery filter)
         {
             throw new NotImplementedException();
         }
@@ -25,7 +27,7 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public Task<User> UpdateUserAsync(Guid id, User entity)
+        public Task<User> UpdateUserAsync(Guid id, UserRequest entity)
         {
             throw new NotImplementedException();
         }
