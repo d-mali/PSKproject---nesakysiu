@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventDomain.Contracts.Requests
+namespace EventBackend.Models.Requests
 {
     public class TaskRequest
     {

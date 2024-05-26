@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventDomain.Contracts.Requests
+namespace EventBackend.Models.Requests
 {
     /*
      * Basically an EventDTO, storing info about an event from within a request

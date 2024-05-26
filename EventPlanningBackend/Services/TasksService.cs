@@ -1,8 +1,6 @@
-﻿using EventBackend.Entities;
-using EventBackend.Services.Interfaces;
-using EventDomain.Contracts.Requests;
-using EventDomain.Contracts.Responses;
-using Microsoft.EntityFrameworkCore;
+﻿using EventBackend.Services.Interfaces;
+using EventDataAccess.Abstractions;
+using EventDomain.Entities;
 using System.Linq.Expressions;
 
 
@@ -11,80 +9,68 @@ namespace EventBackend.Services
 {
     public class TasksService : ITasksService
     {
-        private readonly MainDbContext _context;
+        private readonly IGenericRepository<EventTask> _taskRepository;
 
-        public TasksService(MainDbContext context)
+        public TasksService(IGenericRepository<EventTask> taskRepository)
         {
-            _context = context;
+            _taskRepository = taskRepository;
         }
 
-        public async Task<TaskResponse> CreateTask(Guid eventId, TaskRequest taskRequest)
+        public Task<EventTask> CreateTask(Guid eventId, EventTask task)
         {
-            var task = new EventTask(taskRequest);
-
-            var eventEntity = await _context.Events.FindAsync(eventId);
-
-            if (eventEntity == null)
-            {
-                throw new Exception("Event not found");
-            }
-
-            eventEntity.Tasks.Add(task);
-
-            await _context.SaveChangesAsync();
-
-            return task.ToResponse();
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteTaskAsync(Guid eventId, Guid id)
+        public async Task<EventTask> CreateTaskAsync(EventTask task)
         {
-            var task = await _context.Tasks.FindAsync(id);
-
-            if (task == null)
-                return false;
-
-            _context.Tasks.Remove(task);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await _taskRepository.InsertAsync(task);
         }
 
-        public async Task<IEnumerable<TaskResponse>> GetTasksAsync(Guid eventId, Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
+        public async Task<bool> DeleteTask(Guid id)
         {
-            var eventEntity = await _context.Events.Include(e => e.Tasks).FirstOrDefaultAsync(e => e.Id == eventId);
-
-            if (eventEntity == null)
-            {
-                throw new Exception("Event not found");
-            }
-
-            return eventEntity.Tasks.Select(t => t.ToResponse());
+            return await _taskRepository.DeleteAsync(id);
         }
 
-        public async Task<TaskResponse> UpdateTaskAsync(Guid eventId, Guid id, TaskRequest task)
+        public Task<bool> DeleteTask(Guid eventId, Guid id)
         {
-            var taskEntity = await _context.Tasks.FindAsync(id);
-            if (taskEntity == null)
-                throw new Exception("Task not found");
-
-            taskEntity.Title = task.Title;
-            taskEntity.ScheduledTime = task.ScheduledTime;
-            taskEntity.Description = task.Description;
-
-            await _context.SaveChangesAsync();
-
-            return taskEntity.ToResponse();
+            throw new NotImplementedException();
         }
 
-        public async Task<TaskResponse?> GetTaskAsync(Guid eventId, Guid taskId)
+        public Task<IEnumerable<EventTask>> GetAllTasksAsync(Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
         {
-            var task = await _context.Tasks.FindAsync(taskId);
+            throw new NotImplementedException();
+        }
 
-            if (task == null)
-                return null;
+        public async Task<IEnumerable<EventTask>> GetEventTasksAsync(Guid eventId)
+        {
+            var tasks = await _taskRepository.GetAllAsync();
 
-            return task.ToResponse();
+            return tasks.Where(x => x.EventId == eventId);
+        }
+
+        public Task<EventTask> GetTask(Guid eventId, Guid taskId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<EventTask> GetTaskByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<EventTask>> GetTasks(Guid eventId, Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<EventTask> UpdateTask(Guid id, EventTask entity)
+        {
+            return await _taskRepository.UpdateAsync(entity);
+        }
+
+        public Task<EventTask> UpdateTask(Guid eventId, Guid id, EventTask task)
+        {
+            throw new NotImplementedException();
         }
     }
 }

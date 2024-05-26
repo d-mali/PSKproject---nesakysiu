@@ -1,9 +1,10 @@
-﻿using EventBackend.Services.Interfaces;
-using EventDomain.Contracts.Requests;
+﻿using EventBackend.Models.Requests;
+using EventBackend.Services.Interfaces;
+using EventDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace EventBackend.Controllers
+namespace EventPlanningBackend.Controllers
 {
     [Route("api/Events/{eventId}/[controller]")]
     [ApiController]
@@ -20,48 +21,54 @@ namespace EventBackend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTasks(Guid eventId)
         {
-            return Ok(await _taskService.GetTasksAsync(eventId));
+            return Ok(await _taskService.GetTasks(eventId));
         }
 
         // GET: api/Tasks/5
-        [HttpGet("{taskId}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTask(Guid eventId, Guid taskId)
         {
-            var task = await _taskService.GetTaskAsync(eventId, taskId);
-
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(task);
+            return Ok(await _taskService.GetTask(eventId, taskId));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTask(Guid eventId, TaskRequest taskRequest)
         {
-            var createdTask = await _taskService.CreateTask(eventId, taskRequest);
+            var task = new EventTask
+            {
+                Title = taskRequest.Title,
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
+            };
 
-            //return CreatedAtAction(nameof(CreateTask),
-            //    createdTask
-            //    );
-            return Ok(createdTask);
+            var createdTask = await _taskService.CreateTask(eventId, task);
+
+            return CreatedAtAction(nameof(CreateTask),
+                createdTask
+                );
         }
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTask(Guid eventId, Guid id, TaskRequest taskRequest)
         {
-            var updatedTask = await _taskService.UpdateTaskAsync(eventId, id, taskRequest);
+            var task = new EventTask
+            {
+                Title = taskRequest.Title,
+                ScheduledTime = taskRequest.ScheduledTime,
+                Description = taskRequest.Description
+            };
 
-            return Ok(updatedTask);
+            var createdTask = await _taskService.UpdateTask(eventId, id, task);
+
+            return Ok(createdTask);
         }
 
         // DELETE: api/Tasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(Guid eventId, Guid taskId)
         {
-            await _taskService.DeleteTaskAsync(eventId, taskId);
+            await _taskService.DeleteTask(eventId, taskId);
 
             return NoContent();
         }

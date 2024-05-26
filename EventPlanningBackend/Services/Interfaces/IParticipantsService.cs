@@ -1,5 +1,5 @@
 ﻿using EventBackend.Filters;
-using EventBackend.Entities;
+using EventDomain.Entities;
 
 namespace EventBackend.Services.Interfaces
 {

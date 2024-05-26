@@ -1,11 +1,11 @@
-﻿using EventBackend.Entities;
-using EventBackend.Filters;
+﻿using EventBackend.Filters;
 using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
+using EventDomain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventBackend.Services
+namespace EventDomain.Services
 {
     public class EventsService : IEventsService
     {

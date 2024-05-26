@@ -1,16 +1,18 @@
-﻿using EventBackend.Entities;
+﻿using EventDataAccess.Context;
+using EventDomain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventBackend
+namespace EventPlanningBackend
 {
-    public class MainDbContext : IdentityDbContext
+    public class MainDbContext : IdentityDbContext, IMainDbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<EventTask> Tasks { get; set; }
         public DbSet<Participant> Participants { get; set; }
 
-        //public DbSet<User> Users { get; set; 
+        //public DbSet<User> Users { get; set; }
+        public MainDbContext Instance => this;
 
         public string DbPath { get; }
 
@@ -19,16 +21,6 @@ namespace EventBackend
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
             DbPath = System.IO.Path.Join(path, "main.db");
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Event>()
-                .HasMany(e => e.Tasks)
-                .WithOne(t => t.Event)
-                .OnDelete(DeleteBehavior.Cascade);
         }
 
         // The following configures EF to create a Sqlite database file in the

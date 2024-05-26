@@ -1,23 +1,21 @@
-﻿using EventBackend.Entities;
-using EventDomain.Contracts.Requests;
-using EventDomain.Contracts.Responses;
+﻿using EventDomain.Entities;
 using System.Linq.Expressions;
 
 namespace EventBackend.Services.Interfaces
 {
     public interface ITasksService
     {
-        public Task<TaskResponse> CreateTask(Guid eventId, TaskRequest task);
+        public Task<EventTask> CreateTask(Guid eventId, EventTask task);
 
-        public Task<IEnumerable<TaskResponse>> GetTasksAsync(
+        public Task<IEnumerable<EventTask>> GetTasks(
             Guid eventId,
             Expression<Func<EventTask, bool>>? filter = null,
             Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null,
             int? itemsToSkip = null,
             int? itemsToTake = null);
 
-        public Task<TaskResponse?> GetTaskAsync(Guid eventId, Guid taskId);
-        public Task<TaskResponse> UpdateTaskAsync(Guid eventId, Guid id, TaskRequest task);
-        public Task<bool> DeleteTaskAsync(Guid eventId, Guid id);
+        public Task<EventTask> GetTask(Guid eventId, Guid taskId);
+        public Task<EventTask> UpdateTask(Guid eventId, Guid id, EventTask task);
+        public Task<bool> DeleteTask(Guid eventId, Guid id);
     }
 }

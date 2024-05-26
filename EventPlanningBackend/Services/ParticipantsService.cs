@@ -1,7 +1,7 @@
-﻿using EventBackend.Entities;
-using EventBackend.Filters;
+﻿using EventBackend.Filters;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
+using EventDomain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
