@@ -1,31 +1,23 @@
 ﻿using EventBackend.Filters;
-using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
-using EventDomain.Entities;
+using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace EventPlanningBackend.Controllers
+namespace EventBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-        private readonly ITasksService _taskService;
-        protected readonly MainDbContext _context;
 
         public EventsController(
-            IEventsService eventService,
-            ITasksService taskService,
-            MainDbContext context
+            IEventsService eventService
             )
         {
             _eventService = eventService;
-            _taskService = taskService;
-            _context = context;
         }
 
         // GET: api/Events
@@ -66,7 +58,7 @@ namespace EventPlanningBackend.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] EventRequest entity)
+        public async Task<IActionResult> UpdateEvent(Guid id, [FromBody] EventRequest entity)
         {
             return Ok(await _eventService.UpdateEventAsync(id, entity));
         }
@@ -78,53 +70,6 @@ namespace EventPlanningBackend.Controllers
             await _eventService.DeleteEventAsync(id);
 
             return NoContent();
-        }
-
-        [HttpPost]
-        [Route("/CreateParticipation")]
-        public async Task<IActionResult> CreateParticipation([FromBody] ParticipationRequest request)
-        {
-
-
-            var eventas = await _context.Events.FindAsync(request.EventId);
-            var participant = await _context.Participants.FindAsync(request.ParticipantId);
-
-            if (eventas == null || participant == null)
-            {
-                return BadRequest("Invalid event ID or participant ID");
-            }
-            eventas.Participants ??= new List<Participant>();
-
-            eventas.Participants.Add(participant);
-            _context.SaveChanges();
-
-            return Ok("Participation created successfully");
-        }
-
-        [HttpGet]
-        [Route("/{id}/Participants")]
-        public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid id)
-        {
-            var eventWithParticipants = await _context.Events
-                .Include(s => s.Participants)
-                .FirstOrDefaultAsync(s => s.Id == id);
-            if (eventWithParticipants == null)
-            {
-                return BadRequest("Invalid participant ID");
-            }
-            if (eventWithParticipants.Participants == null)
-            {
-                return BadRequest("No participants");
-            }
-            var participants = eventWithParticipants.Participants.Select(c => new Participant
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                BirthDate = c.BirthDate,
-                Email = c.Email,
-            }).ToList();
-            return Ok(participants);
         }
 
         //[HttpGet]
@@ -142,12 +87,6 @@ namespace EventPlanningBackend.Controllers
         //{
 
         //}
-        public class ParticipationRequest
-        {
-            public Guid EventId { get; set; }
-            public Guid ParticipantId { get; set; }
-        }
-
 
     }
 }

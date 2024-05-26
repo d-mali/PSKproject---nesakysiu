@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EventDomain.Entities
+namespace EventBackend.Entities
 {
     public class Participant
     {
@@ -28,7 +23,5 @@ namespace EventDomain.Entities
 
         [Timestamp]
         public byte[]? Version { get; set; }
-
-        public List<Event>? Events { get; set; } 
     }
 }

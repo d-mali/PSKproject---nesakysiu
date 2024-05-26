@@ -1,25 +1,20 @@
-﻿using EventDataAccess.Abstractions;
-using EventDataAccess.Context;
+﻿using EventBackend;
+using EventDataAccess.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EventDataAccess.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        protected readonly IMainDbContext Context;
+        protected readonly MainDbContext _context;
         protected readonly DbSet<TEntity> DbSet;
 
-        public GenericRepository(IMainDbContext context)
+        public GenericRepository(MainDbContext context)
         {
-            Context = context;
-            DbSet = context.Instance.Set<TEntity>();
-        } 
+            _context = context;
+            DbSet = context.Set<TEntity>();
+        }
 
         public async Task<bool> DeleteAsync(object id)
         {
@@ -27,11 +22,11 @@ namespace EventDataAccess.Repositories
 
             if (entity == null)
             {
-                return false; 
+                return false;
             }
 
             DbSet.Remove(entity);
-            await Context.Instance.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -44,7 +39,7 @@ namespace EventDataAccess.Repositories
         public async Task<IEnumerable<TEntity>> GetAllAsync(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            int? itemsToSkip = null, 
+            int? itemsToSkip = null,
             int? itemsToTake = null
             )
         {
@@ -81,7 +76,7 @@ namespace EventDataAccess.Repositories
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
             await DbSet.AddAsync(entity);
-            await Context.Instance.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return entity;
         }
@@ -90,9 +85,9 @@ namespace EventDataAccess.Repositories
         {
             DbSet.Attach(entity);
 
-            Context.Instance.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
 
-            await Context.Instance.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return entity;
         }
