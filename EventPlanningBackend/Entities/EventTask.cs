@@ -12,6 +12,9 @@ namespace EventBackend.Entities
         [Key]
         public Guid Id { get; set; }
 
+        [ForeignKey("EventId")]
+        public Guid EventId { get; set; }
+
         [Required]
         public required string Title { get; set; }
 
@@ -36,6 +39,7 @@ namespace EventBackend.Entities
             Title = taskRequest.Title;
             ScheduledTime = taskRequest.ScheduledTime;
             Description = taskRequest.Description;
+            EventId = taskRequest.EventId;
         }
 
         public TaskResponse ToResponse()
@@ -45,7 +49,8 @@ namespace EventBackend.Entities
                 Id = Id,
                 Title = Title,
                 ScheduledTime = ScheduledTime,
-                Description = Description
+                Description = Description,
+                EventId = EventId
             };
         }
     }

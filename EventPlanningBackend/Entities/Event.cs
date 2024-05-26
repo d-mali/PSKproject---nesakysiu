@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EventBackend.Entities
 {
@@ -26,5 +29,30 @@ namespace EventBackend.Entities
         public virtual ICollection<EventTask> Tasks { get; set; } = new List<EventTask>();
 
         public List<Participant>? Participants { get; set; }
+
+        public Event()
+        {
+        }
+
+        [SetsRequiredMembers]
+        public Event(EventRequest eventRequest)
+        {
+            Title = eventRequest.Title;
+            Description = eventRequest.Description;
+            StartDate = eventRequest.StartDate;
+            EndDate = eventRequest.EndDate;
+        }
+
+        public EventResponse ToResponse()
+        {
+            return new EventResponse
+            {
+                Id = Id,
+                Title = Title,
+                Description = Description,
+                StartDate = StartDate,
+                EndDate = EndDate
+            };
+        }
     }
 }

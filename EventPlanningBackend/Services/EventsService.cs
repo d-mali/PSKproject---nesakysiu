@@ -3,6 +3,7 @@ using EventBackend.Filters;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
 using Microsoft.EntityFrameworkCore;
 using static EventBackend.Controllers.EventsController;
 
@@ -19,17 +20,15 @@ namespace EventBackend.Services
             _context = context;
         }
 
-        public async Task<Event?> CreateEventAsync(EventRequest entity)
+        public async Task<EventResponse?> CreateEventAsync(EventRequest eventRequest)
         {
-            var evt = new Event
-            {
-                Title = entity.Title,
-                StartDate = entity.StartDate,
-                EndDate = entity.EndDate,
-                Description = entity.Description
-            };
+            var eventEntity = new Event(eventRequest);
 
-            return await _eventRepository.InsertAsync(evt);
+            var events = await _eventRepository.InsertAsync(eventEntity);
+
+            await _context.SaveChangesAsync();
+
+            return events.ToResponse();
         }
 
         public async Task<bool> DeleteEventAsync(Guid id)
@@ -44,7 +43,7 @@ namespace EventBackend.Services
             return result;
         }
 
-        public async Task<IEnumerable<Event>> GetAllEventsAsync(EventsQuery filter)
+        public async Task<IEnumerable<EventResponse>> GetAllEventsAsync(EventsQuery filter)
         {
             var eventFilter = PredicateBuilder.True<Event>();
             Func<IQueryable<Event>, IOrderedQueryable<Event>>? orderByEvent = null;
@@ -74,45 +73,53 @@ namespace EventBackend.Services
                     break;
             }
 
-            return await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
+            var events = await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
+
+            return events.Select(x => x.ToResponse());
         }
 
-        public async Task<Event?> GetEventByIdAsync(Guid id)
+        public async Task<EventResponse?> GetEventAsync(Guid id)
         {
-            return await _eventRepository.GetByIdAsync(id);
+            var eventEntity = await _eventRepository.GetByIdAsync(id);
+
+            return eventEntity?.ToResponse();
         }
 
-        public async Task<Event?> UpdateEventAsync(Guid id, EventRequest entity)
+        public async Task<EventResponse?> UpdateEventAsync(Guid id, EventRequest eventRequest)
         {
-            var evt = new Event
-            {
-                Id = id,
-                Title = entity.Title,
-                StartDate = entity.StartDate,
-                EndDate = entity.EndDate,
-                Description = entity.Description
-            };
+            var eventEntity = await _eventRepository.GetByIdAsync(id);
+            if (eventEntity == null)
+                return null;
 
-            return await _eventRepository.UpdateAsync(evt);
+            eventEntity.Title = eventRequest.Title;
+            eventEntity.StartDate = eventRequest.StartDate;
+            eventEntity.EndDate = eventRequest.EndDate;
+            eventEntity.Description = eventRequest.Description;
+
+            await _context.SaveChangesAsync();
+
+            return eventEntity.ToResponse();
         }
 
-        public async Task<Event?> CreateParticipation(ParticipationRequest request)
+        public async Task<EventResponse?> CreateParticipation(ParticipationRequest request)
         {
             var eventas = await _context.Events.FindAsync(request.EventId);
             var participant = await _context.Participants.FindAsync(request.ParticipantId);
 
             if (eventas == null || participant == null)
             {
-                return eventas;
+                return eventas?.ToResponse();
             }
             eventas.Participants ??= new List<Participant>();
 
             eventas.Participants.Add(participant);
-            _context.SaveChanges();
-            return eventas;
+
+            await _context.SaveChangesAsync();
+
+            return eventas.ToResponse();
         }
 
-        public async Task<List<Participant>?> GetEventParticipants(Guid id)
+        public async Task<IEnumerable<Participant>?> GetEventParticipants(Guid id)
         {
             var eventWithParticipants = await _context.Events
                 .Include(s => s.Participants)
@@ -126,14 +133,8 @@ namespace EventBackend.Services
                 return null;
             }
 
-            var participants = eventWithParticipants.Participants.Select(c => new Participant
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                BirthDate = c.BirthDate,
-                Email = c.Email,
-            }).ToList();
+            var participants = eventWithParticipants.Participants.ToList();
+
             return participants;
         }
     }

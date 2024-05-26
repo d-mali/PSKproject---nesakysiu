@@ -34,7 +34,7 @@ namespace EventBackend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent([FromRoute][Required] Guid id)
         {
-            var entity = await _eventService.GetEventByIdAsync(id);
+            var entity = await _eventService.GetEventAsync(id);
 
             return Ok(entity);
         }

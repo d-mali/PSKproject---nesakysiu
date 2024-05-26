@@ -18,16 +18,16 @@ namespace EventBackend.Controllers
 
         // GET: api/Tasks
         [HttpGet]
-        public async Task<IActionResult> GetTasks(Guid eventId)
+        public async Task<IActionResult> GetTasks()
         {
-            return Ok(await _taskService.GetTasksAsync(eventId));
+            return Ok(await _taskService.GetTasksAsync());
         }
 
         // GET: api/Tasks/5
-        [HttpGet("{taskId}")]
-        public async Task<IActionResult> GetTask(Guid eventId, Guid taskId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTask(Guid id)
         {
-            var task = await _taskService.GetTaskAsync(eventId, taskId);
+            var task = await _taskService.GetTaskAsync(id);
 
             if (task == null)
             {
@@ -38,9 +38,9 @@ namespace EventBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(Guid eventId, TaskRequest taskRequest)
+        public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
         {
-            var createdTask = await _taskService.CreateTask(eventId, taskRequest);
+            var createdTask = await _taskService.CreateTaskAsync(taskRequest);
 
             //return CreatedAtAction(nameof(CreateTask),
             //    createdTask
@@ -50,18 +50,18 @@ namespace EventBackend.Controllers
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(Guid eventId, Guid id, TaskRequest taskRequest)
+        public async Task<IActionResult> UpdateTask(Guid id, TaskRequest taskRequest)
         {
-            var updatedTask = await _taskService.UpdateTaskAsync(eventId, id, taskRequest);
+            var updatedTask = await _taskService.UpdateTaskAsync(id, taskRequest);
 
             return Ok(updatedTask);
         }
 
         // DELETE: api/Tasks/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTask(Guid eventId, Guid taskId)
+        public async Task<IActionResult> DeleteTask(Guid id)
         {
-            await _taskService.DeleteTaskAsync(eventId, taskId);
+            await _taskService.DeleteTaskAsync(id);
 
             return NoContent();
         }

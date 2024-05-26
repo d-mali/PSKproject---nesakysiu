@@ -5,7 +5,6 @@ namespace EventBackend.Entities
 {
     public class User
     {
-        [Required]
         public string FirstName { get; set; } = string.Empty;
 
         [Required]

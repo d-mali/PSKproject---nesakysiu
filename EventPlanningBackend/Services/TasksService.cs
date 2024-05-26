@@ -18,25 +18,21 @@ namespace EventBackend.Services
             _context = context;
         }
 
-        public async Task<TaskResponse> CreateTask(Guid eventId, TaskRequest taskRequest)
+        public async Task<TaskResponse> CreateTaskAsync(TaskRequest taskRequest)
         {
-            var task = new EventTask(taskRequest);
-
-            var eventEntity = await _context.Events.FindAsync(eventId);
-
-            if (eventEntity == null)
-            {
+            //before creating a task, we need to check if the event exists
+            var eventEntity = await _context.Events.AnyAsync(e => e.Id == taskRequest.EventId);
+            if (!eventEntity)
                 throw new Exception("Event not found");
-            }
 
-            eventEntity.Tasks.Add(task);
+            var task = await _context.Tasks.AddAsync(new EventTask(taskRequest));
 
             await _context.SaveChangesAsync();
 
-            return task.ToResponse();
+            return task.Entity.ToResponse();
         }
 
-        public async Task<bool> DeleteTaskAsync(Guid eventId, Guid id)
+        public async Task<bool> DeleteTaskAsync(Guid id)
         {
             var task = await _context.Tasks.FindAsync(id);
 
@@ -50,19 +46,14 @@ namespace EventBackend.Services
             return true;
         }
 
-        public async Task<IEnumerable<TaskResponse>> GetTasksAsync(Guid eventId, Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
+        public async Task<IEnumerable<TaskResponse>> GetTasksAsync(Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
         {
-            var eventEntity = await _context.Events.Include(e => e.Tasks).FirstOrDefaultAsync(e => e.Id == eventId);
+            var tasks = await _context.Tasks.ToListAsync();
 
-            if (eventEntity == null)
-            {
-                throw new Exception("Event not found");
-            }
-
-            return eventEntity.Tasks.Select(t => t.ToResponse());
+            return tasks.Select(t => t.ToResponse());
         }
 
-        public async Task<TaskResponse> UpdateTaskAsync(Guid eventId, Guid id, TaskRequest task)
+        public async Task<TaskResponse> UpdateTaskAsync(Guid id, TaskRequest task)
         {
             var taskEntity = await _context.Tasks.FindAsync(id);
             if (taskEntity == null)
@@ -77,7 +68,7 @@ namespace EventBackend.Services
             return taskEntity.ToResponse();
         }
 
-        public async Task<TaskResponse?> GetTaskAsync(Guid eventId, Guid taskId)
+        public async Task<TaskResponse?> GetTaskAsync(Guid taskId)
         {
             var task = await _context.Tasks.FindAsync(taskId);
 

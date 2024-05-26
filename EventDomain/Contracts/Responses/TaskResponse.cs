@@ -9,5 +9,7 @@
         public DateTime? ScheduledTime { get; set; }
 
         public required string Description { get; set; }
+
+        public Guid EventId { get; set; }
     }
 }

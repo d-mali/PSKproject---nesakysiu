@@ -11,5 +11,8 @@ namespace EventDomain.Contracts.Requests
 
         [Required]
         public required string Description { get; set; }
+
+        [Required]
+        public Guid EventId { get; set; }
     }
 }
