@@ -32,6 +32,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 builder.Services.AddScoped<IEventsService, EventsService>();
 builder.Services.AddScoped<ITasksService, TasksService>();
+builder.Services.AddScoped<IParticipantsService, ParticipantsService>();
 
 var app = builder.Build();
 
