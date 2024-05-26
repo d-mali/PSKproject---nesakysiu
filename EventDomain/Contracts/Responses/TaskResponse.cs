@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventBackend.Models.Requests
+namespace EventDomain.Contracts.Responses
 {
-    public class TaskRequest
+    public class TaskResponse
     {
+        public Guid Id { get; set; }
+
         [Required]
         public required string Title { get; set; }
 

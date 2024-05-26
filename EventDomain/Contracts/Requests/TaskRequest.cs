@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventBackend.Models.Requests
+namespace EventDomain.Contracts.Requests
 {
-    public class TaskResponse
+    public class TaskRequest
     {
         [Required]
         public required string Title { get; set; }

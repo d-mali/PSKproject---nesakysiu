@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EventBackend.Entities
 {
@@ -8,9 +11,6 @@ namespace EventBackend.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
-
-        [ForeignKey("EventId")]
-        public Guid EventId { get; set; }
 
         [Required]
         public required string Title { get; set; }
@@ -25,5 +25,28 @@ namespace EventBackend.Entities
 
         [Required]
         public virtual Event? Event { get; set; }
+
+        public EventTask()
+        {
+        }
+
+        [SetsRequiredMembers]
+        public EventTask(TaskRequest taskRequest)
+        {
+            Title = taskRequest.Title;
+            ScheduledTime = taskRequest.ScheduledTime;
+            Description = taskRequest.Description;
+        }
+
+        public TaskResponse ToResponse()
+        {
+            return new TaskResponse
+            {
+                Id = Id,
+                Title = Title,
+                ScheduledTime = ScheduledTime,
+                Description = Description
+            };
+        }
     }
 }

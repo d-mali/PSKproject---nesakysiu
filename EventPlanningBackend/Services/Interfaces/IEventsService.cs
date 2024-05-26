@@ -1,6 +1,6 @@
-﻿using EventBackend.Filters;
-using EventBackend.Models.Requests;
-using EventBackend.Entities;
+﻿using EventBackend.Entities;
+using EventBackend.Filters;
+using EventDomain.Contracts.Requests;
 
 namespace EventBackend.Services.Interfaces
 {

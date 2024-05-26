@@ -1,6 +1,6 @@
 ﻿using EventBackend.Filters;
-using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
+using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -58,7 +58,7 @@ namespace EventBackend.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] EventRequest entity)
+        public async Task<IActionResult> UpdateEvent(Guid id, [FromBody] EventRequest entity)
         {
             return Ok(await _eventService.UpdateEventAsync(id, entity));
         }

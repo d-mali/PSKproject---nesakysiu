@@ -28,7 +28,6 @@ namespace EventBackend
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.Tasks)
                 .WithOne(t => t.Event)
-                .HasForeignKey(t => t.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
