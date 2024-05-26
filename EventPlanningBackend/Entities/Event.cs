@@ -24,5 +24,7 @@ namespace EventBackend.Entities
         public byte[]? Version { get; set; }
 
         public virtual ICollection<EventTask> Tasks { get; set; } = new List<EventTask>();
+
+        public List<Participant>? Participants { get; set; }
     }
 }
