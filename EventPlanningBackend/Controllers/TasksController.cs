@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventBackend.Controllers
 {
-    [Route("api/Events/{eventId}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
     {

@@ -1,6 +1,6 @@
 ﻿namespace EventBackend.Filters
 {
-    public class TaskQuery
+    public class TasksQuery
     {
     }
 }

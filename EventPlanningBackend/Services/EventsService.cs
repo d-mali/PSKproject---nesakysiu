@@ -1,8 +1,8 @@
 ﻿using EventBackend.Entities;
 using EventBackend.Filters;
-using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
+using EventDomain.Contracts.Requests;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
