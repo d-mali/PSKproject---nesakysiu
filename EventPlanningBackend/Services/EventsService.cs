@@ -4,16 +4,19 @@ using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Contracts.Requests;
 using Microsoft.EntityFrameworkCore;
+using static EventBackend.Controllers.EventsController;
 
 namespace EventBackend.Services
 {
     public class EventsService : IEventsService
     {
         private readonly IGenericRepository<Event> _eventRepository;
+        protected readonly MainDbContext _context;
 
-        public EventsService(IGenericRepository<Event> eventRepository)
+        public EventsService(IGenericRepository<Event> eventRepository, MainDbContext context)
         {
             _eventRepository = eventRepository;
+            _context = context;
         }
 
         public async Task<Event?> CreateEventAsync(EventRequest entity)
@@ -93,5 +96,45 @@ namespace EventBackend.Services
             return await _eventRepository.UpdateAsync(evt);
         }
 
+        public async Task<Event?> CreateParticipation(ParticipationRequest request)
+        {
+            var eventas = await _context.Events.FindAsync(request.EventId);
+            var participant = await _context.Participants.FindAsync(request.ParticipantId);
+
+            if (eventas == null || participant == null)
+            {
+                return eventas;
+            }
+            eventas.Participants ??= new List<Participant>();
+
+            eventas.Participants.Add(participant);
+            _context.SaveChanges();
+            return eventas;
+        }
+
+        public async Task<List<Participant>?> GetEventParticipants(Guid id)
+        {
+            var eventWithParticipants = await _context.Events
+                .Include(s => s.Participants)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            if (eventWithParticipants == null)
+            {
+                return null;
+            }
+            if (eventWithParticipants.Participants == null)
+            {
+                return null;
+            }
+
+            var participants = eventWithParticipants.Participants.Select(c => new Participant
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                BirthDate = c.BirthDate,
+                Email = c.Email,
+            }).ToList();
+            return participants;
+        }
     }
 }

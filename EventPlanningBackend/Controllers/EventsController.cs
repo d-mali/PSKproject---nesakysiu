@@ -1,9 +1,7 @@
-﻿using EventBackend.Entities;
-using EventBackend.Filters;
+﻿using EventBackend.Filters;
 using EventBackend.Services.Interfaces;
 using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -14,15 +12,14 @@ namespace EventBackend.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-        protected readonly MainDbContext _context;
+
 
         public EventsController(
-            IEventsService eventService,
-            MainDbContext context
+            IEventsService eventService
             )
         {
             _eventService = eventService;
-            _context = context;
+
         }
 
         // GET: api/Events
@@ -81,20 +78,12 @@ namespace EventBackend.Controllers
         [Route("/CreateParticipation")]
         public async Task<IActionResult> CreateParticipation([FromBody] ParticipationRequest request)
         {
+            var eventas = await _eventService.CreateParticipation(request);
 
-
-            var eventas = await _context.Events.FindAsync(request.EventId);
-            var participant = await _context.Participants.FindAsync(request.ParticipantId);
-
-            if (eventas == null || participant == null)
+            if (eventas == null)
             {
                 return BadRequest("Invalid event ID or participant ID");
             }
-            eventas.Participants ??= new List<Participant>();
-
-            eventas.Participants.Add(participant);
-            _context.SaveChanges();
-
             return Ok("Participation created successfully");
         }
 
@@ -102,26 +91,12 @@ namespace EventBackend.Controllers
         [Route("/{id}/Participants")]
         public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid id)
         {
-            var eventWithParticipants = await _context.Events
-                .Include(s => s.Participants)
-                .FirstOrDefaultAsync(s => s.Id == id);
-            if (eventWithParticipants == null)
+            var eventas = await _eventService.GetEventParticipants(id);
+            if (eventas == null)
             {
-                return BadRequest("Invalid participant ID");
+                return BadRequest("Invalid");
             }
-            if (eventWithParticipants.Participants == null)
-            {
-                return BadRequest("No participants");
-            }
-            var participants = eventWithParticipants.Participants.Select(c => new Participant
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                BirthDate = c.BirthDate,
-                Email = c.Email,
-            }).ToList();
-            return Ok(participants);
+            return Ok(eventas);
         }
 
         //[HttpGet]
