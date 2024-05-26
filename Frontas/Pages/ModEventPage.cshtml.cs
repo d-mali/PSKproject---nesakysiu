@@ -1,4 +1,6 @@
-using EventDomain.Entities;
+using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -12,7 +14,7 @@ namespace Frontas.Pages
         private readonly HttpClient _httpClient;
 
         [BindProperty]
-        public Event? Event { get; set; }
+        public EventResponse? EventResponse { get; set; }
 
         public string? ErrorMessage { get; private set; }
 
@@ -36,9 +38,9 @@ namespace Frontas.Pages
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-                Event = JsonConvert.DeserializeObject<Event>(responseBody);
+                EventResponse = JsonConvert.DeserializeObject<EventResponse>(responseBody);
 
-                if (Event == null)
+                if (EventResponse == null)
                 {
                     ErrorMessage = "Event not found.";
                 }
@@ -57,15 +59,23 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(Guid id)
         {
-            if (!ModelState.IsValid)
+            if (EventResponse == null)
             {
-                ErrorMessage = "The form contains some invalid data. Please correct it and try again.";
+                ErrorMessage = "Event details are missing. Please try again.";
                 return Page();
             }
 
-            if (Event == null)
+            EventRequest EventRequest = new EventRequest { Title = EventResponse.Title, Description = EventResponse.Description, StartDate = EventResponse.StartDate, EndDate = EventResponse.EndDate };
+
+            /*if (!ModelState.IsValid)
+            {
+                ErrorMessage = "The form contains some invalid data. Please correct it and try again.";
+                return Page();
+            }*/
+
+            if (EventRequest == null)
             {
                 ErrorMessage = "Event details are missing. Please try again.";
                 return Page();
@@ -73,25 +83,25 @@ namespace Frontas.Pages
 
             try
             {
-                if (string.IsNullOrEmpty(Event.Title) || string.IsNullOrEmpty(Event.Description) || Event.StartDate == default || Event.EndDate == default)
+                if (string.IsNullOrEmpty(EventRequest.Title) || string.IsNullOrEmpty(EventRequest.Description) || EventRequest.StartDate == default || EventRequest.EndDate == default)
                 {
                     ErrorMessage = "Please provide all required event details.";
                     return Page();
                 }
 
-                _logger.LogInformation("Updating event with ID {EventId}", Event.Id);
+                _logger.LogInformation("Updating event with ID {EventId}", id);
 
-                var jsonContent = JsonConvert.SerializeObject(Event);
+                var jsonContent = JsonConvert.SerializeObject(EventRequest);
                 _logger.LogDebug("Serialized Event object: {JsonContent}", jsonContent);
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{Event.Id}", content);
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Successfully updated event with ID {EventId}", Event.Id);
-                    return RedirectToPage("/EventPage", new { id = Event.Id });
+                    _logger.LogInformation("Successfully updated event with ID {EventId}", id);
+                    return RedirectToPage("/EventPage", new { id = id });
                 }
                 else
                 {
@@ -114,9 +124,9 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync()
+        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
         {
-            if (Event == null)
+            if (EventResponse == null)
             {
                 ErrorMessage = "Event details are missing. Please try again.";
                 return Page();
@@ -124,11 +134,11 @@ namespace Frontas.Pages
 
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{Event.Id}");
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{EventResponse.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Successfully deleted event with ID {EventId}", Event.Id);
+                    _logger.LogInformation("Successfully deleted event with ID {EventId}", EventResponse.Id);
                     return RedirectToPage("/Index");
                 }
                 else

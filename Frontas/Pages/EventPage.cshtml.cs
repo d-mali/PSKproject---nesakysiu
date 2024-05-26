@@ -1,4 +1,5 @@
-using EventDomain.Entities;
+using EventDomain.Contracts.Responses;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -10,10 +11,10 @@ namespace Frontas.Pages
         private readonly ILogger<EventPageModel> _logger;
         private readonly HttpClient _httpClient;
 
-        public List<User> Users { get; private set; } = new List<User>();
-        public List<EventTask> EventTasks { get; private set; } = new List<EventTask>();
+        //public List<User> Users { get; private set; } = new List<User>();
+        //public List<EventTask> EventTasks { get; private set; } = new List<EventTask>();
 
-        public Event? Event { get; private set; }
+        public EventResponse? EventResponse { get; private set; }
         public string? ErrorMessage { get; private set; }
 
         public EventPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
@@ -31,9 +32,9 @@ namespace Frontas.Pages
 
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                Event = JsonConvert.DeserializeObject<Event>(responseBody);
+                EventResponse = JsonConvert.DeserializeObject<EventResponse>(responseBody);
 
-                if (Event == null)
+                if (EventResponse == null)
                 {
                     ErrorMessage = "There was an error deserializing the event. Please try again later.";
                     return Page();

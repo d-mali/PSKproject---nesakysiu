@@ -11,18 +11,18 @@
             <p>@Model.ErrorMessage</p>
         </div>
     }
-    else if (Model.Event != null)
+    else if (Model.EventResponse != null)
     {
         <a asp-page="./Index" class="user-info-link">
             <h1>..Visi renginiai</h1>
         </a>
 
-        <a href="/ModEventPageModel?id=@Model.Event.Id" class="user-info-link">
+        <a href="/ModEventPageModel?id=@Model.EventResponse.Id" class="user-info-link">
             <div class="event-details">
-                <h1>@Model.Event.Title</h1>
-                <p>@Model.Event.Description</p>
-                <p>@Model.Event.StartDate.ToString("yyyy-MM-dd")</p>
-                <p>@Model.Event.EndDate.ToString("yyyy-MM-dd")</p>
+                <h1>@Model.EventResponse.Title</h1>
+                <p>@Model.EventResponse.Description</p>
+                <p>@Model.EventResponse.StartDate.ToString("yyyy-MM-dd")</p>
+                <p>@Model.EventResponse.EndDate.ToString("yyyy-MM-dd")</p>
             </div>
         </a>
 

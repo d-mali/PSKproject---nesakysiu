@@ -1,4 +1,5 @@
-using EventDomain.Entities;
+using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -10,12 +11,14 @@ namespace Frontas.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly HttpClient _httpClient;
 
-        public List<Event> Event { get; private set; } = new List<Event>();
+        public List<EventRequest> EventRequest { get; private set; } = new List<EventRequest>();
+        public List<EventResponse> EventResponse { get; private set; } = new List<EventResponse>();
+
         public string? ErrorMessage { get; private set; }
         public int DaysUntilStart { get; private set; }
 
         [BindProperty]
-        public Event? NewEvent { get; set; }
+        public EventRequest? NewEvent { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
         {
@@ -38,7 +41,7 @@ namespace Frontas.Pages
                     return;
                 }
 
-                List<Event>? deserializedEvent = JsonConvert.DeserializeObject<List<Event>>(responseBody);
+                List<EventResponse>? deserializedEvent = JsonConvert.DeserializeObject<List<EventResponse>>(responseBody);
 
                 if (deserializedEvent == null)
                 {
@@ -46,7 +49,7 @@ namespace Frontas.Pages
                     return;
                 }
 
-                Event = deserializedEvent;
+                EventResponse = deserializedEvent;
             }
             catch (HttpRequestException httpEx)
             {

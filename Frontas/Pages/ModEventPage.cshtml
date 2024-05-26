@@ -11,33 +11,33 @@
             <p>@Model.ErrorMessage</p>
         </div>
     }
-    else if (Model.Event != null)
+    else if (Model.EventResponse != null)
     {
         <div class="modHead">
             <h1>Redaguoti Renginį</h1>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
-                <input type="hidden" name="Event.Id" value="@Model.Event.Id" />
+                <input type="hidden" name="EventResponse.Id" value="@Model.EventResponse.Id" />
                 <button type="submit" class="deleteHover">Ištrinti</button>
             </form>
         </div>
 
         <form method="post">
-            <input type="hidden" name="Event.Id" value="@Model.Event.Id" />
+            <input type="hidden" name="EventResponse.Id" value="@Model.EventResponse.Id" />
             <div class="form-group">
                 <label for="title">Pavadinimas</label>
-                <input type="text" id="title" name="Event.Title" class="form-control" value="@Model.Event.Title" required />
+                <input type="text" id="title" name="EventResponse.Title" class="form-control" value="@Model.EventResponse.Title" required />
             </div>
             <div class="form-group">
                 <label for="description">Aprašymas</label>
-                <textarea id="description" name="Event.Description" class="form-control">@Model.Event.Description</textarea>
+                <textarea id="description" name="EventResponse.Description" class="form-control">@Model.EventResponse.Description</textarea>
             </div>
             <div class="form-group">
                 <label for="startDate">Pradžios data</label>
-                <input type="date" id="startDate" name="Event.StartDate" class="form-control" value="@Model.Event.StartDate.ToString("yyyy-MM-dd")" required />
+                <input type="date" id="startDate" name="EventResponse.StartDate" class="form-control" value="@Model.EventResponse.StartDate.ToString("yyyy-MM-dd")" required />
             </div>
             <div class="form-group">
                 <label for="endDate">Pabaigos data</label>
-                <input type="date" id="endDate" name="Event.EndDate" class="form-control" value="@Model.Event.EndDate.ToString("yyyy-MM-dd")" required />
+                <input type="date" id="endDate" name="EventResponse.EndDate" class="form-control" value="@Model.EventResponse.EndDate.ToString("yyyy-MM-dd")" required />
             </div>
             <button type="submit" class="btn btn-primary">Atnaujinti</button>
         </form>
