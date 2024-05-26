@@ -22,5 +22,7 @@ namespace EventDomain.Entities
 
         [Timestamp]
         public byte[]? Version { get; set; }
+
+        public List<Participant>? Participants { get; set; }
     }
 }
