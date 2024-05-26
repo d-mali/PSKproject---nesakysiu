@@ -1,23 +1,19 @@
 ﻿using EventBackend.Filters;
+using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
-<<<<<<< HEAD
 using EventDomain.Entities;
-=======
-using EventDomain.Contracts.Requests;
->>>>>>> d4ba34c0afd4c00ce362efca4531de031b30db4f
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace EventBackend.Controllers
+namespace EventPlanningBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-<<<<<<< HEAD
         private readonly ITasksService _taskService;
         protected readonly MainDbContext _context;
 
@@ -30,14 +26,6 @@ namespace EventBackend.Controllers
             _eventService = eventService;
             _taskService = taskService;
             _context = context;
-=======
-
-        public EventsController(
-            IEventsService eventService
-            )
-        {
-            _eventService = eventService;
->>>>>>> d4ba34c0afd4c00ce362efca4531de031b30db4f
         }
 
         // GET: api/Events
@@ -78,7 +66,7 @@ namespace EventBackend.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent(Guid id, [FromBody] EventRequest entity)
+        public async Task<IActionResult> UpdateEvent([FromRoute][Required] Guid id, [FromBody] EventRequest entity)
         {
             return Ok(await _eventService.UpdateEventAsync(id, entity));
         }

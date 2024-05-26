@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventDomain.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventBackend.Entities
@@ -23,10 +24,9 @@ namespace EventBackend.Entities
         [Timestamp]
         public byte[]? Version { get; set; }
 
-<<<<<<< HEAD:EventDomain/Entities/Event.cs
+
         public List<Participant>? Participants { get; set; }
-=======
+
         public virtual ICollection<EventTask> Tasks { get; set; } = new List<EventTask>();
->>>>>>> d4ba34c0afd4c00ce362efca4531de031b30db4f:EventPlanningBackend/Entities/Event.cs
     }
 }
