@@ -17,6 +17,8 @@ namespace Frontas.Pages
         public EventResponse? EventResponse { get; private set; }
 
         public List<TaskResponse> TaskResponse { get; private set; } = new List<TaskResponse>();
+        public List<ParticipantResponse> ParticipantResponse { get; private set; } = new List<ParticipantResponse>();
+
         public string? ErrorMessage { get; private set; }
 
         public EventPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
@@ -42,6 +44,8 @@ namespace Frontas.Pages
                     return Page();
                 }
 
+                // Task
+
                 response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Tasks?eventId={id}");
 
                 string? responseBodyTasks = await response.Content.ReadAsStringAsync();
@@ -61,6 +65,29 @@ namespace Frontas.Pages
                 }
 
                 TaskResponse = deserializedEvent;
+
+                // ParticipantResponse
+
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants");
+                response.EnsureSuccessStatusCode();
+
+                string? responseBodyPart = await response.Content.ReadAsStringAsync();
+
+                if (responseBodyPart == null)
+                {
+                    ErrorMessage = "There was an error fetching the tasks. Please try again later.";
+                    return Page();
+                }
+
+                List<ParticipantResponse>? deserializedPart = JsonConvert.DeserializeObject<List<ParticipantResponse>>(responseBodyPart);
+
+                if (deserializedPart == null)
+                {
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    return Page();
+                }
+
+                ParticipantResponse = deserializedPart;
 
             }
             catch (HttpRequestException httpEx)

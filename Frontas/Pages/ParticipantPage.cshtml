@@ -1,0 +1,35 @@
+﻿@page "/ParticipantPage"
+@model Frontas.Pages.ParticipantPageModel
+@{
+    ViewData["Title"] = "Darbuotojas";
+}
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model.ParticipantResponse != null)
+    {
+        <a asp-page="./Index" class="user-info-link">
+            <h1>..Visi renginiai</h1>
+        </a>
+        <a href="/ModEventPageModel?id=@Model.ParticipantResponse.Id" class="user-info-link">
+            <div class="event-details">
+                <h1>@Model.ParticipantResponse.FirstName</h1>
+                <p>@Model.ParticipantResponse.LastName</p>
+                <p>@Model.ParticipantResponse.BirthDate.ToString("yyyy-MM-dd")</p>
+                <p>@Model.ParticipantResponse.Email</p>
+            </div>
+        </a>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Event not found.</p>
+        </div>
+    }
+</div>
