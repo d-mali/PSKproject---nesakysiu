@@ -10,16 +10,16 @@ namespace EventBackend.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public string FirstName { get; set; } = string.Empty;
+        public required string FirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; } = string.Empty;
+        public required string LastName { get; set; }
 
         [Required]
         public DateOnly BirthDate { get; set; }
 
         [Required]
-        public string Email { get; set; } = string.Empty;
+        public required string Email { get; set; }
 
         [Timestamp]
         public byte[]? Version { get; set; }

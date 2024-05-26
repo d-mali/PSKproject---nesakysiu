@@ -3,10 +3,10 @@
 namespace EventDomain.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum UserPrivilegeType
+    public enum TaskStatus
     {
-        Master = 0,
-        Admin = 1,
-        Worker = 2
+        ToDo = 0,
+        InProgress = 1,
+        Done = 2
     }
 }

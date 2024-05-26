@@ -1,13 +1,13 @@
 ﻿using EventBackend.Entities;
 using EventBackend.Filters;
-using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
+using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Events/{id}/[controller]")]
     [ApiController]
     public class ParticipantsController : ControllerBase
     {
@@ -25,10 +25,10 @@ namespace EventBackend.Controllers
             return Ok(await _participantService.GetAllParticipantsAsync(filter));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetParticipantById([Required][FromRoute] Guid id)
+        [HttpGet("{participantId}")]
+        public async Task<IActionResult> GetParticipantById([Required][FromRoute] Guid participantId)
         {
-            return Ok(await _participantService.GetParticipantByIdAsync(id));
+            return Ok(await _participantService.GetParticipantByIdAsync(participantId));
         }
 
         [HttpPost]
@@ -47,8 +47,8 @@ namespace EventBackend.Controllers
             return CreatedAtAction(nameof(CreateParticipant), participant);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateParticipant([Required][FromRoute] Guid id, [FromBody] ParticipantRequest request)
+        [HttpPut("{participantId}")]
+        public async Task<IActionResult> UpdateParticipant([Required][FromRoute] Guid participantId, [FromBody] ParticipantRequest request)
         {
             var participant = new Participant
             {
@@ -58,13 +58,13 @@ namespace EventBackend.Controllers
                 Email = request.Email
             };
 
-            return Ok(await _participantService.UpdateParticipantAsync(id, participant));
+            return Ok(await _participantService.UpdateParticipantAsync(participantId, participant));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] Guid id)
+        [HttpDelete("{participantId}")]
+        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] Guid participantId)
         {
-            await _participantService.DeleteParticipantAsync(id);
+            await _participantService.DeleteParticipantAsync(participantId);
 
             return NoContent();
         }
