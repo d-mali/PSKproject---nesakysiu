@@ -14,17 +14,14 @@ namespace EventBackend.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-        private readonly ITasksService _taskService;
         protected readonly MainDbContext _context;
 
         public EventsController(
             IEventsService eventService,
-            ITasksService taskService,
             MainDbContext context
             )
         {
             _eventService = eventService;
-            _taskService = taskService;
             _context = context;
         }
 
