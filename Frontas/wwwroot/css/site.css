@@ -90,7 +90,7 @@ button {
     box-shadow: 0 3px 10px var(--text-color);
 }
 
-    .event:hover, .user-info:hover, .create-event:hover, .event-details:hover, button:hover, .event-details:hover {
+    .event:hover, .user-info:hover, .create-event:hover, .event-details:hover, button:hover, .event-details:hover, .task:hover {
         background-color: var(--accent-hover-color);
         color: var(--form-bg-color);
     }
@@ -183,3 +183,20 @@ button {
     .add-button:hover {
         background-color: #0056b3;
     }
+
+
+.task {
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fafafa;
+    height: 100px;
+    overflow: hidden;
+}
