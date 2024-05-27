@@ -1,4 +1,5 @@
-﻿using EventBackend.Filters;
+﻿using EventBackend.Entities;
+using EventBackend.Filters;
 using EventBackend.Services.Interfaces;
 using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -95,7 +96,15 @@ namespace EventBackend.Controllers
             {
                 return BadRequest("Invalid");
             }
-            return Ok(eventas);
+            var participants = eventas.Select(c => new Participant
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                BirthDate = c.BirthDate,
+                Email = c.Email,
+            }).ToList();
+            return Ok(participants);
         }
 
 
