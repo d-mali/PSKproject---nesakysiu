@@ -5,7 +5,6 @@ using EventDataAccess.Abstractions;
 using EventDomain.Contracts.Requests;
 using EventDomain.Contracts.Responses;
 using Microsoft.EntityFrameworkCore;
-using static EventBackend.Controllers.EventsController;
 
 namespace EventBackend.Services
 {
@@ -101,10 +100,10 @@ namespace EventBackend.Services
             return eventEntity.ToResponse();
         }
 
-        public async Task<EventResponse?> CreateParticipation(ParticipationRequest request)
+        public async Task<EventResponse?> CreateParticipation(Guid eventId, Guid participantId)
         {
-            var eventas = await _context.Events.FindAsync(request.EventId);
-            var participant = await _context.Participants.FindAsync(request.ParticipantId);
+            var eventas = await _context.Events.FindAsync(eventId);
+            var participant = await _context.Participants.FindAsync(participantId);
 
             if (eventas == null || participant == null)
             {

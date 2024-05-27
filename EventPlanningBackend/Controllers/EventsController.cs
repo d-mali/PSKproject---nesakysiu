@@ -123,7 +123,7 @@ namespace EventBackend.Controllers
         [HttpPut("{eventId}/Participation/{participantId}")]
         public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid eventId, Guid participantId)
         {
-            var eventas = await _eventService.GetEventParticipants(eventId);
+            var eventas = await _eventService.CreateParticipation(eventId, participantId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
