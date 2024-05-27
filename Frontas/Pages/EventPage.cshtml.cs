@@ -46,7 +46,7 @@ namespace Frontas.Pages
 
                 // Task
 
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Tasks?eventId={id}");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Tasks");
 
                 string? responseBodyTasks = await response.Content.ReadAsStringAsync();
 
@@ -68,7 +68,7 @@ namespace Frontas.Pages
 
                 // ParticipantResponse
 
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participation");
                 response.EnsureSuccessStatusCode();
 
                 string? responseBodyPart = await response.Content.ReadAsStringAsync();
