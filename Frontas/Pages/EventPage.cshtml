@@ -87,6 +87,8 @@
             </div>
         </div>
 
+
+
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
@@ -105,37 +107,41 @@
             </div>
             <div class="col-md-4">
                 <div class="addToParticipant">
-                        <h3>Pridėti dalyvį</h3>
-                    <form method="post" id="addFormParticipant" style="display: none;">
+                    <h3>Pridėti dalyvį</h3>
+                    <form method="post" asp-page-handler="AddParticipant" id="addFormParticipant" style="display: none;">
                         <div class="form-group">
-                            <select id="taskDropdown" class="form-control">
+                            <select id="participantDropdown" name="SelectedParticipantId" class="form-control">
                                 <option value="">...</option>
+                                @foreach (var participant in Model.AllParticipants)
+                                {
+                                    <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
+                                }
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kurti</button>
+                        <button type="submit" class="btn btn-primary">Pridėti</button>
                     </form>
                     </div>
                 <div class="addToEventParticipant">
                     <h3>Kurti dalyvį</h3>
-                    <form method="post" id="createEventFormParticipant" style="display: none;">
-                    <div class="form-group">
-                        <label for="title">Pavadinimas</label>
-                        <input type="text" id="title" name="Title" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Aprašymas</label>
-                        <textarea id="description" name="Description" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="startDate">Pradžios data</label>
-                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="endDate">Pabaigos data</label>
-                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Kurti</button>
-                </form>
+                    <form method="post" asp-page-handler="CreateParticipant" id="createEventFormParticipant" style="display: none;">
+                        <div class="form-group">
+                            <label for="firstName">Vardas</label>
+                            <input type="text" id="firstName" name="FirstName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Pavardė</label>
+                            <input type="text" id="lastName" name="LastName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Gimimo data</label>
+                            <input type="date" id="birthDate" name="BirthDate" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">El. paštas</label>
+                            <input type="email" id="email" name="Email" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
                 </div>
             </div>
         </div>
