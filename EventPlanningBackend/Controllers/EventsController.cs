@@ -12,13 +12,15 @@ namespace EventBackend.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventsService _eventService;
-
+        private readonly ITasksService _taskService;
 
         public EventsController(
-            IEventsService eventService
+            IEventsService eventService,
+            ITasksService taskService
             )
         {
             _eventService = eventService;
+            _taskService = taskService;
 
         }
 
@@ -74,22 +76,19 @@ namespace EventBackend.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [Route("/CreateParticipation")]
-        public async Task<IActionResult> CreateParticipation([FromBody] ParticipationRequest request)
-        {
-            var eventas = await _eventService.CreateParticipation(request);
-
-            if (eventas == null)
-            {
-                return BadRequest("Invalid event ID or participant ID");
-            }
-            return Ok("Participation created successfully");
-        }
-
-        [HttpGet]
-        [Route("/{id}/Participants")]
-        public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid id)
+        //[HttpPost]
+        //public async Task<IActionResult> CreateParticipation([FromBody] ParticipationRequest request)
+        //{
+        //    var eventas = await _eventService.CreateParticipation(request);
+        //
+        //    if (eventas == null)
+        //    {
+        //        return BadRequest("Invalid event ID or participant ID");
+        //    }
+        //    return Ok("Participation created successfully");
+        //}
+        [HttpGet("{id}/Participation")]
+        public async Task<IActionResult> GetEventParticipantss([FromRoute][Required] Guid id)
         {
             var eventas = await _eventService.GetEventParticipants(id);
             if (eventas == null)
@@ -99,11 +98,48 @@ namespace EventBackend.Controllers
             return Ok(eventas);
         }
 
+
+        [HttpGet("{id}/Participation/{participantId}")]
+        public async Task<IActionResult> GetEventParticipantss([FromRoute][Required] Guid id, Guid participantId)
+        {
+            var eventas = await _eventService.GetEventParticipants(id);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
+        }
+
+
+        [HttpPut("{id}/Participation/{participantId}")]
+        public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid id, Guid participantId)
+        {
+            var eventas = await _eventService.GetEventParticipants(id);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
+        }
+
+        [HttpDelete("{id}/Participation/{participantId}")]
+        public Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid id, Guid participantId)
+        {
+            //var eventas = await _eventService.GetEventParticipants(id);
+            //if (eventas == null)
+            //{
+            //    return BadRequest("Invalid");
+            //}
+            //return Ok(eventas);
+            throw new NotImplementedException();
+        }
+
         //[HttpGet]
         //[Route("/{id}/Tasks")]
         //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)
         //{
         //    //var tasks = await _taskService.GetEventTasksAsync(eventId);
+        //
         //
         //    //return Ok(tasks);
         //}
@@ -112,13 +148,64 @@ namespace EventBackend.Controllers
         //[Route("/{id}/User")]
         //public async Task<IActionResult> GetEventUsers([FromQuery] UserQuery query)
         //{
-
+        //    throw new NotImplementedException();
         //}
+
         public class ParticipationRequest
         {
             public Guid EventId { get; set; }
             public Guid ParticipantId { get; set; }
         }
+
+        [HttpGet("{id}/Tasks")]
+        public async Task<IActionResult> GetTasks(Guid id)
+        {
+            return Ok(await _taskService.GetTasksAsync());
+        }
+
+        // GET: api/Tasks/5
+        [HttpGet("{id}/Tasks/{taskId}")]
+        public async Task<IActionResult> GetTask(Guid id, Guid taskId)
+        {
+            var task = await _taskService.GetTaskAsync(id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(task);
+        }
+
+        [HttpPost("{id}/Tasks")]
+        public async Task<IActionResult> CreateTask(Guid id, TaskRequest taskRequest)
+        {
+            var createdTask = await _taskService.CreateTaskAsync(taskRequest);
+
+            //return CreatedAtAction(nameof(CreateTask),
+            //    createdTask
+            //    );
+            return Ok(createdTask);
+        }
+
+        // PUT: api/Tasks/5
+        [HttpPut("{id}/Tasks/{taskId}")]
+        public async Task<IActionResult> UpdateTask(Guid id, Guid taskId, TaskRequest taskRequest)
+        {
+            var updatedTask = await _taskService.UpdateTaskAsync(id, taskRequest);
+
+            return Ok(updatedTask);
+        }
+
+        // DELETE: api/Tasks/5
+        [HttpDelete("{id}/Tasks/{taskId}")]
+        public async Task<IActionResult> DeleteTask(Guid id, Guid taskId)
+        {
+            await _taskService.DeleteTaskAsync(id);
+
+            return NoContent();
+        }
+
 
     }
 }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EventBackend.Controllers
 {
-    [Route("api/Events/{id}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ParticipantsController : ControllerBase
     {

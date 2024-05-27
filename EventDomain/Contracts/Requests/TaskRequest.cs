@@ -18,6 +18,6 @@ namespace EventDomain.Contracts.Requests
         public Guid EventId { get; set; }
 
         [DefaultValue(TaskStatus.ToDo)]
-        public TaskStatus? Status { get; set; }
+        public TaskStatus Status { get; set; }
     }
 }

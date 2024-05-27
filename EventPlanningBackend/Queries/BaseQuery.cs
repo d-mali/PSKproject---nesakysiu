@@ -6,17 +6,15 @@ namespace EventBackend.Filters
 {
     public class BaseQuery<T> where T : Enum
     {
-        [DefaultValue(0)]
-        public int? Skip { get; set; }
+        public int Skip { get; set; } = 0;
 
-        [DefaultValue(50)]
         [Range(1, 1000)]
-        public int? Take { get; set; }
+        public int Take { get; set; } = 50;
 
-        public T? OrderBy { get; set; }
+        public T OrderBy { get; set; } = default!;
 
-        [DefaultValue(Sorting.Asc)]
-        public Sorting? Sort { get; set; }
+        [DefaultValue(nameof(Sorting.Asc))]
+        public Sorting Sort { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -25,6 +23,4 @@ namespace EventBackend.Filters
         Asc,
         Desc
     }
-
-
 }
