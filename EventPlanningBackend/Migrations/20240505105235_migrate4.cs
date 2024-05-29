@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace EventPlanningBackend.Migrations
+namespace EventBackend.Migrations
 {
     /// <inheritdoc />
     public partial class migrate4 : Migration

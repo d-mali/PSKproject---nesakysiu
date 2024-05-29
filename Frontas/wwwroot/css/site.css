@@ -1,22 +1,215 @@
-html {
-  font-size: 14px;
+:root {
+    --main-bg-color: #ffffff;
+    --accent-color: #3498db;
+    --accent-hover-color: #3498db;
+    --font-family: 'Arial', sans-serif;
+    --text-color: #333;
+    --link-color: #3498db;
+    --link-hover-color: #8E44AD;
+    --button-color: #e9e9e9;
+    --button-hover-color: #8E44AD;
+    --form-bg-color: #f8f8f8;
+    --border-color: #ccc;
+    --default-radius: 8px;
+    --default-shadow: 0 3px 10px var(--text-color);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 36px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.row {
+    display: flex;
+    justify-content: space-between;
 }
 
-body {
-  margin-bottom: 60px;
+
+.addToEvent, .addEmployee, .addToParticipant, .createEvent, .addToEventTask, .addToEventParticipant, .addToEventEmployee {
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.event {
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+#taskDropdown {
+    margin-right: 10px;
+}
+
+#addButton {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.modHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deleteHover:hover {
+    background-color: red;
+    color: var(--form-bg-color);
+}
+
+button {
+    border: none;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+}
+
+    .event:hover, .user-info:hover, .create-event:hover, .event-details:hover, button:hover, .event-details:hover, .task:hover {
+        background-color: var(--accent-hover-color);
+        color: var(--form-bg-color);
+    }
+
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.user-info, .create-event {
+    border: none;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    text-align: center;
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+}
+
+.btn {
+    width: 100%;
+}
+
+.event-link, .user-info-link, .create-event-link, .eventTask-link {
+    border: none;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.event-details {
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    transition: background-color 0.3s;
+    box-shadow: 0 3px 10px var(--text-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+    .section h2 {
+        margin-bottom: 20px;
+    }
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-primary {
+    width: 100%;
+    text-align: center;
+}
+
+.item {
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 8px;
+    flex: 1 1 calc(25% - 10px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.add-button {
+    flex: 1 1 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .add-button:hover {
+        background-color: #0056b3;
+    }
+
+.participant {
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fafafa;
+    height: 100px;
+    overflow: hidden;
+}
+
+.task {
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    box-shadow: 0 3px 10px var(--text-color);
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fafafa;
+    height: 100px;
+    overflow: hidden;
 }

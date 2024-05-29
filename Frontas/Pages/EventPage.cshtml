@@ -1,0 +1,200 @@
+﻿@page "/EventPage"
+@model Frontas.Pages.EventPageModel
+@{
+    ViewData["Title"] = "Renginys";
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model.EventResponse != null)
+    {
+        <a asp-page="./Index" class="user-info-link">
+            <h1>..Visi renginiai</h1>
+        </a>
+
+        <a href="/ModEventPageModel?id=@Model.EventResponse.Id" class="user-info-link">
+            <div class="event-details">
+                <h1>@Model.EventResponse.Title</h1>
+                <p>@Model.EventResponse.Description</p>
+                <p>@Model.EventResponse.StartDate.ToString("yyyy-MM-dd")</p>
+                <p>@Model.EventResponse.EndDate.ToString("yyyy-MM-dd")</p>
+            </div>
+        </a>
+
+        <div class="row">
+            <div class="col-md-8">
+                @* @foreach (var user in Model.Users)
+                {
+                    <a href="/EventPage?id=@user.Id" class="user-info-link">
+                        <!--neviekia-->
+                        <div class="event">
+                            <h2>@user.FirstName</h2>
+                            <h2>@user.LastName</h2>
+                        </div>
+                    </a>
+                }
+                @foreach (var eventTask in Model.EventTasks)
+                {
+                    <a href="/EventPage?id=@eventTask.Id" class="eventTask-link">
+                        <!--neviekia-->
+                        <div class="event">
+                            <h2>@eventTask.Title</h2>
+                            <p>@eventTask.ScheduledTime</p>
+                            <p>@eventTask.Description</p>
+                        </div>
+                    </a>
+                }*@
+            </div>
+            <div class="col-md-4">
+                <div class="addEmployee">
+                        <h3>Pridėti darbuotoją</h3>
+                    <form method="post" id="addFormEmployee" style="display: none;">
+                        <div class="form-group">
+                    <select id="taskDropdown" class="form-control">
+                        <option value="">...</option>
+                    </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
+                    </div>
+                <div class="addToEventEmployee">
+                    <h3>Kurti darbuotoją</h3>
+                    <form method="post" id="createEventFormEmployee" style="display: none;">
+                    <div class="form-group">
+                        <label for="title">Pavadinimas</label>
+                        <input type="text" id="title" name="Title" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Aprašymas</label>
+                        <textarea id="description" name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Pradžios data</label>
+                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Pabaigos data</label>
+                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kurti</button>
+                </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    @foreach (var dalyvis in Model.ParticipantResponse)
+                    {
+                        <div class="col-md-3">
+                            <a href="/ParticipantPage?id=@dalyvis.Id" class="event-link">
+                                <div class="participant">
+                                    <h4>@dalyvis.FirstName</h4>
+                                    <p>@dalyvis.LastName</p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="addToParticipant">
+                    <h3>Pridėti dalyvį</h3>
+                    <form method="post" asp-page-handler="AddParticipant" id="addFormParticipant" style="display: none;">
+                        <div class="form-group">
+                            <select id="participantDropdown" name="SelectedParticipantId" class="form-control">
+                                <option value="">...</option>
+                                @foreach (var participant in Model.AllParticipants)
+                                {
+                                    <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Pridėti</button>
+                    </form>
+                    </div>
+                <div class="addToEventParticipant">
+                    <h3>Kurti dalyvį</h3>
+                    <form method="post" asp-page-handler="CreateParticipant" id="createEventFormParticipant" style="display: none;">
+                        <div class="form-group">
+                            <label for="firstName">Vardas</label>
+                            <input type="text" id="firstName" name="FirstName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Pavardė</label>
+                            <input type="text" id="lastName" name="LastName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Gimimo data</label>
+                            <input type="date" id="birthDate" name="BirthDate" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">El. paštas</label>
+                            <input type="email" id="email" name="Email" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    @foreach (var uzduotis in Model.TaskResponse)
+                    {
+                        <div class="col-md-3">
+                            <a href="/EventTaskPage?id=@uzduotis.Id" class="event-link">
+                                <div class="task">
+                                    <h4>@uzduotis.Title</h4>
+                                    <p>@uzduotis.Description</p>
+                                    <p>Data: @(uzduotis.ScheduledTime?.ToString("yyyy-MM-dd") ?? "Not Scheduled")</p>
+                                    <p>Atsakingas darbuotojas: <i>Placeholder darbuotojas</i></p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="addToEventTask">
+                    <h3>Kurti užduotį</h3>
+                    <form method="post" id="createEventFormTask" style="display: none;">
+                        <div class="form-group">
+                            <label for="title">Pavadinimas</label>
+                            <input type="text" id="title" name="Title" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Aprašymas</label>
+                            <textarea id="description" name="Description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Pradžios data</label>
+                            <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">Pabaigos data</label>
+                            <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kurti</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Event not found.</p>
+        </div>
+    }
+</div>
