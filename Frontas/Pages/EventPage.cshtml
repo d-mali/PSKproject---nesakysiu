@@ -109,6 +109,7 @@
                 <div class="addToParticipant">
                     <h3>Pridėti dalyvį</h3>
                     <form method="post" asp-page-handler="AddParticipant" id="addFormParticipant" style="display: none;">
+                        <input type="hidden" name="EventId" value="@Model.EventId" />
                         <div class="form-group">
                             <select id="participantDropdown" name="SelectedParticipantId" class="form-control">
                                 <option value="">...</option>
@@ -124,6 +125,7 @@
                 <div class="addToEventParticipant">
                     <h3>Kurti dalyvį</h3>
                     <form method="post" asp-page-handler="CreateParticipant" id="createEventFormParticipant" style="display: none;">
+                        <input type="hidden" name="EventId" value="@Model.EventId" />
                         <div class="form-group">
                             <label for="firstName">Vardas</label>
                             <input type="text" id="firstName" name="FirstName" class="form-control" required />

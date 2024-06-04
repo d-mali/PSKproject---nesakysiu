@@ -35,6 +35,9 @@ namespace Frontas.Pages
 
         public string? ErrorMessage { get; private set; }
 
+        [BindProperty]
+        public Guid EventId { get; set; }
+
         public EventPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
@@ -45,7 +48,9 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}");
+                EventId = id;
+
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{EventId}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -133,11 +138,11 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddParticipantAsync(Guid id)
+        public async Task<IActionResult> OnPostAddParticipantAsync()
         {
             try
             {
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participation/{SelectedParticipantId}", null);
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Participation/{SelectedParticipantId}", null);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException httpEx)
@@ -151,7 +156,7 @@ namespace Frontas.Pages
                 ErrorMessage = "An unexpected error occurred. Please try again later.";
             }
 
-            return RedirectToPage(new { id });
+            return RedirectToPage("/EventPage", new { id = EventId });
         }
 
         public async Task<IActionResult> OnPostCreateParticipantAsync()
@@ -187,7 +192,7 @@ namespace Frontas.Pages
                 ErrorMessage = "An unexpected error occurred. Please try again later.";
             }
 
-            return RedirectToPage();
+            return RedirectToPage("/EventPage", new { id = EventId });
         }
     }
 }
