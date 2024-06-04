@@ -1,9 +1,10 @@
 ﻿using EventDomain.Enums;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventBackend.Entities
 {
-    public class User
+    public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; } = string.Empty;
 

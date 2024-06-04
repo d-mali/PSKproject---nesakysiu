@@ -25,7 +25,7 @@ namespace EventBackend.Controllers
 
         // GET: api/Tasks/5
         [HttpGet("{taskId}")]
-        public async Task<IActionResult> GetTask(Guid taskId)
+        public async Task<IActionResult> GetTask(Guid eventId, Guid taskId)
         {
             var task = await _taskService.GetTaskAsync(taskId);
 
@@ -38,7 +38,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(TaskRequest taskRequest)
+        public async Task<IActionResult> CreateTask(Guid eventId, TaskRequest taskRequest)
         {
             var createdTask = await _taskService.CreateTaskAsync(taskRequest);
 
@@ -50,7 +50,7 @@ namespace EventBackend.Controllers
 
         // PUT: api/Tasks/5
         [HttpPut("{taskId}")]
-        public async Task<IActionResult> UpdateTask(Guid taskId, TaskRequest taskRequest)
+        public async Task<IActionResult> UpdateTask(Guid eventId, Guid taskId, TaskRequest taskRequest)
         {
             var updatedTask = await _taskService.UpdateTaskAsync(taskId, taskRequest);
 
@@ -59,7 +59,7 @@ namespace EventBackend.Controllers
 
         // DELETE: api/Tasks/5
         [HttpDelete("{taskId}")]
-        public async Task<IActionResult> DeleteTask(Guid taskId)
+        public async Task<IActionResult> DeleteTask(Guid eventId, Guid taskId)
         {
             await _taskService.DeleteTaskAsync(taskId);
 

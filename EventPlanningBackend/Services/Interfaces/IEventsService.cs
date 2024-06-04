@@ -12,6 +12,7 @@ namespace EventBackend.Services.Interfaces
         public Task<EventResponse?> GetEventAsync(Guid id);
         public Task<EventResponse?> UpdateEventAsync(Guid id, EventRequest entity);
         public Task<EventResponse?> CreateParticipation(Guid eventId, Guid participantId);
+        public Task<EventResponse?> DeleteParticipation(Guid eventId, Guid participantId);
         public Task<IEnumerable<Participant>?> GetEventParticipants(Guid id);
         public Task<bool> DeleteEventAsync(Guid id);
     }
