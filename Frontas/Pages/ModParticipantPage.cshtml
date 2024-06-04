@@ -14,30 +14,30 @@
     else if (Model.ParticipantResponse != null)
     {
         <div class="modHead">
-            <h1>Redaguoti Renginį</h1>
+            <h1>Redaguoti dalyvį</h1>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
                 <input type="hidden" name="ParticipantResponse.Id" value="@Model.ParticipantResponse.Id" />
-                <button type="submit" class="deleteHover">Ištrinti</button>
+                <button type="submit" class="deleteHover">Ištrinti dalyvį iš duomenų bazės</button>
             </form>
         </div>
 
         <form method="post">
             <input type="hidden" name="ParticipantResponse.Id" value="@Model.ParticipantResponse.Id" />
             <div class="form-group">
-                <label for="firstName">Pavadinimas</label>
+                <label for="firstName">Vardas</label>
                 <input type="text" id="firstName" name="ParticipantResponse.FirstName" class="form-control" value="@Model.ParticipantResponse.FirstName" required />
             </div>
             <div class="form-group">
-                <label for="lastName">Aprašymas</label>
+                <label for="lastName">Pavardė</label>
                 <textarea id="lastName" name="ParticipantResponse.LastName" class="form-control">@Model.ParticipantResponse.LastName</textarea>
             </div>
             <div class="form-group">
-                <label for="birthDate">Pradžios data</label>
+                <label for="birthDate">Gimimo data</label>
                 <input type="date" id="birthDate" name="ParticipantResponse.BirthDate" class="form-control" value="@Model.ParticipantResponse.BirthDate.ToString("yyyy-MM-dd")" required />
             </div>
             <div class="form-group">
-                <label for="email">Pabaigos data</label>
-                <input type="date" id="email" name="ParticipantResponse.Email" class="form-control" value="@Model.ParticipantResponse.Email" required />
+                <label for="email">El. paštas</label>
+                <input type="email" id="email" name="ParticipantResponse.Email" class="form-control" value="@Model.ParticipantResponse.Email" required />
             </div>
             <button type="submit" class="btn btn-primary">Atnaujinti</button>
         </form>

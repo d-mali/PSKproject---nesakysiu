@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend
 {
-    public class MainDbContext : IdentityDbContext
+    public class MainDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<EventTask> Tasks { get; set; }
