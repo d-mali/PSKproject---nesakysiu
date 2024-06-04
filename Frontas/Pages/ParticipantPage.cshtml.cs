@@ -29,7 +29,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Participants/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -55,5 +55,26 @@ namespace Frontas.Pages
 
             return Page();
         }
+
+        /*public async Task<IActionResult> OnDeleteAddParticipantAsync()
+        {
+            try
+            {
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Participation/{SelectedParticipantId}", null);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error adding participant to event");
+                ErrorMessage = "There was an error adding the participant to the event. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return RedirectToPage("/EventPage", new { id = EventId });
+        }*/
     }
 }

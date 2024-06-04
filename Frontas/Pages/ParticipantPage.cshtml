@@ -14,10 +14,18 @@
     }
     else if (Model.ParticipantResponse != null)
     {
-        <a asp-page="./Index" class="user-info-link">
-            <h1>..Visi renginiai</h1>
-        </a>
-        <a href="/ModEventPageModel?id=@Model.ParticipantResponse.Id" class="user-info-link">
+        
+
+        <div class="modHead">
+            <a asp-page="./Index" class="user-info-link">
+                <h1>..Visi renginiai</h1>
+            </a>
+            <form method="post" asp-page-handler="Delete" style="display: inline;">
+                <input type="hidden" name="ParticipantResponse.Id" value="@Model.ParticipantResponse.Id" />
+                <button type="submit" class="deleteHover">Pašalinti dalyvį iš renginio</button>
+            </form>
+        </div>
+        <a href="/ModParticipantPageModel?id=@Model.ParticipantResponse.Id" class="user-info-link">
             <div class="event-details">
                 <h1>@Model.ParticipantResponse.FirstName</h1>
                 <p>@Model.ParticipantResponse.LastName</p>

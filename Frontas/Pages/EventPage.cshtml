@@ -65,22 +65,22 @@
                 <div class="addToEventEmployee">
                     <h3>Kurti darbuotoją</h3>
                     <form method="post" id="createEventFormEmployee" style="display: none;">
-                    <div class="form-group">
-                        <label for="title">Pavadinimas</label>
-                        <input type="text" id="title" name="Title" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Aprašymas</label>
-                        <textarea id="description" name="Description" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="startDate">Pradžios data</label>
-                        <input type="date" id="startDate" name="StartDate" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="endDate">Pabaigos data</label>
-                        <input type="date" id="endDate" name="EndDate" class="form-control" required />
-                    </div>
+                        <div class="form-group">
+                            <label for="title">Pavadinimas</label>
+                            <input type="text" id="title" name="Title" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Aprašymas</label>
+                            <textarea id="description" name="Description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Pradžios data</label>
+                            <input type="date" id="startDate" name="StartDate" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">Pabaigos data</label>
+                            <input type="date" id="endDate" name="EndDate" class="form-control" required />
+                        </div>
                     <button type="submit" class="btn btn-primary">Kurti</button>
                 </form>
                 </div>
@@ -95,7 +95,7 @@
                     @foreach (var dalyvis in Model.ParticipantResponse)
                     {
                         <div class="col-md-3">
-                            <a href="/ParticipantPage?id=@dalyvis.Id" class="event-link">
+                            <a href="/ParticipantPage?id=@dalyvis.Id&eventid=@Model.EventResponse.Id" class="event-link">
                                 <div class="participant">
                                     <h4>@dalyvis.FirstName</h4>
                                     <p>@dalyvis.LastName</p>

@@ -40,7 +40,7 @@ namespace Frontas.Pages
             try
             {
 
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Participants/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -102,7 +102,7 @@ namespace Frontas.Pages
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants/{id}", content);
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Participants/{id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -140,7 +140,7 @@ namespace Frontas.Pages
 
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participants/{ParticipantResponse.Id}");
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Participants/{ParticipantResponse.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
