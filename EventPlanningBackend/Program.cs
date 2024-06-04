@@ -1,10 +1,10 @@
 using EventBackend;
+using EventBackend.Entities;
 using EventBackend.Middleware;
 using EventBackend.Services;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDataAccess.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
 
@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<MainDbContext>();
 
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<MainDbContext>();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<MainDbContext>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -68,7 +68,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
 
