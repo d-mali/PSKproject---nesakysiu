@@ -115,7 +115,10 @@
                                 <option value="">...</option>
                                 @foreach (var participant in Model.AllParticipants)
                                 {
-                                    <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
+                                    @if (!Model.ParticipantResponse.Any(p => participant.Id == p.Id))
+                                    {
+                                        <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -170,7 +173,8 @@
             <div class="col-md-4">
                 <div class="addToEventTask">
                     <h3>Kurti užduotį</h3>
-                    <form method="post" id="createEventFormTask" style="display: none;">
+                    <form method="post" asp-page-handler="createEventFormTask" id="createEventFormTask" style="display: none;">
+                        <input type="hidden" name="EventId" value="@Model.EventId" />
                         <div class="form-group">
                             <label for="title">Pavadinimas</label>
                             <input type="text" id="title" name="Title" class="form-control" required />
@@ -180,6 +184,11 @@
                             <textarea id="description" name="Description" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
+                            <label for="ScheduledTime">Suplanuotas laikas</label>
+                            <input type="datetime-local" id="scheduledTime" name="ScheduledTime" class="form-control" required />
+                        </div>
+                        @*
+                        <div class="form-group">
                             <label for="startDate">Pradžios data</label>
                             <input type="date" id="startDate" name="StartDate" class="form-control" required />
                         </div>
@@ -187,6 +196,7 @@
                             <label for="endDate">Pabaigos data</label>
                             <input type="date" id="endDate" name="EndDate" class="form-control" required />
                         </div>
+                        *@
                         <button type="submit" class="btn btn-primary">Kurti</button>
                     </form>
                 </div>

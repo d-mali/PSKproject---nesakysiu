@@ -38,6 +38,15 @@ namespace Frontas.Pages
         [BindProperty]
         public Guid EventId { get; set; }
 
+        [BindProperty]
+        public string? Title { get; set; }
+
+        [BindProperty]
+        public string? Description { get; set; }
+        [BindProperty]
+        public DateTime? ScheduledTime { get; set; }
+
+
         public EventPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
@@ -62,10 +71,10 @@ namespace Frontas.Pages
                     ErrorMessage = "There was an error deserializing the event. Please try again later.";
                     return Page();
                 }
-                /*
+
                 // Task
 
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Tasks");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Tasks");
 
                 string? responseBodyTasks = await response.Content.ReadAsStringAsync();
 
@@ -84,7 +93,7 @@ namespace Frontas.Pages
                 }
 
                 TaskResponse = deserializedEvent;
-                */
+
                 // ParticipantResponse
 
                 response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Participation");
@@ -185,6 +194,42 @@ namespace Frontas.Pages
             {
                 _logger.LogError(httpEx, "Error creating participant");
                 ErrorMessage = "There was an error creating the participant. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return RedirectToPage("/EventPage", new { id = EventId });
+        }
+
+        public async Task<IActionResult> OnPostCreateEventFormTaskAsync()
+        {
+            try
+            {
+                if (Title == null || Description == null || ScheduledTime == null)
+                {
+                    ErrorMessage = "Bad input";
+                    return Page();
+                }
+
+                TaskRequest participantRequest = new TaskRequest
+                {
+                    Title = Title,
+                    Description = Description,
+                    ScheduledTime = (DateTime)ScheduledTime,
+                    EventId = EventId
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(participantRequest), System.Text.Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Tasks", content);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error creating Task");
+                ErrorMessage = "There was an error creating the Task. Please try again later.";
             }
             catch (Exception ex)
             {
