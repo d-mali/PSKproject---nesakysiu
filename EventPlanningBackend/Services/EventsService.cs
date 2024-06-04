@@ -118,6 +118,36 @@ namespace EventBackend.Services
             return eventas.ToResponse();
         }
 
+        public async Task<EventResponse?> DeleteParticipation(Guid eventId, Guid participantId)
+        {
+            var eventas = await _context.Events
+               .Include(e => e.Participants)
+               .FirstOrDefaultAsync(e => e.Id == eventId);
+            if (eventas == null)
+            {
+                return null;
+            }
+            if (eventas.Participants == null)
+            {
+                return null;
+            }
+
+            var participant = eventas.Participants.FirstOrDefault(p => p.Id == participantId);
+            if (participant == null)
+            {
+                return null;
+            }
+
+
+            eventas.Participants ??= new List<Participant>();
+
+            eventas.Participants.Remove(participant);
+
+            await _context.SaveChangesAsync();
+
+            return eventas.ToResponse();
+        }
+
         public async Task<IEnumerable<Participant>?> GetEventParticipants(Guid id)
         {
             var eventWithParticipants = await _context.Events
