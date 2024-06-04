@@ -1,4 +1,5 @@
 using EventDomain.Contracts.Responses;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -21,11 +22,11 @@ namespace Frontas.Pages
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid id, Guid eventId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Tasks/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Tasks/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();

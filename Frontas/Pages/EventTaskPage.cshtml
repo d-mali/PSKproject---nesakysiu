@@ -4,13 +4,15 @@
     ViewData["Title"] = "Uzduotis";
 }
 
-<a href="javascript:void(0);" onclick="window.history.back();" class="user-info-link"><h3>Grįžti prie renginio</h3></a>
-
-<a href="/ModTaskPageModel?id=@(Model.TaskResponse?.Id ?? null)" class="user-info-link">
-    <div class="event-details">
-        <h1>@(Model.TaskResponse?.Title ?? "Unknown Task")</h1>
-        <p>Užduoties aprašymas: @(Model.TaskResponse?.Description ?? "No description provided")</p>
-        <p>Atlikti iki: @(Model.TaskResponse?.ScheduledTime?.ToString("yyyy-MM-dd") ?? "Not Scheduled")</p>
-        <p>Atsakingas darbuotojas: <i>Placeholder darbuotojas</i></p>
-    </div>
-</a>
+@if (Model.TaskResponse != null)
+{
+    <a href="/EventPage?id=@Model.TaskResponse.EventId" class="event-link"><h3>Grįžti prie renginio</h3></a>
+    <a href="/ModTaskPageModel?id=@Model.TaskResponse.Id&eventId=@Model.TaskResponse.EventId" class="user-info-link">
+        <div class="event-details">
+            <h1>@(Model.TaskResponse?.Title ?? "Unknown Task")</h1>
+            <p>Užduoties aprašymas: @(Model.TaskResponse?.Description ?? "No description provided")</p>
+            <p>Atlikti iki: @(Model.TaskResponse?.ScheduledTime?.ToString("yyyy-MM-dd") ?? "Not Scheduled")</p>
+            <p>Atsakingas darbuotojas: <i>Placeholder darbuotojas</i></p>
+        </div>
+    </a>
+}

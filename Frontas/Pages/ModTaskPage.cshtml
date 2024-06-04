@@ -16,13 +16,15 @@
         <div class="modHead">
             <h1>Redaguoti Užduotį</h1>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
-                <input type="hidden" name="EventResponse.Id" value="@Model.TaskResponse.Id" />
+                <input type="hidden" name="TaskResponse.Id" value="@Model.TaskResponse.Id" />
+                <input type="hidden" name="TaskResponse.EventId" value="@Model.TaskResponse.EventId" />
                 <button type="submit" class="deleteHover">Ištrinti</button>
             </form>
         </div>
 
         <form method="post">
             <input type="hidden" name="TaskResponse.Id" value="@Model.TaskResponse.Id" />
+            <input type="hidden" name="TaskResponse.EventId" value="@Model.TaskResponse.EventId" />
             <div class="form-group">
                 <label for="title">Pavadinimas</label>
                 <input type="text" id="title" name="TaskResponse.Title" class="form-control" value="@Model.TaskResponse.Title" required />
@@ -32,8 +34,16 @@
                 <textarea id="description" name="TaskResponse.Description" class="form-control">@Model.TaskResponse.Description</textarea>
             </div>
             <div class="form-group">
-                <label for="startDate">Atlikimo data</label>
-                <input type="date" id="scheduledTime" name="TaskResponse.StartDate" class="form-control" value="@Model.TaskResponse.ScheduledTime?.ToString("yyyy-MM-dd")" required />
+                <label for="scheduledTime">Atlikimo data</label>
+                <input type="date" id="scheduledTime" name="TaskResponse.ScheduledTime" class="form-control" value="@Model.TaskResponse.ScheduledTime?.ToString("yyyy-MM-dd")" required />
+            </div>
+            <div class="form-group">
+                <label for="status">Task Status</label>
+                <select id="status" name="TaskResponse.Status" class="form-control">
+                    <option value="ToDo">To Do</option>
+                    <option value="InProgress">In Progress</option>
+                    <option value="Done">Done</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Atnaujinti</button>
         </form>

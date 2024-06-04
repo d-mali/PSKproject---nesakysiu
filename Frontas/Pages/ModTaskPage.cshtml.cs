@@ -24,7 +24,7 @@ namespace Frontas.Pages
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid id, Guid eventId)
         {
             if (id == Guid.Empty)
             {
@@ -34,7 +34,7 @@ namespace Frontas.Pages
 
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Tasks/{id}");
+                var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Tasks/{id}");
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -59,7 +59,7 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid id)
+        public async Task<IActionResult> OnPostAsync(Guid id, Guid eventId)
         {
 
             if (TaskResponse == null)
@@ -68,7 +68,7 @@ namespace Frontas.Pages
                 return Page();
             }
 
-            TaskRequest TaskRequest = new TaskRequest { Title = TaskResponse.Title, Description = TaskResponse.Description, ScheduledTime = TaskResponse.ScheduledTime };
+            TaskRequest TaskRequest = new TaskRequest { Title = TaskResponse.Title, Description = TaskResponse.Description, ScheduledTime = TaskResponse.ScheduledTime, EventId = TaskResponse.EventId, Status = TaskResponse.Status };
 
             /*if (!ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace Frontas.Pages
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Tasks/{id}", content);
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Tasks/{id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -135,12 +135,12 @@ namespace Frontas.Pages
 
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Tasks/{TaskResponse.Id}");
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{TaskResponse.EventId}/Tasks/{TaskResponse.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully deleted task with ID {TaskId}", TaskResponse.Id);
-                    return RedirectToPage("/EventPage", new { id = id });
+                    return RedirectToPage("/EventPage", new { id = TaskResponse.EventId });
                 }
                 else
                 {
