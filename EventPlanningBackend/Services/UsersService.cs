@@ -7,7 +7,7 @@ namespace EventBackend.Services
 {
     public class UsersService : IUsersService
     {
-        public Task<User> CreateUserAsync(UserRequest entity)
+        public Task<ApplicationUser> CreateUserAsync(UserRequest entity)
         {
             throw new NotImplementedException();
         }
@@ -17,17 +17,17 @@ namespace EventBackend.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllUsersAsync(UserQuery filter)
+        public Task<IEnumerable<ApplicationUser>> GetAllUsersAsync(UserQuery filter)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> GetUserByIdAsync(Guid id)
+        public Task<ApplicationUser> GetUserByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> UpdateUserAsync(Guid id, UserRequest entity)
+        public Task<ApplicationUser> UpdateUserAsync(Guid id, UserRequest entity)
         {
             throw new NotImplementedException();
         }
