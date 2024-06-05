@@ -1,4 +1,5 @@
-﻿using EventBackend.Services.Interfaces;
+﻿using EventBackend.Entities;
+using EventBackend.Services.Interfaces;
 using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -62,6 +63,48 @@ namespace EventBackend.Controllers
             await _userService.DeleteUserAsync(userId);
 
             return NoContent();
+        }
+
+        [HttpPut("{userId}/Tasks/{taskId}")]
+        public async Task<IActionResult> GetEventWorker([FromRoute][Required] String userId, Guid taskId)
+        {
+            var eventas = await _userService.CreateTasking(userId, taskId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            eventas.Users = null;
+            return Ok(eventas);
+        }
+
+        [HttpGet("{userId}/Tasks")]
+        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] String userId)
+        {
+            var eventas = await _userService.GetUserTasks(userId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            var workers = eventas.Select(c => new EventTask
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ScheduledTime = c.ScheduledTime,
+                Description = c.Description,
+                Status = c.Status
+            }).ToList();
+            return Ok(workers);
+        }
+
+        [HttpDelete("{userId}/Tasks/{taskId}")]
+        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] String userId, Guid taskId)
+        {
+            var eventas = await _userService.DeleteTasking(userId, taskId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
         }
     }
 }

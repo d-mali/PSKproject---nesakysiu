@@ -21,5 +21,7 @@ namespace EventBackend.Entities
         public byte[]? Version { get; set; }
 
         public List<Event>? Events { get; set; }
+
+        public List<EventTask>? Tasks { get; set; }
     }
 }

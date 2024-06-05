@@ -33,6 +33,8 @@ namespace EventBackend.Entities
         [Required]
         public virtual Event? Event { get; set; }
 
+        public List<ApplicationUser>? Users { get; set; }
+
         public EventTask()
         {
         }

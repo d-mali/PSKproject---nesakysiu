@@ -2,16 +2,19 @@
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Contracts.Requests;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
 {
     public class UsersService : IUsersService
     {
         private readonly IGenericRepository<ApplicationUser> _userRepository;
+        protected readonly MainDbContext _context;
 
-        public UsersService(IGenericRepository<ApplicationUser> userRepository)
+        public UsersService(IGenericRepository<ApplicationUser> userRepository, MainDbContext context)
         {
             _userRepository = userRepository;
+            _context = context;
         }
         public async Task<ApplicationUser> CreateUserAsync(EmployeeRequest entity)
         {
@@ -56,6 +59,75 @@ namespace EventBackend.Services
             participantEntity.LastName = entity.LastName;
 
             return await _userRepository.UpdateAsync(participantEntity);
+        }
+
+        public async Task<EventTask?> CreateTasking(String userId, Guid taskId)
+        {
+            var useris = await _context.Users.FindAsync(userId);
+            var task = await _context.Tasks.FindAsync(taskId);
+
+            if (useris == null || task == null)
+            {
+                return null;
+            }
+            useris.Tasks ??= new List<EventTask>();
+
+            useris.Tasks.Add(task);
+
+            await _context.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<IEnumerable<EventTask>?> GetUserTasks(string id)
+        {
+            var eventWithWorkers = await _context.Users
+                .Include(s => s.Tasks)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            if (eventWithWorkers == null)
+            {
+                return null;
+            }
+            if (eventWithWorkers.Tasks == null)
+            {
+                return null;
+            }
+
+            var workers = eventWithWorkers.Tasks.ToList();
+
+            return workers;
+        }
+
+        public async Task<ApplicationUser?> DeleteTasking(String userId, Guid taskId)
+        {
+            var eventas = await _context.Users
+                .Include(s => s.Tasks)
+                .FirstOrDefaultAsync(s => s.Id == userId);
+            if (eventas == null)
+            {
+                return null;
+            }
+            if (eventas.Tasks == null)
+            {
+                return null;
+            }
+
+            var participant = eventas.Tasks.FirstOrDefault(p => p.Id == taskId);
+            if (participant == null)
+            {
+                return null;
+            }
+
+
+            eventas.Tasks ??= new List<EventTask>();
+
+            eventas.Tasks.Remove(participant);
+
+            await _context.SaveChangesAsync();
+
+            eventas.Tasks = null;
+
+            return eventas;
         }
     }
 }
