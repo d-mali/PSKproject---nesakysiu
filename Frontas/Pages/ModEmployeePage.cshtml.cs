@@ -77,6 +77,8 @@ namespace Frontas.Pages
                 return Page();
             }
 
+            EventId = eventId;
+
             EmployeeRequest EmployeeRequest = new EmployeeRequest { FirstName = EmployeeResponse.FirstName, LastName = EmployeeResponse.LastName};
 
             /*if (!ModelState.IsValid)
@@ -111,7 +113,7 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully updated employee with ID {employeeid}", id);
-                    return RedirectToPage("/EmployeePage", new { id = id});
+                    return RedirectToPage("/EmployeePage", new { id = id, eventId = EventId});
                 }
                 else
                 {
@@ -157,7 +159,7 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully deleted employee with ID {EmployeeId}", EmployeeResponse.Id);
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("/EventPage", new { id = EventId });
                 }
                 else
                 {

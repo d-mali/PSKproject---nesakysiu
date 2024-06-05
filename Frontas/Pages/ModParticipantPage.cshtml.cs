@@ -23,13 +23,16 @@ namespace Frontas.Pages
 
         public string? ErrorMessage { get; private set; }
 
+        [BindProperty]
+        public Guid EventId { get; private set; }
+
         public ModParticipantPageModel(ILogger<ModEventPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid id, Guid eventId)
         {
             if (id == Guid.Empty)
             {
@@ -39,6 +42,7 @@ namespace Frontas.Pages
 
             try
             {
+                EventId = eventId;
 
                 var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Participants/{id}");
                 response.EnsureSuccessStatusCode();
@@ -72,6 +76,8 @@ namespace Frontas.Pages
                 ErrorMessage = "Event details are missing. Please try again.";
                 return Page();
             }
+
+            EventId = eventId;
 
             ParticipantRequest ParticipantRequest = new ParticipantRequest { FirstName = ParticipantResponse.FirstName, LastName = ParticipantResponse.LastName, BirthDate = ParticipantResponse.BirthDate, Email = ParticipantResponse.Email };
 
@@ -107,7 +113,7 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully updated participant with ID {participantid}", id);
-                    return RedirectToPage("/EventPage", new { id = eventId });
+                    return RedirectToPage("/ParticipantPage", new { id = id, eventId = EventId });
                 }
                 else
                 {
@@ -130,7 +136,7 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id, string requestMethod)
+        public async Task<IActionResult> OnPostDeleteAsync(Guid id, Guid eventId, string requestMethod)
         {
             if (ParticipantResponse == null)
             {
@@ -146,12 +152,14 @@ namespace Frontas.Pages
 
             try
             {
+                EventId = eventId;
+
                 var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Participants/{ParticipantResponse.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully deleted event with ID {EventId}", ParticipantResponse.Id);
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("/EventPage", new {id = EventId});
                 }
                 else
                 {

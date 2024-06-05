@@ -17,6 +17,7 @@
             <h1>Redaguoti dalyvį</h1>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
                 <input type="hidden" name="ParticipantResponse.Id" value="@Model.ParticipantResponse.Id" />
+                <input type="hidden" name="EventId" value="@Model.EventId" />
                 <input type="hidden" name="RequestMethod" value="DELETE" />
                 <button type="submit" class="deleteHover">Ištrinti dalyvį iš duomenų bazės</button>
             </form>
