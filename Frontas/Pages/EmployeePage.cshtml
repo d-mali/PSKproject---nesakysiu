@@ -29,6 +29,19 @@
                 <h1>@Model.EmployeeResponse.LastName</h1>
             </div>
         </a>
+        <div class="row">
+            @foreach (var uzduotis in Model.TaskResponse)
+            {
+                <div class="col-md-3">
+                    <a href="/EventTaskPage?id=@uzduotis.Id&eventId=@uzduotis.EventId" class="event-link">
+                        <div class="task">
+                            <h4>@uzduotis.Title</h4>
+                            <p>Status: @uzduotis.Status</p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
     }
     else
     {
