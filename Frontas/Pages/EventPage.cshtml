@@ -28,6 +28,7 @@
 
         <div class="row">
             <div class="col-md-8">
+                <div class="row">
                 @foreach (var dalyvis in Model.EmployeeResponse)
                 {
                     <div class="col-md-3">
@@ -39,27 +40,7 @@
                         </a>
                     </div>
                 }
-                @*@foreach (var user in Model.Users)
-                {
-                    <a href="/EventPage?id=@user.Id" class="user-info-link">
-                        <!--neviekia-->
-                        <div class="event">
-                            <h2>@user.FirstName</h2>
-                            <h2>@user.LastName</h2>
-                        </div>
-                    </a>
-                }
-                @foreach (var eventTask in Model.EventTasks)
-                {
-                    <a href="/EventPage?id=@eventTask.Id" class="eventTask-link">
-                        <!--neviekia-->
-                        <div class="event">
-                            <h2>@eventTask.Title</h2>
-                            <p>@eventTask.ScheduledTime</p>
-                            <p>@eventTask.Description</p>
-                        </div>
-                    </a>
-                }*@
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="addEmployee">
