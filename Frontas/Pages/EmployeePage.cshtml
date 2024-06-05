@@ -1,0 +1,39 @@
+﻿@page "/EmployeePage"
+@model Frontas.Pages.EmployeePageModel
+@{
+    ViewData["Title"] = "Darbuotojas";
+}
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
+    else if (Model.EmployeeResponse != null)
+    {
+        <div class="modHead">
+            <a asp-page="./Index" class="Employee-info-link">
+                <h1>..Visi renginiai</h1>
+            </a>
+            <form method="post" asp-page-handler="Delete" style="display: inline;">
+                <input type="hidden" name="EmployeeId" value="@Model.EmployeeResponse.Id" />
+                <input type="hidden" name="eventId" value="@Request.Query["eventId"]" />
+                <button type="submit" class="deleteHover">Pašalinti dalyvį iš renginio</button>
+            </form>
+        </div>
+        <a href="/ModEmployeePageModel?id=@Model.EmployeeResponse.Id" class="Employee-info-link">
+            <div class="event-details">
+                <h1>@Model.EmployeeResponse.FirstName</h1>
+                <p>@Model.EmployeeResponse.LastName</p>
+            </div>
+        </a>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Event not found.</p>
+        </div>
+    }
+</div>
