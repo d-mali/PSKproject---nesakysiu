@@ -67,8 +67,8 @@
                     <form method="post" asp-page-handler="AddEmployee" id="addFormEmployee" style="display: none;">
                         <input type="hidden" name="EventId" value="@Model.EventId" />
                         <div class="form-group">
-                    <select id="taskDropdown" class="form-control">
-                        <option value="">...</option>
+                            <select id="EmployeeDropdown" name="SelectedEmployeeId" class="form-control">
+                                <option value="">...</option>
                                 @foreach (var participant in Model.AllEmployees)
                                 {
                                     @if (!Model.EmployeeResponse.Any(p => participant.Id == p.Id))
@@ -76,7 +76,7 @@
                                         <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
                                     }
                                 }
-                    </select>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Kurti</button>
                     </form>
