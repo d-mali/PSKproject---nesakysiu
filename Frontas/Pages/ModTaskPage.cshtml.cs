@@ -68,7 +68,13 @@ namespace Frontas.Pages
                 return Page();
             }
 
-            TaskRequest TaskRequest = new TaskRequest { Title = TaskResponse.Title, Description = TaskResponse.Description, ScheduledTime = TaskResponse.ScheduledTime, EventId = TaskResponse.EventId, Status = TaskResponse.Status };
+            TaskRequest TaskRequest = new TaskRequest
+            {
+                Title = TaskResponse.Title,
+                Description = TaskResponse.Description,
+                ScheduledTime = TaskResponse.ScheduledTime,
+                Status = TaskResponse.Status
+            };
 
             /*if (!ModelState.IsValid)
             {
@@ -162,6 +168,6 @@ namespace Frontas.Pages
 
             return Page();
         }
-    
-}
+
+    }
 }

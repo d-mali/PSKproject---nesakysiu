@@ -42,7 +42,7 @@ namespace EventBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(Guid eventId, TaskRequest taskRequest)
         {
-            var createdTask = await _taskService.CreateTaskAsync(taskRequest);
+            var createdTask = await _taskService.CreateTaskAsync(eventId, taskRequest);
 
             //return CreatedAtAction(nameof(CreateTask),
             //    createdTask

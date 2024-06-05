@@ -262,8 +262,7 @@ namespace Frontas.Pages
                 {
                     Title = Title,
                     Description = Description,
-                    ScheduledTime = (DateTime)ScheduledTime,
-                    EventId = EventId
+                    ScheduledTime = (DateTime)ScheduledTime
                 };
 
                 var content = new StringContent(JsonConvert.SerializeObject(participantRequest), System.Text.Encoding.UTF8, "application/json");

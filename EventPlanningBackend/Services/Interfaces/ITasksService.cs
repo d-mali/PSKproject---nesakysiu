@@ -7,7 +7,7 @@ namespace EventBackend.Services.Interfaces
 {
     public interface ITasksService
     {
-        public Task<TaskResponse> CreateTaskAsync(TaskRequest task);
+        public Task<TaskResponse> CreateTaskAsync(Guid eventId, TaskRequest task);
 
         public Task<IEnumerable<TaskResponse>> GetTasksAsync(
             Guid eventId,

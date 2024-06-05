@@ -45,7 +45,6 @@ namespace EventBackend.Entities
             Title = taskRequest.Title;
             ScheduledTime = taskRequest.ScheduledTime;
             Description = taskRequest.Description;
-            EventId = taskRequest.EventId;
             Status = taskRequest.Status;
         }
 
@@ -58,7 +57,8 @@ namespace EventBackend.Entities
                 ScheduledTime = ScheduledTime,
                 Description = Description,
                 EventId = EventId,
-                Status = Status
+                Status = Status,
+                Assigned = Users?.Select(u => u.ToResponse()).ToList() ?? new List<EmployeeResponse>()
             };
         }
     }

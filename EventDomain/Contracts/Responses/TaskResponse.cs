@@ -15,5 +15,7 @@ namespace EventDomain.Contracts.Responses
         public Guid EventId { get; set; }
 
         public TaskStatus Status { get; set; }
+
+        public required List<EmployeeResponse> Assigned { get; set; }
     }
 }

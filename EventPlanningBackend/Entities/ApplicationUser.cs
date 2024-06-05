@@ -1,4 +1,5 @@
-﻿using EventDomain.Enums;
+﻿using EventDomain.Contracts.Responses;
+using EventDomain.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,5 +24,15 @@ namespace EventBackend.Entities
         public List<Event>? Events { get; set; }
 
         public List<EventTask>? Tasks { get; set; }
+
+        public EmployeeResponse ToResponse()
+        {
+            return new EmployeeResponse
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName
+            };
+        }
     }
 }
