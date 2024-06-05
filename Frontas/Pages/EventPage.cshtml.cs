@@ -28,6 +28,9 @@ namespace Frontas.Pages
         public Guid SelectedParticipantId { get; set; }
 
         [BindProperty]
+        public Guid SelectedEmployeeId { get; set; }
+
+        [BindProperty]
         public string? FirstName { get; set; }
         [BindProperty]
         public string? LastName { get; set; }
@@ -163,7 +166,7 @@ namespace Frontas.Pages
                 response.EnsureSuccessStatusCode();
                 string responseBodyAllEmp = await response.Content.ReadAsStringAsync();
 
-                List<EmployeeResponse>? deserializedEmp2 = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllPart);
+                List<EmployeeResponse>? deserializedEmp2 = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllEmp);
 
                 if (deserializedEmp2 == null)
                 {
@@ -319,7 +322,7 @@ namespace Frontas.Pages
         {
             try
             {
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Workers/{SelectedParticipantId}", null);
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Workers/{SelectedEmployeeId}", null);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException httpEx)
