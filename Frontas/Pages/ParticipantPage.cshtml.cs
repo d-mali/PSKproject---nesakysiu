@@ -3,29 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
-
 namespace Frontas.Pages
 {
     public class ParticipantPageModel : PageModel
     {
-        private readonly ILogger<EventPageModel> _logger;
+        private readonly ILogger<ParticipantPageModel> _logger;
         private readonly HttpClient _httpClient;
-
-        //public List<User> Users { get; private set; } = new List<User>();
-        //public List<EventTask> EventTasks { get; private set; } = new List<EventTask>();
 
         public ParticipantResponse? ParticipantResponse { get; private set; }
         public string? ErrorMessage { get; private set; }
 
         public EventResponse? Event { get; private set; }
 
-        public ParticipantPageModel(ILogger<EventPageModel> logger, IHttpClientFactory httpClientFactory)
+        public ParticipantPageModel(ILogger<ParticipantPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid id, Guid eventId)
         {
             try
             {
@@ -38,14 +34,14 @@ namespace Frontas.Pages
 
                 if (ParticipantResponse == null)
                 {
-                    ErrorMessage = "There was an error deserializing the event. Please try again later.";
+                    ErrorMessage = "There was an error deserializing the participant. Please try again later.";
                     return Page();
                 }
             }
             catch (HttpRequestException httpEx)
             {
-                _logger.LogError(httpEx, "Error fetching event from API");
-                ErrorMessage = "There was an error fetching the event. Please try again later.";
+                _logger.LogError(httpEx, "Error fetching participant from API");
+                ErrorMessage = "There was an error fetching the participant. Please try again later.";
             }
             catch (Exception ex)
             {
@@ -56,17 +52,28 @@ namespace Frontas.Pages
             return Page();
         }
 
-        /*public async Task<IActionResult> OnDeleteAddParticipantAsync()
+        public async Task<IActionResult> OnPostDeleteAsync(Guid participantId, [FromForm] Guid eventId)
         {
             try
             {
-                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Participation/{SelectedParticipantId}", null);
-                response.EnsureSuccessStatusCode();
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Participation/{participantId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("Successfully removed participant with ID {ParticipantId} from event with ID {EventId}", participantId, eventId);
+                    return RedirectToPage("/EventPage", new { id = eventId });
+                }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Failed to remove participant. Status Code: {StatusCode}, Response: {ResponseContent}", response.StatusCode, responseContent);
+                    ErrorMessage = $"There was an error removing the participant from the event. Status Code: {response.StatusCode}, Response: {responseContent}";
+                }
             }
             catch (HttpRequestException httpEx)
             {
-                _logger.LogError(httpEx, "Error adding participant to event");
-                ErrorMessage = "There was an error adding the participant to the event. Please try again later.";
+                _logger.LogError(httpEx, "Error removing participant from event");
+                ErrorMessage = "There was an error removing the participant from the event. Please try again later.";
             }
             catch (Exception ex)
             {
@@ -74,7 +81,7 @@ namespace Frontas.Pages
                 ErrorMessage = "An unexpected error occurred. Please try again later.";
             }
 
-            return RedirectToPage("/EventPage", new { id = EventId });
-        }*/
+            return Page();
+        }
     }
 }

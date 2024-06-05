@@ -4,7 +4,6 @@
     ViewData["Title"] = "Darbuotojas";
 }
 
-
 <div class="container">
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
@@ -14,14 +13,13 @@
     }
     else if (Model.ParticipantResponse != null)
     {
-        
-
         <div class="modHead">
             <a asp-page="./Index" class="user-info-link">
                 <h1>..Visi renginiai</h1>
             </a>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
-                <input type="hidden" name="ParticipantResponse.Id" value="@Model.ParticipantResponse.Id" />
+                <input type="hidden" name="participantId" value="@Model.ParticipantResponse.Id" />
+                <input type="hidden" name="eventId" value="@Request.Query["eventId"]" />
                 <button type="submit" class="deleteHover">Pašalinti dalyvį iš renginio</button>
             </form>
         </div>

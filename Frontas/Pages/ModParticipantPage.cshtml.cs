@@ -95,7 +95,7 @@ namespace Frontas.Pages
                     return Page();
                 }
 
-                _logger.LogInformation("Updating event with ID {EventId}", id);
+                _logger.LogInformation("Updating participant with ID {participantid}", id);
 
                 var jsonContent = JsonConvert.SerializeObject(ParticipantRequest);
                 _logger.LogDebug("Serialized Event object: {JsonContent}", jsonContent);
@@ -106,8 +106,9 @@ namespace Frontas.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation("Successfully updated event with ID {EventId}", id);
-                    return RedirectToPage("/EventPage", new { id = id });
+                    _logger.LogInformation("Successfully updated participant with ID {participantid}", id);
+                    //todo : redirect to event page
+                    return RedirectToPage("/index");
                 }
                 else
                 {
@@ -130,11 +131,17 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(Guid id, string requestMethod)
         {
             if (ParticipantResponse == null)
             {
                 ErrorMessage = "Event details are missing. Please try again.";
+                return Page();
+            }
+
+            if (requestMethod != "DELETE")
+            {
+                ErrorMessage = "Invalid request method.";
                 return Page();
             }
 
@@ -167,6 +174,7 @@ namespace Frontas.Pages
 
             return Page();
         }
+
     }
 
 }
