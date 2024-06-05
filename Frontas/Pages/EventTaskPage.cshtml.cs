@@ -13,6 +13,7 @@ namespace Frontas.Pages
         public TaskResponse? TaskResponse { get; private set; }
         public string? ErrorMessage { get; private set; }
         public Guid EventId { get; private set; }
+        public List<EmployeeResponse> AllEmployees { get; private set; } = new List<EmployeeResponse>();
 
         public EventTaskPageModel(ILogger<EventTaskPageModel> logger, IHttpClientFactory httpClientFactory)
         {
@@ -37,6 +38,21 @@ namespace Frontas.Pages
                     ErrorMessage = "There was an error deserializing the task. Please try again later.";
                     return Page();
                 }
+
+                // Fetch All Employees
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users");
+                response.EnsureSuccessStatusCode();
+                string responseBodyAllEmp = await response.Content.ReadAsStringAsync();
+
+                List<EmployeeResponse>? deserializedEmp2 = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllEmp);
+
+                if (deserializedEmp2 == null)
+                {
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    return Page();
+                }
+
+                AllEmployees = deserializedEmp2;
             }
             catch (HttpRequestException httpEx)
             {
@@ -74,6 +90,37 @@ namespace Frontas.Pages
             {
                 _logger.LogError(httpEx, "Error deleting task from API");
                 ErrorMessage = "There was an error deleting the task. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAssignTaskAsync(Guid taskId, [FromForm] Guid eventId, [FromForm] Guid userId)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Users/{userId}/Tasks/{taskId}", null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("/EventPage", new { id = eventId });
+                }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Failed to assign task. Status Code: {StatusCode}, Response: {ResponseContent}", response.StatusCode, responseContent);
+                    ErrorMessage = $"There was an error assigning the task. Status Code: {response.StatusCode}, Response: {responseContent}";
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error assigning task to user");
+                ErrorMessage = "There was an error assigning the task. Please try again later.";
             }
             catch (Exception ex)
             {

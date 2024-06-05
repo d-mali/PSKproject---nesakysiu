@@ -13,6 +13,7 @@
     }
     else if (Model.ParticipantResponse != null)
     {
+        
         <div class="modHead">
             <a href="/EventPage?id=@Model.EventId" class="user-info-link"><h3>Grįžti prie renginio</h3></a>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
@@ -22,6 +23,7 @@
             </form>
         </div>
         <br />
+        <h3>Dalyvis</h3>
         <a href="/ModParticipantPageModel?id=@Model.ParticipantResponse.Id&eventId=@Model.EventId" class="user-info-link">
             <div class="event-details">
                 <h1>@Model.ParticipantResponse.FirstName</h1>

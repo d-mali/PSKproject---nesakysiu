@@ -16,6 +16,7 @@
         </form>
     </div>
     <br />
+    <h3>Užduotis</h3>
     <a href="/ModTaskPageModel?id=@Model.TaskResponse.Id&eventId=@Model.TaskResponse.EventId" class="user-info-link">
         <div class="event-details">
             <h2>@(Model.TaskResponse.Title ?? "Unknown Task")</h2>
@@ -25,4 +26,20 @@
             <p>Atsakingas darbuotojas: <i>Placeholder darbuotojas</i></p>
         </div>
     </a>
+
+    <h3>Pridėti darbuotoją</h3>
+    <form method="post" asp-page-handler="AssignTask" id="assignTaskForm">
+        <input type="hidden" name="taskId" value="@Model.TaskResponse.Id" />
+        <input type="hidden" name="eventId" value="@Model.TaskResponse.EventId" />
+        <div class="form-group">
+            <select id="userId" name="userId" class="form-control" required>
+                <option value="">...</option>
+                @foreach (var employee in Model.AllEmployees)
+                {
+                    <option value="@employee.Id">@employee.FirstName @employee.LastName</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Pridėti</button>
+    </form>
 }

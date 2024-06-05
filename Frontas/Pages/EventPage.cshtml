@@ -44,23 +44,23 @@
             </div>
             <div class="col-md-4">
                 <div class="addEmployee">
-                        <h3>Pridėti darbuotoją</h3>
-                    <form method="post" asp-page-handler="AddEmployee" id="addFormEmployee" style="display: none;">
-                        <input type="hidden" name="EventId" value="@Model.EventId" />
-                        <div class="form-group">
-                            <select id="EmployeeDropdown" name="SelectedEmployeeId" class="form-control">
-                                <option value="">...</option>
-                                @foreach (var participant in Model.AllEmployees)
-                                {
-                                    @if (!Model.EmployeeResponse.Any(p => participant.Id == p.Id))
-                                    {
-                                        <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Kurti</button>
-                    </form>
+                    <h3>Pridėti darbuotoją</h3>
+                        <form method="post" asp-page-handler="AddEmployee" id="addFormEmployee" style="display: none;">
+                            <input type="hidden" name="EventId" value="@Model.EventId" />
+                                <div class="form-group">
+                                    <select id="EmployeeDropdown" name="SelectedEmployeeId" class="form-control">
+                                        <option value="">...</option>
+                                        @foreach (var participant in Model.AllEmployees)
+                                        {
+                                            @if (!Model.EmployeeResponse.Any(p => participant.Id == p.Id))
+                                            {
+                                                <option value="@participant.Id">@participant.FirstName @participant.LastName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            <button type="submit" class="btn btn-primary">Kurti</button>
+                        </form>
                     </div>
                 <div class="addToEventEmployee">
                     <h3>Kurti darbuotoją</h3>

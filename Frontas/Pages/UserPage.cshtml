@@ -1,7 +1,7 @@
-﻿@page "/EmployeePage"
-@model Frontas.Pages.EmployeePageModel
+﻿@page "/UserPage"
+@model Frontas.Pages.UserPageModel
 @{
-    ViewData["Title"] = "Darbuotojas";
+    ViewData["Title"] = "Vartotojas";
 }
 
 <div class="container">
@@ -24,15 +24,14 @@
         </div>
 
         <br />
-        <h3>Darbuotojas</h3>
+        <h3>Vartotojas</h3>
         <a href="/ModEmployeePageModel?id=@Model.EmployeeResponse.Id&eventId=@Model.EventId" class="Employee-info-link">
             <div class="event-details">
                 <h1>@Model.EmployeeResponse.FirstName&nbsp;</h1>
                 <h1>@Model.EmployeeResponse.LastName</h1>
             </div>
         </a>
-
-        <h3>Užduotys</h3>
+        
         <div class="row">
             @foreach (var uzduotis in Model.TaskResponse)
             {
