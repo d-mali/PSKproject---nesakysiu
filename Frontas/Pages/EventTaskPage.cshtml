@@ -6,14 +6,22 @@
 
 @if (Model.TaskResponse != null)
 {
+    <div class="modHead">
+        <a href="/EventPage?id=@Model.TaskResponse.EventId" class="user-info-link"><h3>Grįžti prie renginio</h3></a>
 
-    <a href="/EventPage?id=@Model.TaskResponse?.EventId" class="event-link"><h3>Grįžti prie renginio</h3></a>
-    <a href="/ModTaskPageModel?id=@Model.TaskResponse?.Id&eventId=@Model.TaskResponse?.EventId" class="user-info-link">
+        <form method="post" asp-page-handler="Delete" style="display: inline;">
+            <input type="hidden" name="taskId" value="@Model.TaskResponse.Id" />
+            <input type="hidden" name="eventId" value="@Model.TaskResponse.EventId" />
+            <button type="submit" class="deleteHover">Ištrinti</button>
+        </form>
+    </div>
+    <br />
+    <a href="/ModTaskPageModel?id=@Model.TaskResponse.Id&eventId=@Model.TaskResponse.EventId" class="user-info-link">
         <div class="event-details">
-            <h2>@(Model.TaskResponse?.Title ?? "Unknown Task")</h2>
-            <p>Užduoties aprašymas: @(Model.TaskResponse?.Description ?? "No description provided")</p>
-            <p>Atlikti iki: @(Model.TaskResponse?.ScheduledTime?.ToString("yyyy-MM-dd") ?? "Not Scheduled")</p>
-            <p>Užduoties būsena: @Model.TaskResponse?.Status</p>
+            <h2>@(Model.TaskResponse.Title ?? "Unknown Task")</h2>
+            <p>Užduoties aprašymas: @(Model.TaskResponse.Description ?? "No description provided")</p>
+            <p>Atlikti iki: @(Model.TaskResponse.ScheduledTime?.ToString("yyyy-MM-dd") ?? "Not Scheduled")</p>
+            <p>Užduoties būsena: @Model.TaskResponse.Status</p>
             <p>Atsakingas darbuotojas: <i>Placeholder darbuotojas</i></p>
         </div>
     </a>
