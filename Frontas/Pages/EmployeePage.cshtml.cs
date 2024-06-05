@@ -58,7 +58,7 @@ namespace Frontas.Pages
 
         public async Task<IActionResult> OnPostDeleteAsync(Guid EmployeeId, [FromForm] Guid eventId)
         {
-            try
+            try//todo change endpoint to delete event the event
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Users/{EmployeeId}");
 
