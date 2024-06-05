@@ -62,6 +62,7 @@ namespace EventBackend.Services
             taskEntity.Title = task.Title;
             taskEntity.ScheduledTime = task.ScheduledTime;
             taskEntity.Description = task.Description;
+            taskEntity.Status = task.Status;
 
             await _context.SaveChangesAsync();
 
