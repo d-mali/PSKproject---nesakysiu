@@ -10,12 +10,13 @@ namespace EventBackend.Services.Interfaces
         public Task<TaskResponse> CreateTaskAsync(TaskRequest task);
 
         public Task<IEnumerable<TaskResponse>> GetTasksAsync(
+            Guid eventId,
             Expression<Func<EventTask, bool>>? filter = null,
             Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null,
             int? itemsToSkip = null,
             int? itemsToTake = null);
 
-        public Task<TaskResponse?> GetTaskAsync(Guid taskId);
+        public Task<TaskResponse?> GetTaskAsync(Guid eventId, Guid taskId);
         public Task<TaskResponse> UpdateTaskAsync(Guid id, TaskRequest task);
         public Task<bool> DeleteTaskAsync(Guid id);
     }
