@@ -95,6 +95,7 @@ namespace EventBackend.Services
             eventEntity.EndDate = eventRequest.EndDate;
             eventEntity.Description = eventRequest.Description;
 
+
             await _context.SaveChangesAsync();
 
             return eventEntity.ToResponse();
@@ -165,6 +166,43 @@ namespace EventBackend.Services
             var participants = eventWithParticipants.Participants.ToList();
 
             return participants;
+        }
+
+        public async Task<EventResponse?> CreateWorker(Guid eventId, String userId)
+        {
+            var eventas = await _context.Events.FindAsync(eventId);
+            var worker = await _context.Users.FindAsync(userId);
+
+            if (eventas == null || worker == null)
+            {
+                return null;
+            }
+            eventas.Users ??= new List<ApplicationUser>();
+
+            eventas.Users.Add(worker);
+
+            await _context.SaveChangesAsync();
+
+            return eventas.ToResponse();
+        }
+
+        public async Task<IEnumerable<ApplicationUser>?> GetEventWorkers(Guid id)
+        {
+            var eventWithWorkers = await _context.Events
+                .Include(s => s.Users)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            if (eventWithWorkers == null)
+            {
+                return null;
+            }
+            if (eventWithWorkers.Users == null)
+            {
+                return null;
+            }
+
+            var workers = eventWithWorkers.Users.ToList();
+
+            return workers;
         }
     }
 }

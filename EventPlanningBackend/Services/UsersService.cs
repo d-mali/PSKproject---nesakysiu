@@ -1,35 +1,61 @@
 ﻿using EventBackend.Entities;
-using EventBackend.Filters;
-using EventBackend.Models.Requests;
 using EventBackend.Services.Interfaces;
+using EventDataAccess.Abstractions;
+using EventDomain.Contracts.Requests;
 
 namespace EventBackend.Services
 {
     public class UsersService : IUsersService
     {
-        public Task<ApplicationUser> CreateUserAsync(UserRequest entity)
+        private readonly IGenericRepository<ApplicationUser> _userRepository;
+
+        public UsersService(IGenericRepository<ApplicationUser> userRepository)
         {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+        }
+        public async Task<ApplicationUser> CreateUserAsync(EmployeeRequest entity)
+        {
+            var evt = new ApplicationUser
+            {
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+            };
+
+            return await _userRepository.InsertAsync(evt);
         }
 
-        public Task<bool> DeleteUserAsync(Guid id)
+        public async Task<bool> DeleteUserAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var participantEntity = await _userRepository.GetByIdAsync(id);
+
+            if (participantEntity == null)
+                return false;
+
+            var result = await _userRepository.DeleteAsync(id);
+
+            return result;
         }
 
-        public Task<IEnumerable<ApplicationUser>> GetAllUsersAsync(UserQuery filter)
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetAllAsync();
         }
 
-        public Task<ApplicationUser> GetUserByIdAsync(Guid id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetByIdAsync(id);
         }
 
-        public Task<ApplicationUser> UpdateUserAsync(Guid id, UserRequest entity)
+        public async Task<ApplicationUser?> UpdateUserAsync(Guid id, EmployeeRequest entity)
         {
-            throw new NotImplementedException();
+            var participantEntity = await _userRepository.GetByIdAsync(id);
+            if (participantEntity == null)
+                return null;
+
+            participantEntity.FirstName = entity.FirstName;
+            participantEntity.LastName = entity.LastName;
+
+            return await _userRepository.UpdateAsync(participantEntity);
         }
     }
 }

@@ -15,5 +15,7 @@ namespace EventBackend.Services.Interfaces
         public Task<EventResponse?> DeleteParticipation(Guid eventId, Guid participantId);
         public Task<IEnumerable<Participant>?> GetEventParticipants(Guid id);
         public Task<bool> DeleteEventAsync(Guid id);
+        public Task<IEnumerable<ApplicationUser>?> GetEventWorkers(Guid id);
+        public Task<EventResponse?> CreateWorker(Guid eventId, String userId);
     }
 }

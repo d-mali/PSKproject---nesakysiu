@@ -20,6 +20,9 @@ namespace Frontas.Pages
         public List<TaskResponse> TaskResponse { get; private set; } = new List<TaskResponse>();
         public List<ParticipantResponse> ParticipantResponse { get; private set; } = new List<ParticipantResponse>();
         public List<ParticipantResponse> AllParticipants { get; private set; } = new List<ParticipantResponse>();
+        public List<EmployeeResponse> EmployeeResponse { get; private set; } = new List<EmployeeResponse>();
+
+        public List<EmployeeResponse> AllEmployees { get; private set; } = new List<EmployeeResponse>();
 
         [BindProperty]
         public Guid SelectedParticipantId { get; set; }
@@ -62,7 +65,7 @@ namespace Frontas.Pages
                 var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{EventId}");
                 response.EnsureSuccessStatusCode();
 
-                string responseBody = await response.Content.ReadAsStringAsync();
+                string? responseBody = await response.Content.ReadAsStringAsync();
 
                 EventResponse = JsonConvert.DeserializeObject<EventResponse>(responseBody);
 
@@ -71,6 +74,29 @@ namespace Frontas.Pages
                     ErrorMessage = "There was an error deserializing the event. Please try again later.";
                     return Page();
                 }
+
+                // EmployeeResponse
+
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{id}/Workers");
+                response.EnsureSuccessStatusCode();
+
+                string? responseBodyEmp = await response.Content.ReadAsStringAsync();
+
+                if (responseBodyEmp == null)
+                {
+                    ErrorMessage = "There was an error fetching the tasks. Please try again later.";
+                    return Page();
+                }
+
+                List<EmployeeResponse>? deserializedEmp = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyEmp);
+
+                if (deserializedEmp == null)
+                {
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    return Page();
+                }
+
+                EmployeeResponse = deserializedEmp;
 
                 // Task
 
@@ -131,6 +157,21 @@ namespace Frontas.Pages
                 }
 
                 AllParticipants = deserializedPart2;
+
+                // Fetch All Employees
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users");
+                response.EnsureSuccessStatusCode();
+                string responseBodyAllEmp = await response.Content.ReadAsStringAsync();
+
+                List<EmployeeResponse>? deserializedEmp2 = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllPart);
+
+                if (deserializedEmp2 == null)
+                {
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    return Page();
+                }
+
+                AllEmployees = deserializedEmp2;
 
             }
             catch (HttpRequestException httpEx)
@@ -230,6 +271,61 @@ namespace Frontas.Pages
             {
                 _logger.LogError(httpEx, "Error creating Task");
                 ErrorMessage = "There was an error creating the Task. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return RedirectToPage("/EventPage", new { id = EventId });
+        }
+
+        public async Task<IActionResult> OnPostCreateEmployeeAsync()
+        {
+            try
+            {
+                if (FirstName == null || LastName == null)
+                {
+                    ErrorMessage = "Bad input";
+                    return Page();
+                }
+
+                EmployeeRequest participantRequest = new EmployeeRequest
+                {
+                    FirstName = FirstName,
+                    LastName = LastName,
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(participantRequest), System.Text.Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"{GlobalParameters.apiUrl}/Users", content);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error creating participant");
+                ErrorMessage = "There was an error creating the participant. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return RedirectToPage("/EventPage", new { id = EventId });
+        }
+
+        public async Task<IActionResult> OnPostAddEmployeeAsync()
+        {
+            try
+            {
+                var response = await _httpClient.PutAsync($"{GlobalParameters.apiUrl}/Events/{EventId}/Workers/{SelectedParticipantId}", null);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error adding participant to event");
+                ErrorMessage = "There was an error adding the participant to the event. Please try again later.";
             }
             catch (Exception ex)
             {

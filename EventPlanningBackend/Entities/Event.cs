@@ -30,6 +30,10 @@ namespace EventBackend.Entities
 
         public List<Participant>? Participants { get; set; }
 
+        public List<ApplicationUser>? Users { get; set; }
+
+
+
         public Event()
         {
         }

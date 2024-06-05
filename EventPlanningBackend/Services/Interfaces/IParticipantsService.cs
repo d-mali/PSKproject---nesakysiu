@@ -1,5 +1,5 @@
-﻿using EventBackend.Filters;
-using EventBackend.Entities;
+﻿using EventBackend.Entities;
+using EventBackend.Filters;
 
 namespace EventBackend.Services.Interfaces
 {
@@ -8,7 +8,7 @@ namespace EventBackend.Services.Interfaces
         public Task<Participant> CreateParticipantAsync(Participant entity);
         public Task<IEnumerable<Participant>> GetAllParticipantsAsync(ParticipantQuery filter);
         public Task<Participant?> GetParticipantByIdAsync(Guid id);
-        public Task<Participant> UpdateParticipantAsync(Guid id, Participant entity);
+        public Task<Participant?> UpdateParticipantAsync(Guid id, Participant entity);
         public Task<bool> DeleteParticipantAsync(Guid id);
     }
 }

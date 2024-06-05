@@ -132,15 +132,43 @@ namespace EventBackend.Controllers
         }
 
         [HttpDelete("{eventId}/Participation/{participantId}")]
-        public Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid eventId, Guid participantId)
+        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid eventId, Guid participantId)
         {
-            //var eventas = await _eventService.GetEventParticipants(eventId);
-            //if (eventas == null)
-            //{
-            //    return BadRequest("Invalid");
-            //}
-            //return Ok(eventas);
-            throw new NotImplementedException();
+            var eventas = await _eventService.DeleteParticipation(eventId, participantId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
+        }
+
+        [HttpPut("{eventId}/Workers/{userId}")]
+        public async Task<IActionResult> GetEventWorker([FromRoute][Required] Guid eventId, String userId)
+        {
+            var eventas = await _eventService.CreateWorker(eventId, userId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
+        }
+
+        [HttpGet("{eventId}/Workers")]
+        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] Guid eventId)
+        {
+            var eventas = await _eventService.GetEventWorkers(eventId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            var workers = eventas.Select(c => new ApplicationUser
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                Email = c.Email,
+            }).ToList();
+            return Ok(workers);
         }
 
         //[HttpGet]

@@ -1,5 +1,5 @@
-﻿using EventBackend.Filters;
-using EventBackend.Services.Interfaces;
+﻿using EventBackend.Services.Interfaces;
+using EventDomain.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,15 +19,29 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersAsync(UserQuery filter)
+        public async Task<IActionResult> GetUsersAsync()
         {
-            return Ok(await _userService.GetAllUsersAsync(filter));
+            return Ok(await _userService.GetAllUsersAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] Guid id)
         {
             return Ok(await _userService.GetUserByIdAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] EmployeeRequest request)
+        {
+            var user = new EmployeeRequest
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
+
+            var result = await _userService.CreateUserAsync(user);
+
+            return CreatedAtAction(nameof(CreateUser), user);
         }
     }
 }

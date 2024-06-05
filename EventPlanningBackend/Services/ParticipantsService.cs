@@ -77,9 +77,20 @@ namespace EventBackend.Services
             return await _participantRepository.GetByIdAsync(id);
         }
 
-        public Task<Participant> UpdateParticipantAsync(Guid id, Participant entity)
+        public async Task<Participant?> UpdateParticipantAsync(Guid id, Participant entity)
         {
-            throw new NotImplementedException();
+            var participantEntity = await _participantRepository.GetByIdAsync(id);
+            if (participantEntity == null)
+                return null;
+
+            participantEntity.FirstName = entity.FirstName;
+            participantEntity.LastName = entity.LastName;
+            participantEntity.BirthDate = entity.BirthDate;
+            participantEntity.Email = entity.Email;
+
+            await _participantRepository.UpdateAsync(participantEntity);
+
+            return participantEntity;
         }
     }
 }
