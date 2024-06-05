@@ -1,4 +1,5 @@
-﻿using EventBackend.Entities;
+﻿using EventBackend.Authorization;
+using EventBackend.Entities;
 using EventBackend.Filters;
 using EventBackend.Services.Interfaces;
 using EventDomain.Contracts.Requests;
@@ -44,6 +45,7 @@ namespace EventBackend.Controllers
 
         // POST: api/Events
         [HttpPost]
+        [HasPermission(Permissions.Event.Create)]
         public async Task<IActionResult> CreateEvent([FromBody] EventRequest request)
         {
             //var convertedEntity = new Event

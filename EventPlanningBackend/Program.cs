@@ -1,10 +1,12 @@
 using EventBackend;
+using EventBackend.Authorization;
 using EventBackend.Entities;
 using EventBackend.Middleware;
 using EventBackend.Services;
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDataAccess.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
 
@@ -49,6 +51,9 @@ builder.Services.AddScoped<IEventsService, EventsService>();
 builder.Services.AddScoped<ITasksService, TasksService>();
 builder.Services.AddScoped<IParticipantsService, ParticipantsService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
 
 var app = builder.Build();
 
