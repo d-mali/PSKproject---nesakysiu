@@ -43,5 +43,25 @@ namespace EventBackend.Controllers
 
             return CreatedAtAction(nameof(CreateUser), user);
         }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateParticipant([Required][FromRoute] Guid userId, [FromBody] EmployeeRequest request)
+        {
+            var participant = new EmployeeRequest
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
+
+            return Ok(await _userService.UpdateUserAsync(userId, participant));
+        }
+
+        [HttpDelete("{participantId}")]
+        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] Guid participantId)
+        {
+            await _userService.DeleteUserAsync(participantId);
+
+            return NoContent();
+        }
     }
 }
