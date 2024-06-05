@@ -15,6 +15,8 @@ namespace Frontas.Pages
 
         public EventResponse? Event { get; private set; }
 
+        public Guid EventId { get; private set; }
+
         public ParticipantPageModel(ILogger<ParticipantPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
@@ -25,6 +27,8 @@ namespace Frontas.Pages
         {
             try
             {
+                EventId = eventId;
+
                 var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Participants/{id}");
                 response.EnsureSuccessStatusCode();
 

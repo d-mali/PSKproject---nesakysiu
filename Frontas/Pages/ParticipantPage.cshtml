@@ -14,16 +14,14 @@
     else if (Model.ParticipantResponse != null)
     {
         <div class="modHead">
-            <a asp-page="./Index" class="user-info-link">
-                <h1>..Visi renginiai</h1>
-            </a>
+            <a href="/EventPage?id=@Model.EventId" class="user-info-link"><h3>Grįžti prie renginio</h3></a>
             <form method="post" asp-page-handler="Delete" style="display: inline;">
                 <input type="hidden" name="participantId" value="@Model.ParticipantResponse.Id" />
                 <input type="hidden" name="eventId" value="@Request.Query["eventId"]" />
                 <button type="submit" class="deleteHover">Pašalinti dalyvį iš renginio</button>
             </form>
         </div>
-        <a href="/ModParticipantPageModel?id=@Model.ParticipantResponse.Id" class="user-info-link">
+        <a href="/ModParticipantPageModel?id=@Model.ParticipantResponse.Id&eventId=@Model.EventId" class="user-info-link">
             <div class="event-details">
                 <h1>@Model.ParticipantResponse.FirstName</h1>
                 <p>@Model.ParticipantResponse.LastName</p>

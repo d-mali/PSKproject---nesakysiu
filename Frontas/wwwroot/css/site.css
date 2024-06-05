@@ -90,7 +90,7 @@ button {
     box-shadow: 0 3px 10px var(--text-color);
 }
 
-.event:hover, .user-info:hover, .create-event:hover, .event-details:hover, button:hover, .user:hover, .event-details:hover, .task:hover, .participant:hover {
+.event:hover, .user-info:hover, .create-event:hover, .event-details:hover, employee-details:hover, button:hover, .user:hover, .event-details:hover, .task:hover, .participant:hover {
     background-color: var(--accent-hover-color);
     color: var(--form-bg-color);
 }
@@ -138,6 +138,21 @@ button {
     margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.employee-details {
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-radius: var(--default-radius);
+    transition: background-color 0.3s;
+    box-shadow: 0 3px 10px var(--text-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    display: flex;
     align-items: center;
 }
 

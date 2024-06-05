@@ -65,7 +65,7 @@ namespace Frontas.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid id)
+        public async Task<IActionResult> OnPostAsync(Guid id, Guid eventId)
         {
             if (ParticipantResponse == null)
             {
@@ -107,8 +107,7 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully updated participant with ID {participantid}", id);
-                    //todo : redirect to event page
-                    return RedirectToPage("/index");
+                    return RedirectToPage("/EventPage", new { id = eventId });
                 }
                 else
                 {
