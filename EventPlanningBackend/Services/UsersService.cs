@@ -79,7 +79,7 @@ namespace EventBackend.Services
             return task;
         }
 
-        public async Task<IEnumerable<EventTask>?> GetUserTasks(string id)
+        public async Task<IEnumerable<EventTask>?> GetUserTasks(string id, Guid eventId)
         {
             var eventWithWorkers = await _context.Users
                 .Include(s => s.Tasks)
@@ -93,9 +93,11 @@ namespace EventBackend.Services
                 return null;
             }
 
-            var workers = eventWithWorkers.Tasks.ToList();
+            var tasksWithSpecificEventId = eventWithWorkers.Tasks
+                .Where(t => t.EventId == eventId)
+                .ToList();
 
-            return workers;
+            return tasksWithSpecificEventId;
         }
 
         public async Task<ApplicationUser?> DeleteTasking(String userId, Guid taskId)

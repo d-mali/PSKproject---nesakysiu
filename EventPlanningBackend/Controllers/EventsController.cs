@@ -171,6 +171,17 @@ namespace EventBackend.Controllers
             return Ok(workers);
         }
 
+        [HttpDelete("{eventId}/Workers/{userId}")]
+        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid eventId, String userId)
+        {
+            var eventas = await _eventService.DeleteWorker(eventId, userId);
+            if (eventas == null)
+            {
+                return BadRequest("Invalid");
+            }
+            return Ok(eventas);
+        }
+
         //[HttpGet]
         //[Route("/{eventId}/Tasks")]
         //public async Task<IActionResult> GetEventTasks([FromRoute][Required] Guid eventId)

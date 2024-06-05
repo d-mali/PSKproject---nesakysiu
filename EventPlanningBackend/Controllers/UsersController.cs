@@ -77,10 +77,10 @@ namespace EventBackend.Controllers
             return Ok(eventas);
         }
 
-        [HttpGet("{userId}/Tasks")]
-        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] String userId)
+        [HttpGet("{userId}/Events{eventId}/Tasks")]
+        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] String userId, Guid eventId)
         {
-            var eventas = await _userService.GetUserTasks(userId);
+            var eventas = await _userService.GetUserTasks(userId, eventId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");

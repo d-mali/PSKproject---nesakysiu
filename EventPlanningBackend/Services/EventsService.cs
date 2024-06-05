@@ -204,5 +204,35 @@ namespace EventBackend.Services
 
             return workers;
         }
+
+        public async Task<EventResponse?> DeleteWorker(Guid eventId, String userId)
+        {
+            var eventas = await _context.Events
+               .Include(e => e.Users)
+               .FirstOrDefaultAsync(e => e.Id == eventId);
+            if (eventas == null)
+            {
+                return null;
+            }
+            if (eventas.Users == null)
+            {
+                return null;
+            }
+
+            var participant = eventas.Users.FirstOrDefault(p => p.Id == userId);
+            if (participant == null)
+            {
+                return null;
+            }
+
+
+            eventas.Users ??= new List<ApplicationUser>();
+
+            eventas.Users.Remove(participant);
+
+            await _context.SaveChangesAsync();
+
+            return eventas.ToResponse();
+        }
     }
 }

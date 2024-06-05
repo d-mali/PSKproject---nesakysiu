@@ -18,16 +18,18 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> GetTasks(Guid eventId)
         {
-            return Ok(await _taskService.GetTasksAsync());
+            var tasks = await _taskService.GetTasksAsync(eventId);
+
+            return Ok(tasks);
         }
 
         // GET: api/Tasks/5
         [HttpGet("{taskId}")]
         public async Task<IActionResult> GetTask(Guid eventId, Guid taskId)
         {
-            var task = await _taskService.GetTaskAsync(taskId);
+            var task = await _taskService.GetTaskAsync(eventId, taskId);
 
             if (task == null)
             {
