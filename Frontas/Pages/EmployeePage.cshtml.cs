@@ -15,6 +15,8 @@ namespace Frontas.Pages
 
         public EventResponse? Event { get; private set; }
 
+        public List<TaskResponse> TaskResponse { get; private set; } = new List<TaskResponse>();
+
         public Guid EventId { get; private set; }
 
         public EmployeePageModel(ILogger<EmployeePageModel> logger, IHttpClientFactory httpClientFactory)
@@ -41,6 +43,30 @@ namespace Frontas.Pages
                     ErrorMessage = "There was an error deserializing the Employee. Please try again later.";
                     return Page();
                 }
+
+                // Fetch Tasks
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events{EventId}/Tasks");
+                if (!response.IsSuccessStatusCode)
+                {
+                    ErrorMessage = $"Error fetching tasks: {response.ReasonPhrase}";
+                    return Page();
+                }
+
+                string responseBodyTasks = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(responseBodyTasks))
+                {
+                    ErrorMessage = "The response body for tasks was empty. Please try again later.";
+                    return Page();
+                }
+
+                var deserializedEvent = JsonConvert.DeserializeObject<List<TaskResponse>>(responseBodyTasks);
+                if (deserializedEvent == null)
+                {
+                    ErrorMessage = "There was an error deserializing the tasks. Please try again later.";
+                    return Page();
+                }
+
+                TaskResponse = deserializedEvent;
             }
             catch (HttpRequestException httpEx)
             {
@@ -60,7 +86,7 @@ namespace Frontas.Pages
         {
             try//todo change endpoint to delete event the event
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Users/{EmployeeId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Workers/{EmployeeId}");
 
                 if (response.IsSuccessStatusCode)
                 {
