@@ -25,7 +25,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] Guid id)
+        public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] string id)
         {
             return Ok(await _userService.GetUserByIdAsync(id));
         }
@@ -42,6 +42,26 @@ namespace EventBackend.Controllers
             var result = await _userService.CreateUserAsync(user);
 
             return CreatedAtAction(nameof(CreateUser), user);
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateParticipant([Required][FromRoute] string userId, [FromBody] EmployeeRequest request)
+        {
+            var participant = new EmployeeRequest
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
+
+            return Ok(await _userService.UpdateUserAsync(userId, participant));
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] String userId)
+        {
+            await _userService.DeleteUserAsync(userId);
+
+            return NoContent();
         }
     }
 }
