@@ -24,7 +24,7 @@ namespace EventBackend.Services
             return await _userRepository.InsertAsync(evt);
         }
 
-        public async Task<bool> DeleteUserAsync(Guid id)
+        public async Task<bool> DeleteUserAsync(String id)
         {
             var participantEntity = await _userRepository.GetByIdAsync(id);
 
@@ -41,12 +41,12 @@ namespace EventBackend.Services
             return await _userRepository.GetAllAsync();
         }
 
-        public async Task<ApplicationUser?> GetUserByIdAsync(Guid id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(String id)
         {
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<ApplicationUser?> UpdateUserAsync(Guid id, EmployeeRequest entity)
+        public async Task<ApplicationUser?> UpdateUserAsync(String id, EmployeeRequest entity)
         {
             var participantEntity = await _userRepository.GetByIdAsync(id);
             if (participantEntity == null)
