@@ -79,7 +79,7 @@ namespace Frontas.Pages
 
             EventId = eventId;
 
-            EmployeeRequest EmployeeRequest = new EmployeeRequest { FirstName = EmployeeResponse.FirstName, LastName = EmployeeResponse.LastName};
+            EmployeeRequest EmployeeRequest = new EmployeeRequest { FirstName = EmployeeResponse.FirstName, LastName = EmployeeResponse.LastName };
 
             /*if (!ModelState.IsValid)
             {
@@ -113,7 +113,9 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully updated employee with ID {employeeid}", id);
-                    return RedirectToPage("/EmployeePage", new { id = id, eventId = EventId});
+                    //nes ir is vartotojo cia eina
+                    //return RedirectToPage("/EmployeePage", new { id = id, eventId = EventId});
+                    return RedirectToPage("/index");
                 }
                 else
                 {

@@ -45,7 +45,7 @@ namespace Frontas.Pages
                 }
 
                 // Fetch Tasks
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events{EventId}/Tasks");
+                /*response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Tasks");
                 if (!response.IsSuccessStatusCode)
                 {
                     ErrorMessage = $"Error fetching tasks: {response.ReasonPhrase}";
@@ -66,7 +66,7 @@ namespace Frontas.Pages
                     return Page();
                 }
 
-                TaskResponse = deserializedEvent;
+                TaskResponse = deserializedEvent;*/
             }
             catch (HttpRequestException httpEx)
             {

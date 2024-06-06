@@ -45,7 +45,7 @@ namespace Frontas.Pages
                 }
 
                 // Fetch All Employees
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Workers");
                 response.EnsureSuccessStatusCode();
                 string responseBodyAllEmp = await response.Content.ReadAsStringAsync();
 
