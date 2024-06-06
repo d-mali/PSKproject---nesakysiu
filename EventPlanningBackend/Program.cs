@@ -9,6 +9,7 @@ using EventDataAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,46 +20,12 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
-// Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddDbContext<MainDbContext>();
-
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<MainDbContext>();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.TagActionsBy(api =>
-    {
-        if (api.GroupName != null)
-        {
-            return new[] { api.GroupName };
-        }
-
-        var controllerActionDescriptor = api.ActionDescriptor as ControllerActionDescriptor;
-        return new[] { controllerActionDescriptor?.ControllerName };
-    });
-
-    options.DocInclusionPredicate((_, api) => true);
-});
-
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-builder.Services.AddScoped<IEventsService, EventsService>();
-builder.Services.AddScoped<ITasksService, TasksService>();
-builder.Services.AddScoped<IParticipantsService, ParticipantsService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
-
-builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+RegisterServices(builder.Services);
 
 var app = builder.Build();
 
 app.UseMiddleware<LoggingMiddleware>();
-
 //app.UseMiddleware<OptimisticLockingExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
@@ -67,7 +34,6 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.EnsureCreated();
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -75,12 +41,46 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapIdentityApi<ApplicationUser>();
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+return;
+
+static void RegisterServices(IServiceCollection services)
+{
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen(SetupSwaggerGrouping);
+
+    services.AddControllers();
+    services.AddDbContext<MainDbContext>();
+    services.AddAuthorization();
+    services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<MainDbContext>();
+
+    services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+    services.AddScoped<IEventsService, EventsService>();
+    services.AddScoped<ITasksService, TasksService>();
+    services.AddScoped<IParticipantsService, ParticipantsService>();
+    services.AddScoped<IUsersService, UsersService>();
+
+    services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+    services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+}
+
+static void SetupSwaggerGrouping(SwaggerGenOptions options)
+{
+    options.TagActionsBy(api =>
+    {
+        if (api.GroupName != null)
+        {
+            return [api.GroupName];
+        }
+
+        var controllerActionDescriptor = api.ActionDescriptor as ControllerActionDescriptor;
+        return [controllerActionDescriptor?.ControllerName];
+    });
+
+    options.DocInclusionPredicate((_, api) => true);
+}
 

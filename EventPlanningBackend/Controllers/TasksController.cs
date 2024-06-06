@@ -37,7 +37,7 @@ namespace EventBackend.Controllers
         {
             var createdTask = await taskService.CreateTaskAsync(eventId, taskRequest);
 
-            return Ok(createdTask);
+            return CreatedAtAction(nameof(CreateTask), createdTask);
         }
 
         // PUT: api/Tasks/5

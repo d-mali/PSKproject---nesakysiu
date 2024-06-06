@@ -89,9 +89,9 @@ namespace EventBackend.Controllers
         }
 
         [HttpPut("{userId}/Tasks/{taskId}")]
-        public async Task<IActionResult> GetEventWorker([FromRoute][Required] string userId, Guid taskId)
+        public async Task<IActionResult> AssignUserToTask([FromRoute][Required] string userId, Guid taskId)
         {
-            var task = await userService.CreateTasking(userId, taskId);
+            var task = await userService.AssignToTask(userId, taskId);
             if (task == null)
             {
                 return BadRequest("Invalid");
@@ -101,11 +101,11 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet("{userId}/Events/{eventId}/Tasks")]
-        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] string userId, Guid eventId)
+        public async Task<IActionResult> GetEventUsers([FromRoute][Required] string userId, Guid eventId)
         {
             var userTasks = await userService.GetUserTasks(userId, eventId);
 
-            var workers = userTasks.Select(c => new EventTask
+            var users = userTasks.Select(c => new EventTask
             {
                 Id = c.Id,
                 Title = c.Title,
@@ -114,13 +114,13 @@ namespace EventBackend.Controllers
                 Status = c.Status
             }).ToList();
 
-            return Ok(workers);
+            return Ok(users);
         }
 
         [HttpDelete("{userId}/Tasks/{taskId}")]
-        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] string userId, Guid taskId)
+        public async Task<IActionResult> RemoveUserFromEvent([FromRoute][Required] string userId, Guid taskId)
         {
-            var user = await userService.DeleteTasking(userId, taskId);
+            var user = await userService.RemoveUserFromEvent(userId, taskId);
             if (user == null)
             {
                 return BadRequest("Invalid");

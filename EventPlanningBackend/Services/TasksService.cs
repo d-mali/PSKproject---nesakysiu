@@ -48,7 +48,11 @@ namespace EventBackend.Services
             return true;
         }
 
-        public async Task<IEnumerable<TaskResponse>> GetTasksAsync(Guid eventId, Expression<Func<EventTask, bool>>? filter = null, Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null, int? itemsToSkip = null, int? itemsToTake = null)
+        public async Task<IEnumerable<TaskResponse>> GetTasksAsync(
+            Guid eventId, Expression<Func<EventTask, bool>>? filter = null,
+            Func<IQueryable<EventTask>, IOrderedQueryable<EventTask>>? orderBy = null,
+            int? itemsToSkip = null,
+            int? itemsToTake = null)
         {
             var tasks = await context.Tasks
                 .Where(t => t.EventId == eventId)

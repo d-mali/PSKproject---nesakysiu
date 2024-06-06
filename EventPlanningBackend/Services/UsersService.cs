@@ -10,8 +10,6 @@ namespace EventBackend.Services
     public class UsersService(IGenericRepository<ApplicationUser> userRepository, MainDbContext context)
         : IUsersService
     {
-        protected readonly MainDbContext _context = context;
-
         public async Task<ApplicationUser> CreateUserAsync(EmployeeRequest entity)
         {
             var evt = new ApplicationUser
@@ -23,7 +21,7 @@ namespace EventBackend.Services
             return await userRepository.InsertAsync(evt);
         }
 
-        public async Task<bool> DeleteUserAsync(String id)
+        public async Task<bool> DeleteUserAsync(string id)
         {
             var participantEntity = await userRepository.GetByIdAsync(id);
 
@@ -57,36 +55,34 @@ namespace EventBackend.Services
             return await userRepository.UpdateAsync(participantEntity);
         }
 
-        public async Task<TaskResponse?> CreateTasking(string userId, Guid taskId)
+        public async Task<TaskResponse?> AssignToTask(string userId, Guid taskId)
         {
-            var useris = await _context.Users.FindAsync(userId);
-            var task = await _context.Tasks.FindAsync(taskId);
+            var user = await context.Users.FindAsync(userId);
+            var task = await context.Tasks.FindAsync(taskId);
 
-            if (useris == null || task == null)
+            if (user == null || task == null)
             {
                 return null;
             }
 
-            useris.Tasks.Add(task);
+            user.Tasks.Add(task);
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return task.ToResponse();
         }
 
         public async Task<IEnumerable<TaskResponse>> GetUserTasks(string userId, Guid? eventId = null)
         {
-            // fetch all tasks for a userId in event if eventId is provided otherwise fetch all tasks for a user
-            var user = await _context.Users
+            var user = await context.Users
                 .Include(s => s.Tasks)
                 .FirstOrDefaultAsync(s => s.Id == userId);
 
             if (user == null)
             {
-                return new List<TaskResponse>();
+                return [];
             }
 
-            // if eventId is provided, filter tasks by eventId
             if (eventId != null)
             {
                 user.Tasks = user.Tasks.Where(t => t.EventId == eventId).ToList();
@@ -95,23 +91,24 @@ namespace EventBackend.Services
             return user.Tasks.Select(t => t.ToResponse()).ToList();
         }
 
-        public async Task<ApplicationUser?> DeleteTasking(string userId, Guid taskId)
+        public async Task<ApplicationUser?> RemoveUserFromEvent(string userId, Guid taskId)
         {
-            var eventas = await _context.Users
+            var userEntity = await context.Users
                 .Include(s => s.Tasks)
                 .FirstOrDefaultAsync(s => s.Id == userId);
 
-            var participant = eventas?.Tasks.FirstOrDefault(p => p.Id == taskId);
-            if (participant == null)
+            var task = userEntity?.Tasks.FirstOrDefault(p => p.Id == taskId);
+
+            if (task == null)
             {
                 return null;
             }
 
-            eventas?.Tasks.Remove(participant);
+            userEntity?.Tasks.Remove(task);
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            return eventas;
+            return userEntity;
         }
     }
 }
