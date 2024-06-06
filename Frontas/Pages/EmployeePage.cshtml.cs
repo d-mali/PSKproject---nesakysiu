@@ -45,7 +45,7 @@ namespace Frontas.Pages
                 }
 
                 // Fetch Tasks
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events{EventId}/Tasks");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events/{EventId}/Tasks");
                 if (!response.IsSuccessStatusCode)
                 {
                     ErrorMessage = $"Error fetching tasks: {response.ReasonPhrase}";

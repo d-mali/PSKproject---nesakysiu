@@ -2,10 +2,6 @@ using EventDomain.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace Frontas.Pages
 {
@@ -120,9 +116,10 @@ namespace Frontas.Pages
                 }
                 else
                 {
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                    return RedirectToPage("/EventTaskPage", new { id = taskId, eventId = eventId });
+                    /*string responseContent = await response.Content.ReadAsStringAsync();
                     _logger.LogError("Failed to assign task. Status Code: {StatusCode}, Response: {ResponseContent}", response.StatusCode, responseContent);
-                    ErrorMessage = $"There was an error assigning the task. Status Code: {response.StatusCode}, Response: {responseContent}";
+                    ErrorMessage = $"There was an error assigning the task. Status Code: {response.StatusCode}, Response: {responseContent}";*/
                 }
             }
             catch (HttpRequestException httpEx)
