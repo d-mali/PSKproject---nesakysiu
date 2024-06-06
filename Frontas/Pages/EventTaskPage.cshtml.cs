@@ -2,6 +2,10 @@ using EventDomain.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Frontas.Pages
 {
@@ -56,19 +60,7 @@ namespace Frontas.Pages
                 AllEmployees = deserializedEmp;
 
                 // Fetch Task Assigned Employees
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Tasks/{id}/Users");
-                response.EnsureSuccessStatusCode();
-                string responseBodyTaskEmp = await response.Content.ReadAsStringAsync();
-
-                List<EmployeeResponse>? deserializedTaskEmp = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyTaskEmp);
-
-                if (deserializedTaskEmp == null)
-                {
-                    ErrorMessage = "There was an error deserializing the task employees. Please try again later.";
-                    return Page();
-                }
-
-                TaskEmployees = deserializedTaskEmp;
+                TaskEmployees = TaskResponse.Assigned ?? new List<EmployeeResponse>();
             }
             catch (HttpRequestException httpEx)
             {
