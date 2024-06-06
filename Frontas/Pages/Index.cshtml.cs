@@ -13,9 +13,9 @@ namespace Frontas.Pages
 
         public List<EventRequest> EventRequest { get; private set; } = new List<EventRequest>();
         public List<EventResponse> EventResponse { get; private set; } = new List<EventResponse>();
+        public EmployeeResponse? UserInfo { get; private set; }
 
         public string? ErrorMessage { get; private set; }
-        public int DaysUntilStart { get; private set; }
 
         [BindProperty]
         public EventRequest? NewEvent { get; set; }
@@ -33,28 +33,38 @@ namespace Frontas.Pages
                 var response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events");
                 response.EnsureSuccessStatusCode();
 
-                string? responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-                if (responseBody == null)
+                if (string.IsNullOrEmpty(responseBody))
                 {
                     ErrorMessage = "There was an error fetching the events. Please try again later.";
                     return;
                 }
 
-                List<EventResponse>? deserializedEvent = JsonConvert.DeserializeObject<List<EventResponse>>(responseBody);
-
-                if (deserializedEvent == null)
+                var deserializedEvents = JsonConvert.DeserializeObject<List<EventResponse>>(responseBody);
+                if (deserializedEvents == null)
                 {
                     ErrorMessage = "There was an error deserializing the events. Please try again later.";
                     return;
                 }
 
-                EventResponse = deserializedEvent;
+                EventResponse = deserializedEvents;
+
+                // Fetch User Information
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/User");
+                response.EnsureSuccessStatusCode();
+                string userResponseBody = await response.Content.ReadAsStringAsync();
+
+                UserInfo = JsonConvert.DeserializeObject<EmployeeResponse>(userResponseBody);
+                if (UserInfo == null)
+                {
+                    ErrorMessage = "There was an error fetching the user information. Please try again later.";
+                }
             }
             catch (HttpRequestException httpEx)
             {
-                _logger.LogError(httpEx, "Error fetching events from API");
-                ErrorMessage = "There was an error fetching the events. Please try again later.";
+                _logger.LogError(httpEx, "Error fetching data from API");
+                ErrorMessage = "There was an error fetching the data. Please try again later.";
             }
             catch (Exception ex)
             {

@@ -2,6 +2,10 @@ using EventDomain.Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Frontas.Pages
 {
@@ -14,6 +18,7 @@ namespace Frontas.Pages
         public string? ErrorMessage { get; private set; }
         public Guid EventId { get; private set; }
         public List<EmployeeResponse> AllEmployees { get; private set; } = new List<EmployeeResponse>();
+        public List<EmployeeResponse> TaskEmployees { get; private set; } = new List<EmployeeResponse>();
 
         public EventTaskPageModel(ILogger<EventTaskPageModel> logger, IHttpClientFactory httpClientFactory)
         {
@@ -40,19 +45,22 @@ namespace Frontas.Pages
                 }
 
                 // Fetch All Employees
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users");
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Workers");
                 response.EnsureSuccessStatusCode();
                 string responseBodyAllEmp = await response.Content.ReadAsStringAsync();
 
-                List<EmployeeResponse>? deserializedEmp2 = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllEmp);
+                List<EmployeeResponse>? deserializedEmp = JsonConvert.DeserializeObject<List<EmployeeResponse>>(responseBodyAllEmp);
 
-                if (deserializedEmp2 == null)
+                if (deserializedEmp == null)
                 {
-                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    ErrorMessage = "There was an error deserializing the employees. Please try again later.";
                     return Page();
                 }
 
-                AllEmployees = deserializedEmp2;
+                AllEmployees = deserializedEmp;
+
+                // Fetch Task Assigned Employees
+                TaskEmployees = TaskResponse.Assigned ?? new List<EmployeeResponse>();
             }
             catch (HttpRequestException httpEx)
             {
@@ -108,7 +116,7 @@ namespace Frontas.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("/EventPage", new { id = eventId });
+                    return RedirectToPage("/EventTaskPage", new { id = taskId, eventId = eventId });
                 }
                 else
                 {
@@ -121,6 +129,37 @@ namespace Frontas.Pages
             {
                 _logger.LogError(httpEx, "Error assigning task to user");
                 ErrorMessage = "There was an error assigning the task. Please try again later.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error");
+                ErrorMessage = "An unexpected error occurred. Please try again later.";
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostRemoveUserAsync(Guid taskId, [FromForm] Guid userId, [FromForm] Guid eventId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Users/{userId}/Tasks/{taskId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("/EventTaskPage", new { id = taskId, eventId = eventId });
+                }
+                else
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Failed to remove user from task. Status Code: {StatusCode}, Response: {ResponseContent}", response.StatusCode, responseContent);
+                    ErrorMessage = $"There was an error removing the user from the task. Status Code: {response.StatusCode}, Response: {responseContent}";
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error removing user from task");
+                ErrorMessage = "There was an error removing the user from the task. Please try again later.";
             }
             catch (Exception ex)
             {
