@@ -60,6 +60,11 @@ namespace Frontas.Pages
                 {
                     ErrorMessage = "There was an error fetching the user information. Please try again later.";
                 }
+                if (UserInfo != null)
+                {
+                    GlobalParameters.SetUserInfoGlobal(UserInfo);
+                }
+;
             }
             catch (HttpRequestException httpEx)
             {

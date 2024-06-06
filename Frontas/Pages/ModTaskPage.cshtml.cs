@@ -108,7 +108,7 @@ namespace Frontas.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully updated task with ID {TaskId}", id);
-                    return RedirectToPage("/EventTaskPage", new { id = id });
+                    return RedirectToPage("/EventTaskPage", new { id = id, eventId = eventId });
                 }
                 else
                 {
