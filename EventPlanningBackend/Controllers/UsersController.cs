@@ -89,7 +89,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] String userId)
+        public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] string userId)
         {
             await _userService.DeleteUserAsync(userId);
 
@@ -97,7 +97,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpPut("{userId}/Tasks/{taskId}")]
-        public async Task<IActionResult> GetEventWorker([FromRoute][Required] String userId, Guid taskId)
+        public async Task<IActionResult> GetEventWorker([FromRoute][Required] string userId, Guid taskId)
         {
             var eventas = await _userService.CreateTasking(userId, taskId);
             if (eventas == null)
@@ -109,7 +109,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpGet("{userId}/Events/{eventId}/Tasks")]
-        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] String userId, Guid eventId)
+        public async Task<IActionResult> GetEventWorkers([FromRoute][Required] string userId, Guid eventId)
         {
             var eventas = await _userService.GetUserTasks(userId, eventId);
             if (eventas == null)
@@ -128,7 +128,7 @@ namespace EventBackend.Controllers
         }
 
         [HttpDelete("{userId}/Tasks/{taskId}")]
-        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] String userId, Guid taskId)
+        public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] string userId, Guid taskId)
         {
             var eventas = await _userService.DeleteTasking(userId, taskId);
             if (eventas == null)

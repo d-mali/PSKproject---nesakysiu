@@ -62,7 +62,7 @@ namespace EventBackend.Services
             return await _userRepository.UpdateAsync(participantEntity);
         }
 
-        public async Task<EventTask?> CreateTasking(String userId, Guid taskId)
+        public async Task<TaskResponse?> CreateTasking(String userId, Guid taskId)
         {
             var useris = await _context.Users.FindAsync(userId);
             var task = await _context.Tasks.FindAsync(taskId);
@@ -76,7 +76,7 @@ namespace EventBackend.Services
 
             await _context.SaveChangesAsync();
 
-            return task;
+            return task.ToResponse();
         }
 
         public async Task<IEnumerable<TaskResponse>> GetUserTasks(string userId, Guid? eventId = null)
