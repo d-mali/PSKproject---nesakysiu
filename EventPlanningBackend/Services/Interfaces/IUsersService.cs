@@ -11,8 +11,8 @@ namespace EventBackend.Services.Interfaces
         public Task<ApplicationUser?> GetUserByIdAsync(string id);
         public Task<ApplicationUser?> UpdateUserAsync(string id, EmployeeRequest entity);
         public Task<bool> DeleteUserAsync(string id);
-        public Task<TaskResponse?> CreateTasking(String userId, Guid taskId);
+        public Task<TaskResponse?> CreateTasking(string userId, Guid taskId);
         public Task<IEnumerable<TaskResponse>> GetUserTasks(string userId, Guid? eventId = null);
-        public Task<ApplicationUser?> DeleteTasking(String userId, Guid taskId);
+        public Task<ApplicationUser?> DeleteTasking(string userId, Guid taskId);
     }
 }

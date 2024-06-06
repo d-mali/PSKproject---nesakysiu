@@ -8,36 +8,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
 {
-    public class EventsService : IEventsService
+    public class EventsService(IGenericRepository<Event> eventRepository, MainDbContext context)
+        : IEventsService
     {
-        private readonly IGenericRepository<Event> _eventRepository;
-        protected readonly MainDbContext _context;
-
-        public EventsService(IGenericRepository<Event> eventRepository, MainDbContext context)
-        {
-            _eventRepository = eventRepository;
-            _context = context;
-        }
+        protected readonly MainDbContext Context = context;
 
         public async Task<EventResponse?> CreateEventAsync(EventRequest eventRequest)
         {
             var eventEntity = new Event(eventRequest);
 
-            var events = await _eventRepository.InsertAsync(eventEntity);
+            var events = await eventRepository.InsertAsync(eventEntity);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return events.ToResponse();
         }
 
         public async Task<bool> DeleteEventAsync(Guid id)
         {
-            var eventEntity = await _eventRepository.GetByIdAsync(id);
+            var eventEntity = await eventRepository.GetByIdAsync(id);
 
             if (eventEntity == null)
                 return false;
 
-            var result = await _eventRepository.DeleteAsync(id);
+            var result = await eventRepository.DeleteAsync(id);
 
             return result;
         }
@@ -72,21 +66,21 @@ namespace EventBackend.Services
                     break;
             }
 
-            var events = await _eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
+            var events = await eventRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
 
             return events.Select(x => x.ToResponse());
         }
 
         public async Task<EventResponse?> GetEventAsync(Guid id)
         {
-            var eventEntity = await _eventRepository.GetByIdAsync(id);
+            var eventEntity = await eventRepository.GetByIdAsync(id);
 
             return eventEntity?.ToResponse();
         }
 
         public async Task<EventResponse?> UpdateEventAsync(Guid id, EventRequest eventRequest)
         {
-            var eventEntity = await _eventRepository.GetByIdAsync(id);
+            var eventEntity = await eventRepository.GetByIdAsync(id);
             if (eventEntity == null)
                 return null;
 
@@ -96,15 +90,15 @@ namespace EventBackend.Services
             eventEntity.Description = eventRequest.Description;
 
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return eventEntity.ToResponse();
         }
 
         public async Task<EventResponse?> CreateParticipation(Guid eventId, Guid participantId)
         {
-            var eventas = await _context.Events.FindAsync(eventId);
-            var participant = await _context.Participants.FindAsync(participantId);
+            var eventas = await Context.Events.FindAsync(eventId);
+            var participant = await Context.Participants.FindAsync(participantId);
 
             if (eventas == null || participant == null)
             {
@@ -114,14 +108,14 @@ namespace EventBackend.Services
 
             eventas.Participants.Add(participant);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return eventas.ToResponse();
         }
 
         public async Task<EventResponse?> DeleteParticipation(Guid eventId, Guid participantId)
         {
-            var eventas = await _context.Events
+            var eventas = await Context.Events
                .Include(e => e.Participants)
                .FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventas == null)
@@ -144,14 +138,14 @@ namespace EventBackend.Services
 
             eventas.Participants.Remove(participant);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return eventas.ToResponse();
         }
 
         public async Task<IEnumerable<Participant>?> GetEventParticipants(Guid id)
         {
-            var eventWithParticipants = await _context.Events
+            var eventWithParticipants = await Context.Events
                 .Include(s => s.Participants)
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (eventWithParticipants == null)
@@ -170,8 +164,8 @@ namespace EventBackend.Services
 
         public async Task<EventResponse?> CreateWorker(Guid eventId, String userId)
         {
-            var eventas = await _context.Events.FindAsync(eventId);
-            var worker = await _context.Users.FindAsync(userId);
+            var eventas = await Context.Events.FindAsync(eventId);
+            var worker = await Context.Users.FindAsync(userId);
 
             if (eventas == null || worker == null)
             {
@@ -181,14 +175,14 @@ namespace EventBackend.Services
 
             eventas.Users.Add(worker);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return eventas.ToResponse();
         }
 
         public async Task<IEnumerable<ApplicationUser>?> GetEventWorkers(Guid id)
         {
-            var eventWithWorkers = await _context.Events
+            var eventWithWorkers = await Context.Events
                 .Include(s => s.Users)
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (eventWithWorkers == null)
@@ -207,7 +201,7 @@ namespace EventBackend.Services
 
         public async Task<EventResponse?> DeleteWorker(Guid eventId, String userId)
         {
-            var eventas = await _context.Events
+            var eventas = await Context.Events
                .Include(e => e.Users)
                .FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventas == null)
@@ -230,7 +224,7 @@ namespace EventBackend.Services
 
             eventas.Users.Remove(participant);
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return eventas.ToResponse();
         }

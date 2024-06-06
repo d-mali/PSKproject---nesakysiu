@@ -2,10 +2,5 @@
 
 namespace EventBackend.Authorization
 {
-    public class HasPermissionAttribute : AuthorizeAttribute
-    {
-        public HasPermissionAttribute(string permission) : base(policy: permission)
-        {
-        }
-    }
+    public class HasPermissionAttribute(string permission) : AuthorizeAttribute(policy: permission);
 }

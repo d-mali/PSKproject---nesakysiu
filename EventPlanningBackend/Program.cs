@@ -42,7 +42,7 @@ builder.Services.AddSwaggerGen(options =>
         return new[] { controllerActionDescriptor?.ControllerName };
     });
 
-    options.DocInclusionPredicate((name, api) => true);
+    options.DocInclusionPredicate((_, api) => true);
 });
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

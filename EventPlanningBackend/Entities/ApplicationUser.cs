@@ -23,7 +23,7 @@ namespace EventBackend.Entities
 
         public virtual List<Event>? Events { get; set; }
 
-        public virtual ICollection<EventTask> Tasks { get; set; } = new List<EventTask>();
+        public virtual ICollection<EventTask> Tasks { get; set; } = [];
 
         public EmployeeResponse ToResponse()
         {

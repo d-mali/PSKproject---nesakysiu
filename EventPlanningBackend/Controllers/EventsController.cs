@@ -11,34 +11,23 @@ namespace EventBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class EventsController(
+        IEventsService eventService)
+        : ControllerBase
     {
-        private readonly IEventsService _eventService;
-        private readonly ITasksService _taskService;
-
-        public EventsController(
-            IEventsService eventService,
-            ITasksService taskService
-            )
-        {
-            _eventService = eventService;
-            _taskService = taskService;
-
-        }
-
         // GET: api/Events
         [HttpGet]
         public async Task<IActionResult> GetEvents([FromQuery] EventsQuery filter)
         {
             var user = User;
-            return Ok(await _eventService.GetAllEventsAsync(filter));
+            return Ok(await eventService.GetAllEventsAsync(filter));
         }
 
         // GET: api/Events/5
         [HttpGet("{eventId}")]
         public async Task<IActionResult> GetEvent([FromRoute][Required] Guid eventId)
         {
-            var entity = await _eventService.GetEventAsync(eventId);
+            var entity = await eventService.GetEventAsync(eventId);
 
             return Ok(entity);
         }
@@ -55,7 +44,7 @@ namespace EventBackend.Controllers
             //    EndDate = entity.EndDate,
             //    Description = entity.Description
             //};
-            var response = await _eventService.CreateEventAsync(request);
+            var response = await eventService.CreateEventAsync(request);
 
 
             //    return CreatedAtAction("PostTodoItem", new { eventId = todoItem.eventId }, todoItem);
@@ -67,14 +56,14 @@ namespace EventBackend.Controllers
         [HttpPut("{eventId}")]
         public async Task<IActionResult> UpdateEvent(Guid eventId, [FromBody] EventRequest entity)
         {
-            return Ok(await _eventService.UpdateEventAsync(eventId, entity));
+            return Ok(await eventService.UpdateEventAsync(eventId, entity));
         }
 
         // DELETE: api/Events/5
         [HttpDelete("{eventId}")]
         public async Task<IActionResult> DeleteEvent([FromRoute][Required] Guid eventId)
         {
-            await _eventService.DeleteEventAsync(eventId);
+            await eventService.DeleteEventAsync(eventId);
 
             return NoContent();
         }
@@ -93,7 +82,7 @@ namespace EventBackend.Controllers
         [HttpGet("{eventId}/Participation")]
         public async Task<IActionResult> GetEventParticipantss([FromRoute][Required] Guid eventId)
         {
-            var eventas = await _eventService.GetEventParticipants(eventId);
+            var eventas = await eventService.GetEventParticipants(eventId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -113,7 +102,7 @@ namespace EventBackend.Controllers
         [HttpGet("{eventId}/Participation/{participantId}")]
         public async Task<IActionResult> GetEventParticipantss([FromRoute][Required] Guid eventId, Guid participantId)
         {
-            var eventas = await _eventService.GetEventParticipants(eventId);
+            var eventas = await eventService.GetEventParticipants(eventId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -125,7 +114,7 @@ namespace EventBackend.Controllers
         [HttpPut("{eventId}/Participation/{participantId}")]
         public async Task<IActionResult> GetEventParticipants([FromRoute][Required] Guid eventId, Guid participantId)
         {
-            var eventas = await _eventService.CreateParticipation(eventId, participantId);
+            var eventas = await eventService.CreateParticipation(eventId, participantId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -136,7 +125,7 @@ namespace EventBackend.Controllers
         [HttpDelete("{eventId}/Participation/{participantId}")]
         public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid eventId, Guid participantId)
         {
-            var eventas = await _eventService.DeleteParticipation(eventId, participantId);
+            var eventas = await eventService.DeleteParticipation(eventId, participantId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -147,7 +136,7 @@ namespace EventBackend.Controllers
         [HttpPut("{eventId}/Workers/{userId}")]
         public async Task<IActionResult> GetEventWorker([FromRoute][Required] Guid eventId, String userId)
         {
-            var eventas = await _eventService.CreateWorker(eventId, userId);
+            var eventas = await eventService.CreateWorker(eventId, userId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -158,7 +147,7 @@ namespace EventBackend.Controllers
         [HttpGet("{eventId}/Workers")]
         public async Task<IActionResult> GetEventWorkers([FromRoute][Required] Guid eventId)
         {
-            var eventas = await _eventService.GetEventWorkers(eventId);
+            var eventas = await eventService.GetEventWorkers(eventId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -176,7 +165,7 @@ namespace EventBackend.Controllers
         [HttpDelete("{eventId}/Workers/{userId}")]
         public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] Guid eventId, String userId)
         {
-            var eventas = await _eventService.DeleteWorker(eventId, userId);
+            var eventas = await eventService.DeleteWorker(eventId, userId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");

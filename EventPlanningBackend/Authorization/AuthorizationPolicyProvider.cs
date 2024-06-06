@@ -3,15 +3,11 @@ using Microsoft.Extensions.Options;
 
 namespace EventBackend.Authorization
 {
-    public class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+    public class AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) : DefaultAuthorizationPolicyProvider(options)
     {
-        public AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
-        {
-        }
-
         public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
-            AuthorizationPolicy? policy = await base.GetPolicyAsync(policyName);
+            var policy = await base.GetPolicyAsync(policyName);
 
             if (policy != null)
             {

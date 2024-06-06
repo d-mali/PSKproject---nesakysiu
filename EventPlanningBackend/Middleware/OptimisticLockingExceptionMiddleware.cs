@@ -1,21 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Net;
 
-public class OptimisticLockingExceptionMiddleware
+namespace EventBackend.Middleware;
+
+public class OptimisticLockingExceptionMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next;
-
-    public OptimisticLockingExceptionMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public async Task Invoke(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (DbUpdateConcurrencyException ex)
         {

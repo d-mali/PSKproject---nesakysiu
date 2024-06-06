@@ -5,16 +5,11 @@ using System.Linq.Expressions;
 
 namespace EventDataAccess.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity>(MainDbContext context) : IGenericRepository<TEntity>
+        where TEntity : class
     {
-        protected readonly MainDbContext _context;
-        protected readonly DbSet<TEntity> DbSet;
-
-        public GenericRepository(MainDbContext context)
-        {
-            _context = context;
-            DbSet = context.Set<TEntity>();
-        }
+        protected readonly MainDbContext Context = context;
+        protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
 
         public async Task<bool> DeleteAsync(object id)
         {
@@ -26,7 +21,7 @@ namespace EventDataAccess.Repositories
             }
 
             DbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return true;
         }
@@ -76,7 +71,7 @@ namespace EventDataAccess.Repositories
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
             await DbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return entity;
         }
@@ -85,9 +80,9 @@ namespace EventDataAccess.Repositories
         {
             DbSet.Attach(entity);
 
-            _context.Entry(entity).State = EntityState.Modified;
+            Context.Entry(entity).State = EntityState.Modified;
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
 
             return entity;
         }

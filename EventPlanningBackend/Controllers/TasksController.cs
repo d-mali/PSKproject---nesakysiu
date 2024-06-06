@@ -8,19 +8,12 @@ namespace EventBackend.Controllers
     [ApiController]
     [Route("api/Events/{eventId}/[controller]")]
     [ApiExplorerSettings(GroupName = "Events")]
-    public class TasksController : ControllerBase
+    public class TasksController(ITasksService taskService) : ControllerBase
     {
-        private readonly ITasksService _taskService;
-
-        public TasksController(ITasksService taskService)
-        {
-            _taskService = taskService;
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetTasks(Guid eventId)
         {
-            var tasks = await _taskService.GetTasksAsync(eventId);
+            var tasks = await taskService.GetTasksAsync(eventId);
 
             return Ok(tasks);
         }
@@ -29,7 +22,7 @@ namespace EventBackend.Controllers
         [HttpGet("{taskId}")]
         public async Task<IActionResult> GetTask(Guid eventId, Guid taskId)
         {
-            var task = await _taskService.GetTaskAsync(eventId, taskId);
+            var task = await taskService.GetTaskAsync(eventId, taskId);
 
             if (task == null)
             {
@@ -42,7 +35,7 @@ namespace EventBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(Guid eventId, TaskRequest taskRequest)
         {
-            var createdTask = await _taskService.CreateTaskAsync(eventId, taskRequest);
+            var createdTask = await taskService.CreateTaskAsync(eventId, taskRequest);
 
             //return CreatedAtAction(nameof(CreateTask),
             //    createdTask
@@ -54,7 +47,7 @@ namespace EventBackend.Controllers
         [HttpPut("{taskId}")]
         public async Task<IActionResult> UpdateTask(Guid eventId, Guid taskId, TaskRequest taskRequest)
         {
-            var updatedTask = await _taskService.UpdateTaskAsync(taskId, taskRequest);
+            var updatedTask = await taskService.UpdateTaskAsync(taskId, taskRequest);
 
             return Ok(updatedTask);
         }
@@ -63,7 +56,7 @@ namespace EventBackend.Controllers
         [HttpDelete("{taskId}")]
         public async Task<IActionResult> DeleteTask(Guid eventId, Guid taskId)
         {
-            await _taskService.DeleteTaskAsync(taskId);
+            await taskService.DeleteTaskAsync(taskId);
 
             return NoContent();
         }

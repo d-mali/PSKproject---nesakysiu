@@ -7,16 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
 {
-    public class UsersService : IUsersService
+    public class UsersService(IGenericRepository<ApplicationUser> userRepository, MainDbContext context)
+        : IUsersService
     {
-        private readonly IGenericRepository<ApplicationUser> _userRepository;
-        protected readonly MainDbContext _context;
+        protected readonly MainDbContext _context = context;
 
-        public UsersService(IGenericRepository<ApplicationUser> userRepository, MainDbContext context)
-        {
-            _userRepository = userRepository;
-            _context = context;
-        }
         public async Task<ApplicationUser> CreateUserAsync(EmployeeRequest entity)
         {
             var evt = new ApplicationUser
@@ -25,44 +20,44 @@ namespace EventBackend.Services
                 LastName = entity.LastName,
             };
 
-            return await _userRepository.InsertAsync(evt);
+            return await userRepository.InsertAsync(evt);
         }
 
         public async Task<bool> DeleteUserAsync(String id)
         {
-            var participantEntity = await _userRepository.GetByIdAsync(id);
+            var participantEntity = await userRepository.GetByIdAsync(id);
 
             if (participantEntity == null)
                 return false;
 
-            var result = await _userRepository.DeleteAsync(id);
+            var result = await userRepository.DeleteAsync(id);
 
             return result;
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetAllUsersAsync()
         {
-            return await _userRepository.GetAllAsync();
+            return await userRepository.GetAllAsync();
         }
 
-        public async Task<ApplicationUser?> GetUserByIdAsync(String id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(string id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            return await userRepository.GetByIdAsync(id);
         }
 
-        public async Task<ApplicationUser?> UpdateUserAsync(String id, EmployeeRequest entity)
+        public async Task<ApplicationUser?> UpdateUserAsync(string id, EmployeeRequest entity)
         {
-            var participantEntity = await _userRepository.GetByIdAsync(id);
+            var participantEntity = await userRepository.GetByIdAsync(id);
             if (participantEntity == null)
                 return null;
 
             participantEntity.FirstName = entity.FirstName;
             participantEntity.LastName = entity.LastName;
 
-            return await _userRepository.UpdateAsync(participantEntity);
+            return await userRepository.UpdateAsync(participantEntity);
         }
 
-        public async Task<TaskResponse?> CreateTasking(String userId, Guid taskId)
+        public async Task<TaskResponse?> CreateTasking(string userId, Guid taskId)
         {
             var useris = await _context.Users.FindAsync(userId);
             var task = await _context.Tasks.FindAsync(taskId);
@@ -100,30 +95,19 @@ namespace EventBackend.Services
             return user.Tasks.Select(t => t.ToResponse()).ToList();
         }
 
-        public async Task<ApplicationUser?> DeleteTasking(String userId, Guid taskId)
+        public async Task<ApplicationUser?> DeleteTasking(string userId, Guid taskId)
         {
             var eventas = await _context.Users
                 .Include(s => s.Tasks)
                 .FirstOrDefaultAsync(s => s.Id == userId);
-            if (eventas == null)
-            {
-                return null;
-            }
-            if (eventas.Tasks == null)
-            {
-                return null;
-            }
 
-            var participant = eventas.Tasks.FirstOrDefault(p => p.Id == taskId);
+            var participant = eventas?.Tasks.FirstOrDefault(p => p.Id == taskId);
             if (participant == null)
             {
                 return null;
             }
 
-
-            eventas.Tasks ??= new List<EventTask>();
-
-            eventas.Tasks.Remove(participant);
+            eventas?.Tasks.Remove(participant);
 
             await _context.SaveChangesAsync();
 

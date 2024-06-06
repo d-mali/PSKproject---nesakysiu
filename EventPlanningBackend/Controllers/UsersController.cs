@@ -11,16 +11,8 @@ namespace EventBackend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController(IUsersService userService) : ControllerBase
     {
-
-        private readonly IUsersService _userService;
-
-        public UsersController(IUsersService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpGet]
         [Route("/api/User")]
         [Authorize]
@@ -41,25 +33,25 @@ namespace EventBackend.Controllers
                 return BadRequest("Invalid");
             }
 
-            return Ok(await _userService.GetUserByIdAsync(id));
+            return Ok(await userService.GetUserByIdAsync(id));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsersAsync()
         {
-            return Ok(await _userService.GetAllUsersAsync());
+            return Ok(await userService.GetAllUsersAsync());
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] string userId)
         {
-            return Ok(await _userService.GetUserByIdAsync(userId));
+            return Ok(await userService.GetUserByIdAsync(userId));
         }
 
         [HttpGet("{userId}/Tasks")]
         public async Task<IActionResult> GetUserTasks([FromRoute][Required] string userId)
         {
-            return Ok(await _userService.GetUserTasks(userId));
+            return Ok(await userService.GetUserTasks(userId));
         }
 
         [HttpPost]
@@ -71,7 +63,7 @@ namespace EventBackend.Controllers
                 LastName = request.LastName,
             };
 
-            var result = await _userService.CreateUserAsync(user);
+            var result = await userService.CreateUserAsync(user);
 
             return CreatedAtAction(nameof(CreateUser), user);
         }
@@ -85,13 +77,13 @@ namespace EventBackend.Controllers
                 LastName = request.LastName,
             };
 
-            return Ok(await _userService.UpdateUserAsync(userId, participant));
+            return Ok(await userService.UpdateUserAsync(userId, participant));
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] string userId)
         {
-            await _userService.DeleteUserAsync(userId);
+            await userService.DeleteUserAsync(userId);
 
             return NoContent();
         }
@@ -99,7 +91,7 @@ namespace EventBackend.Controllers
         [HttpPut("{userId}/Tasks/{taskId}")]
         public async Task<IActionResult> GetEventWorker([FromRoute][Required] string userId, Guid taskId)
         {
-            var eventas = await _userService.CreateTasking(userId, taskId);
+            var eventas = await userService.CreateTasking(userId, taskId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -111,7 +103,7 @@ namespace EventBackend.Controllers
         [HttpGet("{userId}/Events/{eventId}/Tasks")]
         public async Task<IActionResult> GetEventWorkers([FromRoute][Required] string userId, Guid eventId)
         {
-            var eventas = await _userService.GetUserTasks(userId, eventId);
+            var eventas = await userService.GetUserTasks(userId, eventId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");
@@ -130,7 +122,7 @@ namespace EventBackend.Controllers
         [HttpDelete("{userId}/Tasks/{taskId}")]
         public async Task<IActionResult> DeleteEventParticipant([FromRoute][Required] string userId, Guid taskId)
         {
-            var eventas = await _userService.DeleteTasking(userId, taskId);
+            var eventas = await userService.DeleteTasking(userId, taskId);
             if (eventas == null)
             {
                 return BadRequest("Invalid");

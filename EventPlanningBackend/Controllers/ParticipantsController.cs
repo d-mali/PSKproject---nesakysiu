@@ -9,26 +9,18 @@ namespace EventBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParticipantsController : ControllerBase
+    public class ParticipantsController(IParticipantsService participantService) : ControllerBase
     {
-
-        private readonly IParticipantsService _participantService;
-
-        public ParticipantsController(IParticipantsService participantService)
-        {
-            _participantService = participantService;
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllParticipantsAsync([FromQuery] ParticipantQuery filter)
         {
-            return Ok(await _participantService.GetAllParticipantsAsync(filter));
+            return Ok(await participantService.GetAllParticipantsAsync(filter));
         }
 
         [HttpGet("{participantId}")]
         public async Task<IActionResult> GetParticipantById([Required][FromRoute] Guid participantId)
         {
-            return Ok(await _participantService.GetParticipantByIdAsync(participantId));
+            return Ok(await participantService.GetParticipantByIdAsync(participantId));
         }
 
         [HttpPost]
@@ -42,7 +34,7 @@ namespace EventBackend.Controllers
                 Email = request.Email
             };
 
-            var result = await _participantService.CreateParticipantAsync(participant);
+            var result = await participantService.CreateParticipantAsync(participant);
 
             return CreatedAtAction(nameof(CreateParticipant), participant);
         }
@@ -58,13 +50,13 @@ namespace EventBackend.Controllers
                 Email = request.Email
             };
 
-            return Ok(await _participantService.UpdateParticipantAsync(participantId, participant));
+            return Ok(await participantService.UpdateParticipantAsync(participantId, participant));
         }
 
         [HttpDelete("{participantId}")]
         public async Task<IActionResult> DeleteParticipantAsync([Required][FromRoute] Guid participantId)
         {
-            await _participantService.DeleteParticipantAsync(participantId);
+            await participantService.DeleteParticipantAsync(participantId);
 
             return NoContent();
         }

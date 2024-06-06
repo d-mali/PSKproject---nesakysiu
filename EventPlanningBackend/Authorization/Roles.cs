@@ -9,7 +9,7 @@
     {
         public static List<string> GenerateRoles()
         {
-            return new List<string> { Roles.Admin.ToString() };
+            return [Roles.Admin.ToString()];
         }
     }
 }

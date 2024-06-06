@@ -6,14 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
 {
-    public class ParticipantsService : IParticipantsService
+    public class ParticipantsService(IGenericRepository<Participant> participantRepository) : IParticipantsService
     {
-        private readonly IGenericRepository<Participant> _participantRepository;
-
-        public ParticipantsService(IGenericRepository<Participant> participantRepository)
-        {
-            _participantRepository = participantRepository;
-        }
         public async Task<Participant> CreateParticipantAsync(Participant entity)
         {
             var evt = new Participant
@@ -24,17 +18,17 @@ namespace EventBackend.Services
                 Email = entity.Email,
             };
 
-            return await _participantRepository.InsertAsync(evt);
+            return await participantRepository.InsertAsync(evt);
         }
 
         public async Task<bool> DeleteParticipantAsync(Guid id)
         {
-            var participantEntity = await _participantRepository.GetByIdAsync(id);
+            var participantEntity = await participantRepository.GetByIdAsync(id);
 
             if (participantEntity == null)
                 return false;
 
-            var result = await _participantRepository.DeleteAsync(id);
+            var result = await participantRepository.DeleteAsync(id);
 
             return result;
         }
@@ -59,27 +53,24 @@ namespace EventBackend.Services
                 eventFilter = eventFilter.And(x => x.BirthDate == filter.BirthDate);
             }
 
-            switch (filter.Sort)
+            orderByEvent = filter.Sort switch
             {
-                case Sorting.Desc:
-                    orderByEvent = x => x.OrderByDescending(p => EF.Property<Participant>(p, filter.OrderBy.ToString()));
-                    break;
-                default:
-                    orderByEvent = x => x.OrderBy(p => EF.Property<Participant>(p, filter.OrderBy.ToString()));
-                    break;
-            }
+                Sorting.Desc => x => x.OrderByDescending(p => EF.Property<Participant>(p, filter.OrderBy.ToString())),
+                Sorting.Asc => x => x.OrderBy(p => EF.Property<Participant>(p, filter.OrderBy.ToString())),
+                _ => orderByEvent
+            };
 
-            return await _participantRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
+            return await participantRepository.GetAllAsync(eventFilter, orderByEvent, filter.Skip, filter.Take);
         }
 
         public async Task<Participant?> GetParticipantByIdAsync(Guid id)
         {
-            return await _participantRepository.GetByIdAsync(id);
+            return await participantRepository.GetByIdAsync(id);
         }
 
         public async Task<Participant?> UpdateParticipantAsync(Guid id, Participant entity)
         {
-            var participantEntity = await _participantRepository.GetByIdAsync(id);
+            var participantEntity = await participantRepository.GetByIdAsync(id);
             if (participantEntity == null)
                 return null;
 
@@ -88,7 +79,7 @@ namespace EventBackend.Services
             participantEntity.BirthDate = entity.BirthDate;
             participantEntity.Email = entity.Email;
 
-            await _participantRepository.UpdateAsync(participantEntity);
+            await participantRepository.UpdateAsync(participantEntity);
 
             return participantEntity;
         }
