@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EventBackend.Services
 {
     public class UsersService(IGenericRepository<ApplicationUser> userRepository, MainDbContext context)
-        : IUsersService
+            : IUsersService
     {
         public async Task<ApplicationUser> CreateUserAsync(EmployeeRequest entity)
         {
@@ -76,6 +76,7 @@ namespace EventBackend.Services
         {
             var user = await context.Users
                 .Include(s => s.Tasks)
+                .ThenInclude(t => t.Users)
                 .FirstOrDefaultAsync(s => s.Id == userId);
 
             if (user == null)
@@ -91,7 +92,7 @@ namespace EventBackend.Services
             return user.Tasks.Select(t => t.ToResponse()).ToList();
         }
 
-        public async Task<ApplicationUser?> RemoveUserFromEvent(string userId, Guid taskId)
+        public async Task<ApplicationUser?> RemoveUserFromTask(string userId, Guid taskId)
         {
             var userEntity = await context.Users
                 .Include(s => s.Tasks)

@@ -120,7 +120,7 @@ namespace EventBackend.Controllers
         [HttpDelete("{userId}/Tasks/{taskId}")]
         public async Task<IActionResult> RemoveUserFromEvent([FromRoute][Required] string userId, Guid taskId)
         {
-            var user = await userService.RemoveUserFromEvent(userId, taskId);
+            var user = await userService.RemoveUserFromTask(userId, taskId);
             if (user == null)
             {
                 return BadRequest("Invalid");

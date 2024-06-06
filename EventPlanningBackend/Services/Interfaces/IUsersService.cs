@@ -13,6 +13,6 @@ namespace EventBackend.Services.Interfaces
         public Task<bool> DeleteUserAsync(string id);
         public Task<TaskResponse?> AssignToTask(string userId, Guid taskId);
         public Task<IEnumerable<TaskResponse>> GetUserTasks(string userId, Guid? eventId = null);
-        public Task<ApplicationUser?> RemoveUserFromEvent(string userId, Guid taskId);
+        public Task<ApplicationUser?> RemoveUserFromTask(string userId, Guid taskId);
     }
 }
