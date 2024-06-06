@@ -12,7 +12,6 @@ namespace Frontas.Pages
 
         public EmployeeResponse? EmployeeResponse { get; private set; }
         public string? ErrorMessage { get; private set; }
-        public EventResponse? Event { get; private set; }
         public List<TaskResponse> TaskResponse { get; private set; } = new List<TaskResponse>();
         public Guid EventId { get; private set; }
 
@@ -40,44 +39,17 @@ namespace Frontas.Pages
                     return Page();
                 }
 
-                // Fetch Events
-                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events");
+                // Fetch Tasks for the user
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Tasks");
                 response.EnsureSuccessStatusCode();
 
-                string responseBodyEvents = await response.Content.ReadAsStringAsync();
-                var deserializedEvents = JsonConvert.DeserializeObject<List<EventResponse>>(responseBodyEvents);
+                string responseBodyTasks = await response.Content.ReadAsStringAsync();
+                TaskResponse = JsonConvert.DeserializeObject<List<TaskResponse>>(responseBodyTasks) ?? new List<TaskResponse>();
 
-                if (deserializedEvents == null)
+                if (TaskResponse == null)
                 {
-                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
+                    ErrorMessage = "There was an error deserializing the tasks. Please try again later.";
                     return Page();
-                }
-
-                // Fetch Tasks for Each Event for the specific user
-                foreach (var ev in deserializedEvents)
-                {
-                    var taskResponse = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events{ev.Id}/Tasks");
-                    if (!taskResponse.IsSuccessStatusCode)
-                    {
-                        ErrorMessage = $"Error fetching tasks for event {ev.Id}: {taskResponse.ReasonPhrase}";
-                        return Page();
-                    }
-
-                    string responseBodyTasks = await taskResponse.Content.ReadAsStringAsync();
-                    if (string.IsNullOrEmpty(responseBodyTasks))
-                    {
-                        ErrorMessage = $"The response body for tasks of event {ev.Id} was empty. Please try again later.";
-                        return Page();
-                    }
-
-                    var deserializedTasks = JsonConvert.DeserializeObject<List<TaskResponse>>(responseBodyTasks);
-                    if (deserializedTasks == null)
-                    {
-                        ErrorMessage = $"There was an error deserializing the tasks for event {ev.Id}. Please try again later.";
-                        return Page();
-                    }
-
-                    TaskResponse.AddRange(deserializedTasks);
                 }
             }
             catch (HttpRequestException httpEx)
