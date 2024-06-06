@@ -1,8 +1,10 @@
 ﻿using EventBackend.Entities;
 using EventBackend.Services.Interfaces;
 using EventDomain.Contracts.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace EventBackend.Controllers
 {
@@ -17,6 +19,29 @@ namespace EventBackend.Controllers
         public UsersController(IUsersService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet]
+        [Route("/api/User")]
+        [Authorize]
+        public async Task<IActionResult> GetUserAsync()
+
+        {
+            var identity = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (identity == null)
+            {
+                return BadRequest("Invalid");
+            }
+
+            var id = identity.Value;
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest("Invalid");
+            }
+
+            return Ok(await _userService.GetUserByIdAsync(id));
         }
 
         [HttpGet]
