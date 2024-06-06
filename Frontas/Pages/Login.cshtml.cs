@@ -1,12 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Frontas.Pages
 {
     public class LoginModel : PageModel
     {
         private readonly ILogger<LoginModel> _logger;
+        private readonly HttpClient _httpClient;
 
         [BindProperty]
         public string? Username { get; set; }
@@ -16,30 +18,56 @@ namespace Frontas.Pages
 
         public string ErrorMessage { get; private set; }
 
-        public LoginModel(ILogger<LoginModel> logger)
+        public LoginModel(ILogger<LoginModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _httpClient = httpClientFactory.CreateClient();
             ErrorMessage = string.Empty;
         }
 
         public void OnGet()
         {
+
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            // For demonstration purposes, using hardcoded username and password.
-            // Replace this with your actual authentication logic.
-            if (Username == "admin" && Password == "password")
+            var loginRequest = new
             {
-                // Redirect to a secure page or dashboard after successful login.
-                return RedirectToPage("/Index");
-            }
-            else
+                email = Username,
+                password = Password
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
+
+            try
             {
-                ErrorMessage = "Neteisingas vartotojo vardas arba slapta�odis";
-                return Page();
+                var response = await _httpClient.PostAsync("https://localhost:7084/login?useCookies=true&useSessionCookies=false", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Redirect to a secure page or dashboard after successful login.
+                    return RedirectToPage("/Index");
+                }
+                else
+                {
+                    // Handle unsuccessful login
+                    ErrorMessage = "Neteisingas vartotojo vardas arba slaptažodis";
+                    _logger.LogError("Login failed: {StatusCode}", response.StatusCode);
+                }
             }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Error during login request");
+                ErrorMessage = "Prisijungimo klaida. Bandykite dar kartą vėliau.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during login");
+                ErrorMessage = "Įvyko nenumatyta klaida. Bandykite dar kartą vėliau.";
+            }
+
+            return Page();
         }
     }
 }

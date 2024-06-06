@@ -21,17 +21,20 @@
             }
         </div>
         <div class="col-md-4">
-            <a asp-page="./UserInfoPage" class="user-info-link">
+            @if (Model.UserInfo != null)
+            {
+                <a href="/UserPage?id=@Model.UserInfo.Id" class="user-info-link">
+                    <div class="user-info">
+                        <h2>@Model.UserInfo.FirstName @Model.UserInfo.LastName</h2>
+                    </div>
+                </a>
+            }
+            else
+            {
                 <div class="user-info">
-                    <h2>Vartotojo pavadinimas</h2>
-                    @*<a href="/UserPage?id=@dalyvis.Id" class="event-link">
-                        <div class="user">
-                            <h4>@dalyvis.FirstName</h4>
-                            <p>@dalyvis.LastName</p>
-                        </div>
-                    </a>*@
+                    <h2>Loading user info...</h2>
                 </div>
-            </a>
+            }
             <div class="createEvent">
                 <h3>Kurti renginį</h3>
                 <form method="post" id="createEventForm" style="display: none;">
