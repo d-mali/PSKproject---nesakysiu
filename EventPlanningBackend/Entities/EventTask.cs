@@ -33,7 +33,7 @@ namespace EventBackend.Entities
         [Required]
         public virtual Event? Event { get; set; }
 
-        public virtual ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+        public virtual ICollection<ApplicationUser> Users { get; set; } = [];
 
         public EventTask()
         {
@@ -58,7 +58,7 @@ namespace EventBackend.Entities
                 Description = Description,
                 EventId = EventId,
                 Status = Status,
-                Assigned = Users?.Select(u => u.ToResponse()).ToList() ?? new List<EmployeeResponse>()
+                Assigned = Users.Select(u => u.ToResponse()).ToList()
             };
         }
     }

@@ -19,7 +19,7 @@
 
             public static List<string> GeneratePermissions()
             {
-                return new List<string> { Create, Read, Update, Delete };
+                return [Create, Read, Update, Delete];
             }
         }
 
@@ -34,13 +34,13 @@
 
             public static List<string> GeneratePermissions()
             {
-                return new List<string> { Create, Read, Update, Delete };
+                return [Create, Read, Update, Delete];
             }
         }
 
         public static List<string> GeneratePermissions()
         {
-            return Event.GeneratePermissions().Concat(Task.GeneratePermissions()).ToList();
+            return [.. Event.GeneratePermissions(), .. Task.GeneratePermissions()];
         }
     }
 }

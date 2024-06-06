@@ -37,9 +37,6 @@ namespace EventBackend.Controllers
         {
             var createdTask = await taskService.CreateTaskAsync(eventId, taskRequest);
 
-            //return CreatedAtAction(nameof(CreateTask),
-            //    createdTask
-            //    );
             return Ok(createdTask);
         }
 

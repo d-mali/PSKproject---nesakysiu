@@ -24,14 +24,14 @@ namespace EventBackend.Services
             return events.ToResponse();
         }
 
-        public async Task<bool> DeleteEventAsync(Guid id)
+        public async Task<bool> DeleteEventAsync(Guid eventId)
         {
-            var eventEntity = await eventRepository.GetByIdAsync(id);
+            var eventEntity = await eventRepository.GetByIdAsync(eventId);
 
             if (eventEntity == null)
                 return false;
 
-            var result = await eventRepository.DeleteAsync(id);
+            var result = await eventRepository.DeleteAsync(eventId);
 
             return result;
         }
@@ -97,50 +97,44 @@ namespace EventBackend.Services
 
         public async Task<EventResponse?> CreateParticipation(Guid eventId, Guid participantId)
         {
-            var eventas = await Context.Events.FindAsync(eventId);
+            var eventEntity = await Context.Events.FindAsync(eventId);
             var participant = await Context.Participants.FindAsync(participantId);
 
-            if (eventas == null || participant == null)
+            if (eventEntity == null || participant == null)
             {
-                return eventas?.ToResponse();
+                return eventEntity?.ToResponse();
             }
-            eventas.Participants ??= new List<Participant>();
 
-            eventas.Participants.Add(participant);
+            eventEntity.Participants.Add(participant);
 
             await Context.SaveChangesAsync();
 
-            return eventas.ToResponse();
+            return eventEntity.ToResponse();
         }
 
         public async Task<EventResponse?> DeleteParticipation(Guid eventId, Guid participantId)
         {
-            var eventas = await Context.Events
+            var eventEntity = await Context.Events
                .Include(e => e.Participants)
                .FirstOrDefaultAsync(e => e.Id == eventId);
-            if (eventas == null)
-            {
-                return null;
-            }
-            if (eventas.Participants == null)
-            {
-                return null;
-            }
 
-            var participant = eventas.Participants.FirstOrDefault(p => p.Id == participantId);
+            var participant = eventEntity?.Participants.FirstOrDefault(p => p.Id == participantId);
+
             if (participant == null)
             {
                 return null;
             }
 
+            if (eventEntity == null)
+            {
+                return null;
+            }
 
-            eventas.Participants ??= new List<Participant>();
-
-            eventas.Participants.Remove(participant);
+            eventEntity.Participants.Remove(participant);
 
             await Context.SaveChangesAsync();
 
-            return eventas.ToResponse();
+            return eventEntity.ToResponse();
         }
 
         public async Task<IEnumerable<Participant>?> GetEventParticipants(Guid id)
@@ -148,36 +142,27 @@ namespace EventBackend.Services
             var eventWithParticipants = await Context.Events
                 .Include(s => s.Participants)
                 .FirstOrDefaultAsync(s => s.Id == id);
-            if (eventWithParticipants == null)
-            {
-                return null;
-            }
-            if (eventWithParticipants.Participants == null)
-            {
-                return null;
-            }
 
-            var participants = eventWithParticipants.Participants.ToList();
+            var participants = eventWithParticipants?.Participants.ToList();
 
             return participants;
         }
 
-        public async Task<EventResponse?> CreateWorker(Guid eventId, String userId)
+        public async Task<EventResponse?> CreateWorker(Guid eventId, string userId)
         {
-            var eventas = await Context.Events.FindAsync(eventId);
+            var eventEntity = await Context.Events.FindAsync(eventId);
             var worker = await Context.Users.FindAsync(userId);
 
-            if (eventas == null || worker == null)
+            if (eventEntity == null || worker == null)
             {
                 return null;
             }
-            eventas.Users ??= new List<ApplicationUser>();
 
-            eventas.Users.Add(worker);
+            eventEntity.Users.Add(worker);
 
             await Context.SaveChangesAsync();
 
-            return eventas.ToResponse();
+            return eventEntity.ToResponse();
         }
 
         public async Task<IEnumerable<ApplicationUser>?> GetEventWorkers(Guid id)
@@ -185,48 +170,35 @@ namespace EventBackend.Services
             var eventWithWorkers = await Context.Events
                 .Include(s => s.Users)
                 .FirstOrDefaultAsync(s => s.Id == id);
-            if (eventWithWorkers == null)
-            {
-                return null;
-            }
-            if (eventWithWorkers.Users == null)
-            {
-                return null;
-            }
 
-            var workers = eventWithWorkers.Users.ToList();
+            var workers = eventWithWorkers?.Users.ToList();
 
             return workers;
         }
 
-        public async Task<EventResponse?> DeleteWorker(Guid eventId, String userId)
+        public async Task<EventResponse?> DeleteWorker(Guid eventId, string userId)
         {
-            var eventas = await Context.Events
+            var eventEntity = await Context.Events
                .Include(e => e.Users)
                .FirstOrDefaultAsync(e => e.Id == eventId);
-            if (eventas == null)
-            {
-                return null;
-            }
-            if (eventas.Users == null)
-            {
-                return null;
-            }
 
-            var participant = eventas.Users.FirstOrDefault(p => p.Id == userId);
+            var participant = eventEntity?.Users.FirstOrDefault(p => p.Id == userId);
+
             if (participant == null)
             {
                 return null;
             }
 
+            if (eventEntity == null)
+            {
+                return null;
+            }
 
-            eventas.Users ??= new List<ApplicationUser>();
-
-            eventas.Users.Remove(participant);
+            eventEntity.Users.Remove(participant);
 
             await Context.SaveChangesAsync();
 
-            return eventas.ToResponse();
+            return eventEntity.ToResponse();
         }
     }
 }

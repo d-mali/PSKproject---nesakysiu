@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventDomain.Contracts.Responses;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventBackend.Entities
@@ -25,5 +26,17 @@ namespace EventBackend.Entities
         public byte[]? Version { get; set; }
 
         public List<Event>? Events { get; set; }
+
+        public ParticipantResponse ToResponse()
+        {
+            return new ParticipantResponse
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                BirthDate = BirthDate,
+                Email = Email
+            };
+        }
     }
 }
