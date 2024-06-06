@@ -50,10 +50,16 @@ namespace EventBackend.Controllers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] string id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserByIdAsync([FromRoute][Required] string userId)
         {
-            return Ok(await _userService.GetUserByIdAsync(id));
+            return Ok(await _userService.GetUserByIdAsync(userId));
+        }
+
+        [HttpGet("{userId}/Tasks")]
+        public async Task<IActionResult> GetUserTasks([FromRoute][Required] string userId)
+        {
+            return Ok(await _userService.GetUserTasks(userId));
         }
 
         [HttpPost]
@@ -98,11 +104,11 @@ namespace EventBackend.Controllers
             {
                 return BadRequest("Invalid");
             }
-            eventas.Users = null;
+
             return Ok(eventas);
         }
 
-        [HttpGet("{userId}/Events{eventId}/Tasks")]
+        [HttpGet("{userId}/Events/{eventId}/Tasks")]
         public async Task<IActionResult> GetEventWorkers([FromRoute][Required] String userId, Guid eventId)
         {
             var eventas = await _userService.GetUserTasks(userId, eventId);

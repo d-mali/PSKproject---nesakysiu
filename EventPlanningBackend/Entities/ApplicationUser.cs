@@ -21,9 +21,9 @@ namespace EventBackend.Entities
         [Timestamp]
         public byte[]? Version { get; set; }
 
-        public List<Event>? Events { get; set; }
+        public virtual List<Event>? Events { get; set; }
 
-        public List<EventTask>? Tasks { get; set; }
+        public virtual ICollection<EventTask> Tasks { get; set; } = new List<EventTask>();
 
         public EmployeeResponse ToResponse()
         {

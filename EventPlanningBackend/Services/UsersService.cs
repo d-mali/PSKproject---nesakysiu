@@ -2,6 +2,7 @@
 using EventBackend.Services.Interfaces;
 using EventDataAccess.Abstractions;
 using EventDomain.Contracts.Requests;
+using EventDomain.Contracts.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventBackend.Services
@@ -70,7 +71,6 @@ namespace EventBackend.Services
             {
                 return null;
             }
-            useris.Tasks ??= new List<EventTask>();
 
             useris.Tasks.Add(task);
 
@@ -79,25 +79,25 @@ namespace EventBackend.Services
             return task;
         }
 
-        public async Task<IEnumerable<EventTask>?> GetUserTasks(string id, Guid eventId)
+        public async Task<IEnumerable<TaskResponse>> GetUserTasks(string userId, Guid? eventId = null)
         {
-            var eventWithWorkers = await _context.Users
+            // fetch all tasks for a userId in event if eventId is provided otherwise fetch all tasks for a user
+            var user = await _context.Users
                 .Include(s => s.Tasks)
-                .FirstOrDefaultAsync(s => s.Id == id);
-            if (eventWithWorkers == null)
+                .FirstOrDefaultAsync(s => s.Id == userId);
+
+            if (user == null)
             {
-                return null;
-            }
-            if (eventWithWorkers.Tasks == null)
-            {
-                return null;
+                return new List<TaskResponse>();
             }
 
-            var tasksWithSpecificEventId = eventWithWorkers.Tasks
-                .Where(t => t.EventId == eventId)
-                .ToList();
+            // if eventId is provided, filter tasks by eventId
+            if (eventId != null)
+            {
+                user.Tasks = user.Tasks.Where(t => t.EventId == eventId).ToList();
+            }
 
-            return tasksWithSpecificEventId;
+            return user.Tasks.Select(t => t.ToResponse()).ToList();
         }
 
         public async Task<ApplicationUser?> DeleteTasking(String userId, Guid taskId)
@@ -126,8 +126,6 @@ namespace EventBackend.Services
             eventas.Tasks.Remove(participant);
 
             await _context.SaveChangesAsync();
-
-            eventas.Tasks = null;
 
             return eventas;
         }
