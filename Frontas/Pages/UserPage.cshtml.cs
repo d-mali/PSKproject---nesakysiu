@@ -7,19 +7,16 @@ namespace Frontas.Pages
 {
     public class UserPageModel : PageModel
     {
-        private readonly ILogger<EmployeePageModel> _logger;
+        private readonly ILogger<UserPageModel> _logger;
         private readonly HttpClient _httpClient;
 
         public EmployeeResponse? EmployeeResponse { get; private set; }
         public string? ErrorMessage { get; private set; }
-
         public EventResponse? Event { get; private set; }
-
         public List<TaskResponse> TaskResponse { get; private set; } = new List<TaskResponse>();
-
         public Guid EventId { get; private set; }
 
-        public UserPageModel(ILogger<EmployeePageModel> logger, IHttpClientFactory httpClientFactory)
+        public UserPageModel(ILogger<UserPageModel> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient();
@@ -35,7 +32,6 @@ namespace Frontas.Pages
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 EmployeeResponse = JsonConvert.DeserializeObject<EmployeeResponse>(responseBody);
 
                 if (EmployeeResponse == null)
@@ -44,29 +40,45 @@ namespace Frontas.Pages
                     return Page();
                 }
 
-                // Fetch Tasks
-                /*response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Tasks");
-                if (!response.IsSuccessStatusCode)
+                // Fetch Events
+                response = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Events");
+                response.EnsureSuccessStatusCode();
+
+                string responseBodyEvents = await response.Content.ReadAsStringAsync();
+                var deserializedEvents = JsonConvert.DeserializeObject<List<EventResponse>>(responseBodyEvents);
+
+                if (deserializedEvents == null)
                 {
-                    ErrorMessage = $"Error fetching tasks: {response.ReasonPhrase}";
+                    ErrorMessage = "There was an error deserializing the events. Please try again later.";
                     return Page();
                 }
 
-                string responseBodyTasks = await response.Content.ReadAsStringAsync();
-                if (string.IsNullOrEmpty(responseBodyTasks))
+                // Fetch Tasks for Each Event for the specific user
+                foreach (var ev in deserializedEvents)
                 {
-                    ErrorMessage = "The response body for tasks was empty. Please try again later.";
-                    return Page();
-                }
+                    var taskResponse = await _httpClient.GetAsync($"{GlobalParameters.apiUrl}/Users/{id}/Events{ev.Id}/Tasks");
+                    if (!taskResponse.IsSuccessStatusCode)
+                    {
+                        ErrorMessage = $"Error fetching tasks for event {ev.Id}: {taskResponse.ReasonPhrase}";
+                        return Page();
+                    }
 
-                var deserializedEvent = JsonConvert.DeserializeObject<List<TaskResponse>>(responseBodyTasks);
-                if (deserializedEvent == null)
-                {
-                    ErrorMessage = "There was an error deserializing the tasks. Please try again later.";
-                    return Page();
-                }
+                    string responseBodyTasks = await taskResponse.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(responseBodyTasks))
+                    {
+                        ErrorMessage = $"The response body for tasks of event {ev.Id} was empty. Please try again later.";
+                        return Page();
+                    }
 
-                TaskResponse = deserializedEvent;*/
+                    var deserializedTasks = JsonConvert.DeserializeObject<List<TaskResponse>>(responseBodyTasks);
+                    if (deserializedTasks == null)
+                    {
+                        ErrorMessage = $"There was an error deserializing the tasks for event {ev.Id}. Please try again later.";
+                        return Page();
+                    }
+
+                    TaskResponse.AddRange(deserializedTasks);
+                }
             }
             catch (HttpRequestException httpEx)
             {
@@ -84,7 +96,7 @@ namespace Frontas.Pages
 
         public async Task<IActionResult> OnPostDeleteAsync(Guid EmployeeId, [FromForm] Guid eventId)
         {
-            try//todo change endpoint to delete event the event
+            try
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalParameters.apiUrl}/Events/{eventId}/Workers/{EmployeeId}");
 
